@@ -1,42 +1,192 @@
+/*
+    resources:
+    https://www.w3schools.com
+    https://www.youtube.com/@KevinPowell/videos
+*/
+
 :root {
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
     --primary-color: #131921;
     --secondary-color: #fff;
     --error-color: rgba(194, 0, 0, 0.71);
+
+    --nav-primary: rgba(60, 60, 60, 0.7);
+    --nav-sceondary: rgba(240, 240, 240, 0.7);
+    --hero-primary: rgba(0,0,0,0.5);
+    --background-primary: gainsboro;
 }
 
-.background {
-    background-color: #eaeded;
+body, html {
+    height: 100%;
     margin: 0;
-    counter-reset: section;
+    padding: 0;
+    font-family: system-ui, century gothic;
+    background-color: var(--background-primary);
 }
 
-.header {
-    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    padding: 0 20px;
+main {
+    position: relative;
+    animation: slide;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
 
-.header_home {
-    font-size: 36px;
-    line-height: 40px;
-    height: 100px;
+@keyframes slide {
+    from {left: -1000px; top: 0px; opacity: 0;}
+    to {left: 0px; top: 0px; opacity: 1;}
+}
+
+.hero-image {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/smile.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-image-doc {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/doc.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-image-patient {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/patient.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-text {
+    text-align: center;
+    position: absolute;
+    inset: 70% 0 0 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3rem;
+    text-shadow: 2px 2px black;
+}
+
+.nav-menu {
+    background-color: var(--nav-primary);
+    text-align: center;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+}
+
+.toast-message {
+    z-index: 1;
+}
+
+.nav-menu img {
+    display: block;
+    margin: 30px 0px 50px 15px;
+}
+
+nav {
+    background-color: var(--nav-primary);
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    display: none;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    margin: 2em 0em 1em 1em;
+}
+
+nav a[aria-current="page"] {
+    border-bottom: 3px solid DodgerBlue;
+}
+
+nav a {
+    font-size: 1.7rem;
     text-decoration: none;
-    color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px black;
+    transition: 1s;
 }
 
-.header_nav_link {
-    margin-left: 20px;
-    vertical-align: top;
-    line-height: 40px;
+nav a:hover,
+nav a:focus {
+    color: black;
+    text-shadow: 2px 2px white;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+.nav-toggle:checked ~ nav {
+    display: block;
+}
+
+.nav-toggle-label {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    margin-right: 1.5em;
+}
+
+span {
+    font-size: 30px;
+    color: white;
+    transition: 1s;
+}
+
+span:hover {
+    border-radius: 4px;
+    background: gray;
+    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: black;
 }
 
 .about {
     margin-left: 20px;
+}
+
+section img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section p, h2 {
+    display: block;
+    text-align: center;
+}
+
+.slant {
+    margin: 150px 50px 10px 50px;
+    display: grid;
+    grid-template-rows: auto auto;
+    box-shadow:0 10px 20px 0 rgba(0, 0, 0, 0.9), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.slantA {
+    background-color: black;
+    color: white;
+    padding: 20px;
+}
+
+.slantB {
+    background-color: black;
 }
 
 .button, button {
@@ -54,17 +204,28 @@
 }
 
 .card {
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
+    background-color: white;
+    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin: 20px;
     padding: 10px 20px;
+    border-radius: 10px;
 }
 
-.validated-field:invalid {
-    outline: 2px solid var(--error-color);
+input:invalid:not(:placeholder-shown):not([type="date"]) {
+    border-color: red;
 }
-.validated-field:focus:invalid {
-    color: var(--error-color);
+
+input[type="date"]:invalid {
+    border-color: red;
+}
+
+input[type="date"]:not(:focus) {
+    border: thin solid grey;
+    border-radius: 2px;
+}
+
+label {
+    padding-top: 10px;
 }
 
 .card-content {
@@ -80,10 +241,91 @@
     margin-bottom: 1rem;
 }
 
+form {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .state {
     display: none;
 }
 
 .state.active {
     display: block;
+}
+
+footer {
+    text-align: center;
+    background-color: grey;
+    padding: 10px;
+}
+
+footer p,a {
+    color: white;
+    text-shadow: 2px 2px black;
+}
+
+table {
+    width: 100%;
+    border-collapse;
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+th {
+    text-align: left;
+    background-color: DodgerBlue;
+    color: white;
+    text-shadow: 2px 2px black;
+}
+
+tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+/* mobile first viewport */
+@media (min-width: 50em) {
+    nav {
+        top: 30px;
+        background: none;
+        display: block;
+    }
+
+    nav li {
+        display: inline;
+    }
+
+    nav a {
+        font-size: 1.4rem;
+        padding:  0.6em;
+    }
+
+    nav h1 {
+        text-align: left;
+    }
+
+    .card {
+        background-color: white;
+        margin: 20px 200px 20px 200px;
+        padding: 20px 20px;
+        border-radius: 10px;
+        box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .slant {
+        margin: 150px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+
+    span {
+        display: none;
+    }
 }
