@@ -22,6 +22,8 @@ body, html {
     padding: 0;
     font-family: system-ui, century gothic;
     background-color: var(--background-primary);
+    /* for intersection observer on mobile */
+    overscroll-behavior-y: none;
 }
 
 main {

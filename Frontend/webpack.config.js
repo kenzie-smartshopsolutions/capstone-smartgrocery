@@ -9,6 +9,7 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
+    examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -38,6 +39,14 @@ module.exports = {
         {
           from: path.resolve('src/css'),
           to: path.resolve("dist/css")
+        }
+      ]
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/img'),
+          to: path.resolve("dist/img")
         }
       ]
     }),
