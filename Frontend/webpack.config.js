@@ -9,7 +9,6 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
-    examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
