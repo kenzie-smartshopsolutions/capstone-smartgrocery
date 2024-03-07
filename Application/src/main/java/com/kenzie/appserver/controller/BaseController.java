@@ -11,5 +11,13 @@ public class BaseController {
     public ResponseEntity getServiceName() {
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
         return responseEntity;
+
+        /*
+        * @GetMapping("/")
+        public ResponseEntity<String> getServiceName() {
+        String serviceName = "   ";
+        return ResponseEntity.ok(serviceName);
+        *
+        * */
     }
 }
