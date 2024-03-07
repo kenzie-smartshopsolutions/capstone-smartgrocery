@@ -9,6 +9,7 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
+    navbar: path.resolve(__dirname, 'src', 'pages', 'navbar.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -33,11 +34,50 @@ module.exports = {
       filename: 'index.html',
       inject: false
     }),
+    // reminder on adding pages from Jacobus
+    new HtmlWebpackPlugin({
+      template: './src/analytics.html',
+      filename: 'analytics.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/login.html',
+      filename: 'login.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/pantry.html',
+      filename: 'pantry.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/profile.html',
+      filename: 'profile.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/recipe.html',
+      filename: 'recipe.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/shared.html',
+      filename: 'shared.html',
+      inject: false
+    }),
     new CopyPlugin({
       patterns: [
         {
           from: path.resolve('src/css'),
           to: path.resolve("dist/css")
+        }
+      ]
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/img'),
+          to: path.resolve("dist/img")
         }
       ]
     }),
