@@ -2,6 +2,9 @@
     resources:
     https://www.w3schools.com
     https://www.youtube.com/@KevinPowell/videos
+
+    assets:
+    https://www.pexels.com/
 */
 
 :root {
@@ -40,7 +43,7 @@ main {
 }
 
 .hero-image {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/smile.webp");
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -48,8 +51,8 @@ main {
     position: relative;
 }
 
-.hero-image-doc {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/doc.webp");
+.analytics {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -57,8 +60,44 @@ main {
     position: relative;
 }
 
-.hero-image-patient {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/patient.webp");
+.login {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.pantry {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/pantry.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.profile {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.recipe {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/recipe.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.shared {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
