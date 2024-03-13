@@ -63,7 +63,29 @@
     </section>
     <section>
         <h2>section two</h2>
-        <p>Contents..</p>
+        <p>
+        <section id="pantry-list">
+        </section>
+
+        <script>
+            const userId = retrieveUserId();
+            fetch(`/Pantry/${userId}`)
+                    .then(response => response.json())
+                .then(pantryItems => {
+                    const pantryList = document.getElementById('pantry-list');
+                    pantryItems.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+          <strong>Item Name:</strong> ${item.itemName} <br>
+          <strong>Category:</strong> ${item.category} <br>
+          <strong>Expiry Date:</strong> ${item.expiryDate} <br>
+        `;
+                        pantryList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching pantry items:', error));
+        </script>
+        </p>
     </section>
     <section>
         <h2>section three</h2>

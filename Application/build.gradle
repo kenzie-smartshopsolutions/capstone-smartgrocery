@@ -47,6 +47,13 @@ dependencies {
     testImplementation 'net.andreinc:mockneat:0.4.8'
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Jackson Dataformat CSV
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.1'
+
+    // Spring Security's bcrypt
+    implementation 'org.springframework.security:spring-security-crypto:5.7.3'
+
 }
 
 processResources {
