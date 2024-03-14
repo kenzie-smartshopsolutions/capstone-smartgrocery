@@ -43,7 +43,7 @@ main {
 }
 
 .hero-image {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/home.webp");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -97,7 +97,7 @@ main {
 }
 
 .shared {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/shared.webp");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -119,8 +119,10 @@ main {
     background-color: var(--nav-primary);
     text-align: center;
     position: fixed;
-    z-index: 10;
+    top: 0px;
+    z-index: 2;
     width: 100%;
+    transition: top 0.6s;
 }
 
 .toast-message {
