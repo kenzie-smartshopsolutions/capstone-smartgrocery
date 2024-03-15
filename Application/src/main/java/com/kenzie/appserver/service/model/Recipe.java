@@ -12,6 +12,7 @@ instructions (String)
     private final String title;
     private final List<Ingredient> ingredients;
     private final String instructions;
+    //quantity for ingredient?
 
 
     public Recipe(String recipeId, String title, List<Ingredient> ingredients, String instructions) {

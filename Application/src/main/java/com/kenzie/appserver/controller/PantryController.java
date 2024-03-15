@@ -58,4 +58,10 @@ public class PantryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+//    @PostMapping ("/pantry/{userId?}
+//            public ResponseEntity<?> updatePantryFromRecipe(@RequestBody PantryUpdateRequest)
+////update pantry
+//// return response build
+//// catch exception
+////return bad request
 }
