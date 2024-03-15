@@ -20,7 +20,7 @@ public class IngredientController {
         return new ResponseEntity<>(addedItem, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{IngredientId}")
+    @PutMapping("/{ingredientId}")
     public ResponseEntity<IngredientRecord> updateIngredient(
             @PathVariable String ingredientId, @RequestBody IngredientRecord ingredientRecord) {
         if (ingredientService.getIngredient(ingredientId) != null) {

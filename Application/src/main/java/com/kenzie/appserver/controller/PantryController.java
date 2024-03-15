@@ -1,7 +1,10 @@
 package com.kenzie.appserver.controller;
 
+import com.kenzie.appserver.controller.model.PantryResponse;
+import com.kenzie.appserver.controller.model.PantryUpdateRequest;
 import com.kenzie.appserver.repositories.model.PantryRecord;
 import com.kenzie.appserver.service.PantryService;
+import com.kenzie.appserver.service.model.Pantry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,10 +61,35 @@ public class PantryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-//    @PostMapping ("/pantry/{userId?}
-//            public ResponseEntity<?> updatePantryFromRecipe(@RequestBody PantryUpdateRequest)
-////update pantry
-//// return response build
-//// catch exception
-////return bad request
+
+    @PutMapping
+    public ResponseEntity<PantryResponse> updatePantryFromRecipe(@RequestBody PantryUpdateRequest pantryUpdateRequest, String userId, String recipeId) {
+               //update pantry
+               Pantry pantry = new Pantry(pantryUpdateRequest.getPantryItemId(),
+                       pantryUpdateRequest.getItemName(),
+                       pantryUpdateRequest.getExpiryDate(),
+                       pantryUpdateRequest.getQuantity(),
+                       pantryUpdateRequest.isExpired(),
+                       pantryUpdateRequest.getDatePurchased(),
+                       pantryUpdateRequest.getCatagoryId());
+               // return response build
+               PantryResponse pantryResponse = createPantryResponse(pantry);
+              pantryService.updatePantryFromRecipe(userId, recipeId);
+
+
+               // catch exception
+                //return bad request
+               return ResponseEntity.ok(pantryResponse);
+}
+private PantryResponse createPantryResponse(Pantry pantry) {
+    PantryResponse pantryResponse = new PantryResponse();
+    pantryResponse.setCatagoryId(pantry.getCatagoryId());
+    pantryResponse.setDatePurchased(pantry.getDatePurchased());
+    pantryResponse.setExpired(pantry.isExpired());
+    pantryResponse.setExpiryDate(pantry.getExpiryDate());
+    pantryResponse.setItemName(pantry.getItemName());
+    return pantryResponse;
+}
+
+
 }

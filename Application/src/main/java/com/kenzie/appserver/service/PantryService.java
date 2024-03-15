@@ -7,7 +7,6 @@ import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Ingredient;
 import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class PantryService {
         this.recipeRepository = recipeRepository;
     }
 
-    public PantryRecord getPantry(String userId) {
+    public Optional<PantryRecord> getPantry(String userId) {
         return pantryRepository.findById(userId);
     }
     // Retrieve pantry items for a user or household
@@ -51,13 +50,11 @@ public class PantryService {
     public void updatePantryFromRecipe (String userId, String recipeId) {
 
         List<PantryRecord> pantry = pantryRepository.findByUserId(userId);
-        //need to get pantry record to be able to set quantity...
-//        Optional<PantryRecord> pantry = pantryRepository.findById(userId);
         //same with recipe
         RecipeRecord recipe = recipeRepository.findByRecipeId(recipeId);
 
         //getIngredients returns list, how do I get individual ingredients?
-        //how do I get recipe ingredient quantities?
+        //how do I get recipe ingredient quantities? ingredient.getQuantity?
 
         // check if pantry has ingredient
 //        if (pantry.contains(recipe.getIngredients())) {
@@ -80,5 +77,6 @@ public class PantryService {
             // make something, if i didnt have all ingredients)
             //.save(pantry)
         }
+
     }
 }
