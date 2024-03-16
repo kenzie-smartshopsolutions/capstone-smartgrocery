@@ -1,0 +1,88 @@
+'API Gateway & Lambda UML diagram
+@startuml
+
+' API Gateway and Lambda Functions Integration
+package "API Gateway" {
+' "/users - POST"
+  [Register User] as (RegisterUser)
+' "/users/login - POST"
+  [Authenticate User] as (AuthenticateUser)
+' "/users/{userId} - GET"
+  [Get User Details] as (GetUserDetails)
+' "/users/{userId} - PUT"
+  [Update User Details] as (UpdateUserDetails)
+' "/recipes - POST"
+  [Create Recipe] as (CreateRecipe)
+' "/recipes - GET"
+  [Get Recipes] as (GetRecipes)
+' "/recipes/{recipeId} - PUT"
+  [Update Recipe] as (UpdateRecipe)
+' "/recipes/{recipeId} - DELETE"
+  [Delete Recipe] as (DeleteRecipe)
+' "/ingredients - POST"
+  [Add Ingredient] as (AddIngredient)
+' "/ingredients/{ingredientId} - PUT"
+  [Update Ingredient] as (UpdateIngredient)
+' "/shopping-lists/{userId} - GET"
+  [Get Shopping List] as (GetShoppingList)
+' "/shopping-lists/{userId} - PUT"
+  [Update Shopping List] as (UpdateShoppingList)
+' "/price-comparison - GET"
+  [Compare Prices] as (ComparePrices)
+' "/list-sharing/{userId} - GET"
+  [List Sharing] as (ListSharing)
+}
+
+' DynamoDB Tables
+database "DynamoDB" {
+    [UsersTable]
+    [RecipesTable]
+    [IngredientsTable]
+    [ShoppingListsTable]
+}
+
+' API Gateway to Lambda Functions Integrations
+RegisterUser --> UserRegistrationLambda : invokes
+AuthenticateUser --> UserAuthenticationLambda : invokes
+GetUserDetails --> UserDetailsLambda : invokes
+UpdateUserDetails --> UserDetailsLambda : invokes
+CreateRecipe --> RecipeManagementLambda : invokes
+GetRecipes --> RecipeManagementLambda : invokes
+UpdateRecipe --> RecipeManagementLambda : invokes
+DeleteRecipe --> RecipeManagementLambda : invokes
+AddIngredient --> IngredientManagementLambda : invokes
+UpdateIngredient --> IngredientManagementLambda : invokes
+GetShoppingList --> ShoppingListLambda : invokes
+UpdateShoppingList --> ShoppingListLambda : invokes
+ComparePrices --> PriceComparisonLambda : invokes
+ListSharing --> ListSharingLambda : invokes
+
+' Lambda Functions to DynamoDB Interactions
+' User-related interactions
+UserRegistrationLambda --> UsersTable : writes new user
+UserAuthenticationLambda --> UsersTable : reads for authentication
+UserDetailsLambda --> UsersTable : reads for user details
+UserDetailsLambda --> UsersTable : updates user details
+
+' Recipe-related interactions
+RecipeManagementLambda --> RecipesTable : writes new recipe
+RecipeManagementLambda --> RecipesTable : reads recipes
+RecipeManagementLambda --> RecipesTable : updates recipe
+RecipeManagementLambda --> RecipesTable : deletes recipe
+
+' Ingredient-related interactions
+IngredientManagementLambda --> IngredientsTable : writes new ingredient
+IngredientManagementLambda --> IngredientsTable : updates ingredient
+
+' Shopping List interactions
+ShoppingListLambda --> ShoppingListsTable : reads shopping list
+ShoppingListLambda --> ShoppingListsTable : updates shopping list
+
+' Price Comparison interactions
+PriceComparisonLambda --> IngredientsTable : reads prices for comparison
+
+' List Sharing interactions
+ListSharingLambda --> ShoppingListsTable : reads and updates for sharing
+
+
+@enduml

@@ -4,17 +4,33 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
-@DynamoDBTable(tableName = "Recipe")
+@DynamoDBTable(tableName = "Pantry")
 public class PantryRecord {
     private  String pantryItemId;
+    @NotNull(message = "Item name cannot be null")
     private  String itemName;
-    private  String expiryDate;
+    @DynamoDBAttribute(attributeName = "Category")
+    public String category;
 
+    private  String expiryDate;
     private  int quantity;
     private  boolean isExpired;
     private  Date datePurchased;
+
+    public PantryRecord() {
+        this.pantryItemId = pantryItemId;
+        this.itemName = itemName;
+        this.category = category;
+        this.quantity = quantity;
+        this.expiryDate = expiryDate;
+        this.isExpired = isExpired;
+        this.datePurchased = datePurchased;
+
+    }
+
     @DynamoDBHashKey(attributeName = "ItemId")
 
     public String getPantryItemId() {
@@ -65,6 +81,13 @@ public class PantryRecord {
         this.datePurchased = datePurchased;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     @Override
     public boolean equals(Object o) {

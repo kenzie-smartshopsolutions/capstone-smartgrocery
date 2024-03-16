@@ -1,19 +1,21 @@
 package com.kenzie.appserver.service;
 
-import com.amazonaws.services.ec2.model.UserData;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-import com.kenzie.capstone.service.model.ExampleData;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
+    private BCryptPasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private LambdaServiceClient lambdaServiceClient;
 
     public UserService(UserRepository userRepository, LambdaServiceClient lambdaServiceClient) {
         this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
         this.lambdaServiceClient = lambdaServiceClient;
     }
 
@@ -45,6 +47,8 @@ public class UserService {
          */
 
         // ????? handle password hashing here before saving the user
+        String encodedPassword = passwordEncoder.encode(userRecord.getPasswordHash());
+        userRecord.setPasswordHash(encodedPassword);
         return userRepository.save(userRecord);
     }
 
@@ -62,7 +66,12 @@ public class UserService {
     public UserRecord loginUser(String email, String password) {
         // ? validate the password and generate authentication
         // Return the user record if login is successful, otherwise return null
-        return null;
+        UserRecord userRecord = userRepository.findByEmail(email);
+        if (userRecord != null && passwordEncoder.matches(password, userRecord.getPasswordHash())) {
+            return userRecord;
+        } else {
+            return null;
+        }
     }
 }
 

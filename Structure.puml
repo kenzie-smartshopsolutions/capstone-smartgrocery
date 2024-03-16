@@ -1,0 +1,352 @@
+@startuml
+
+package com.kenzie.appserver.config {
+'    @Configuration
+    class CacheConfig {
+    }
+
+'    @Configuration
+    class ExecutorServiceConfig {
+        + TaskExecutor executorService()
+    }
+
+'    @Configuration
+    class DynamoDbConfig {
+        + AmazonDynamoDB amazonDynamoDB(String)
+        + AmazonDynamoDB defaultAmazonDynamoDb()
+    }
+}
+
+package com.kenzie.appserver.controller {
+'    @RestController
+    class UserController {
+        + @PostMapping("/users") createUser(UserRequest)
+        + @GetMapping("/users/{userId}") getUserDetails(@PathVariable String userId)
+        + @PutMapping("/users/{userId}") updateUserDetails(@PathVariable String userId, UserRequest user)
+        + @PostMapping("/users/login") authenticateUser(UserRequest)
+    }
+
+'    @RestController
+    class RecipeController {
+        + @PostMapping("/recipes") createRecipe(RecipeRequest)
+        + @GetMapping("/recipes") listRecipes()
+        + @PutMapping("/recipes/{recipeId}") updateRecipe(@PathVariable String recipeId, RecipeRequest recipe)
+        + @DeleteMapping("/recipes/{recipeId}") deleteRecipe(@PathVariable String recipeId)
+    }
+
+'    @RestController
+    class IngredientController {
+        + @PostMapping("/ingredients") addIngredient(IngredientDto)
+        + @PutMapping("/ingredients/{ingredientId}") updateIngredient(@PathVariable String ingredientId, IngredientDto ingredient)
+    }
+
+'    @RestController
+    class ShoppingListController {
+        + @GetMapping("/shopping-lists/{userId}") getShoppingList(@PathVariable String userId)
+        + @PutMapping("/shopping-lists/{userId}") updateShoppingList(@PathVariable String userId, ShoppingListRequest shoppingList)
+    }
+
+'    @RestController
+    class PriceComparisonController {
+        + @GetMapping("/price-comparison") comparePrices(PriceComparisonRequest)
+    }
+
+'    @RestController
+    class ListSharingController {
+        + @GetMapping("/list-sharing/{userId}") listSharing(@PathVariable String userId, ListSharingRequest)
+    }
+
+' @JsonProperty - constructors
+    package model {
+        class UserRequest {
+            - String username
+            - String email
+            - String password
+            - String role
+        }
+
+        class UserResponse {
+            - String id
+            - String username
+            - String email
+            - String role
+        }
+
+        class RecipeRequest {
+            - String title
+            - List<IngredientDto> ingredients
+        }
+
+        class RecipeResponse {
+            - String id
+            - String title
+            - List<IngredientDto> ingredients
+        }
+
+        class IngredientDto {
+            - String name
+            - double quantity
+            - String unit
+        }
+
+        class ShoppingListRequest {
+            - List<IngredientDto> items
+        }
+
+        class ShoppingListResponse {
+            - String id
+            - List<IngredientDto> items
+        }
+
+        class PriceComparisonRequest {
+            - List<String> ingredientNames
+        }
+
+        class PriceComparisonResponse {
+            - List<PriceDetailDto> priceDetails
+        }
+
+        class PriceDetailDto {
+            - String ingredientName
+            - double price
+            - String store
+        }
+
+        class ListSharingRequest {
+            - String shoppingListId
+        }
+
+        class ListSharingResponse {
+            - boolean success
+        }
+    }
+}
+
+
+
+package com.kenzie.appserver.repositories {
+'    @Repository
+    interface UserRepository {
+        + Optional<User> findByUsername(String username)
+        + User save(User user)
+        + void delete(User user)
+    }
+
+'    @Repository
+    interface RecipeRepository {
+        + Optional<Recipe> findById(String id)
+        + List<Recipe> findAll()
+        + Recipe save(Recipe recipe)
+        + void delete(Recipe recipe)
+    }
+
+'    @Repository
+    interface IngredientRepository {
+        + Optional<Ingredient> findById(String id)
+        + List<Ingredient> findAllByRecipe(Recipe recipe)
+        + Ingredient save(Ingredient ingredient)
+        + void delete(Ingredient ingredient)
+    }
+
+'    @Repository
+    interface ShoppingListRepository {
+        + Optional<ShoppingList> findByUser(User user)
+        + ShoppingList save(ShoppingList shoppingList)
+        + void delete(ShoppingList shoppingList)
+    }
+
+    package com.kenzie.appserver.repositories.model {
+        class User {
+            - String id
+            - String username
+            - String email
+            - String role
+        }
+
+        class Recipe {
+            - String id
+            - String title
+            - List<Ingredient> ingredients
+        }
+
+        class Ingredient {
+            - String id
+            - String name
+            - double price
+        }
+
+        class ShoppingList {
+            - String id
+            - String userId
+            - List<Ingredient> items
+        }
+    }
+}
+
+package com.kenzie.appserver.service {
+'    @Service
+    class UserService {
+        + User findByUsername(String username)
+        + User saveOrUpdateUser(User user)
+        + void deleteUser(User user)
+        + boolean checkUserPermission(User user, String permission)
+    }
+
+'    @Service
+    class RecipeService {
+        + Recipe findRecipeById(String id)
+        + List<Recipe> getAllRecipes()
+        + Recipe saveOrUpdateRecipe(Recipe recipe)
+        + void deleteRecipe(Recipe recipe)
+    }
+
+'    @Service
+    class IngredientService {
+        + Ingredient findIngredientById(String id)
+        + List<Ingredient> getIngredientsByRecipe(Recipe recipe)
+        + Ingredient saveOrUpdateIngredient(Ingredient ingredient)
+        + void deleteIngredient(Ingredient ingredient)
+    }
+
+'    @Service
+    class ShoppingListService {
+        + ShoppingList getShoppingListByUser(User user)
+        + ShoppingList saveOrUpdateShoppingList(ShoppingList shoppingList)
+        + void deleteShoppingList(ShoppingList shoppingList)
+    }
+
+'    @Service
+    class PriceComparisonService {
+        + List<PriceDetailDto> comparePrices(List<String> ingredientNames)
+    }
+
+'    @Service
+    class ListSharingService {
+        + boolean shareShoppingList(String shoppingListId, List<User> users)
+    }
+
+    package com.kenzie.appserver.service.model {
+
+        class UserServiceModel {
+            - String username
+            - String email
+            - String hashedPassword
+            - String role
+            + UserServiceModel(String username, String email, String hashedPassword, String role)
+            + getUsername()
+            + setUsername(String)
+            + getEmail()
+            + setEmail(String)
+            + getHashedPassword()
+            + setHashedPassword(String)
+            + getRole()
+            + setRole(String)
+        }
+
+        class RecipeServiceModel {
+            - String title
+            - List<IngredientServiceModel> ingredients
+            + RecipeServiceModel(String title, List<IngredientServiceModel> ingredients)
+            + getTitle()
+            + setTitle(String)
+            + getIngredients()
+            + setIngredients(List<IngredientServiceModel>)
+        }
+
+        class IngredientServiceModel {
+            - String name
+            - double quantity
+            - String unit
+            + IngredientServiceModel(String name, double quantity, String unit)
+            + getName()
+            + setName(String)
+            + getQuantity()
+            + setQuantity(double)
+            + getUnit()
+            + setUnit(String)
+        }
+
+        class ShoppingListServiceModel {
+            - List<IngredientServiceModel> items
+            + ShoppingListServiceModel(List<IngredientServiceModel> items)
+            + getItems()
+            + setItems(List<IngredientServiceModel>)
+        }
+
+        class PriceDetailServiceModel {
+            - String ingredientName
+            - double price
+            - String store
+            + PriceDetailServiceModel(String ingredientName, double price, String store)
+            + getIngredientName()
+            + setIngredientName(String)
+            + getPrice()
+            + setPrice(double)
+            + getStore()
+            + setStore(String)
+        }
+    }
+}
+
+package com.kenzie.appserver.utils {
+    class EnvironmentVariableUtility {
+        + getEnvVariablesFromFile()
+        + getEnvVariableFromFile()
+        + getEnvVarFromSetupEnvironment()
+    }
+
+    class EndpointUtility {
+        + getApiEndpoint()
+        + postEndpoint()
+        + getEndpoint()
+    }
+}
+
+' Placeholders for now
+package com.kenzie.appserver.exceptions {
+    class ApiGatewayException {
+        + ApiGatewayException(String)
+        + ApiGatewayException(String, Exception)
+    }
+}
+
+package com.kenzie.appserver {
+    class Application {
+        + main(String[])
+    }
+
+    class ApplicationStartUpListener {
+        + onApplicationEvent(ContextRefreshedEvent)
+    }
+
+    class Scheduler {
+    }
+}
+
+package com.kenzie.appserver.servicelambda {
+
+    class UserLambdaHandler {
+        + handleRequest(InputStream, OutputStream, Context)
+    }
+
+    class RecipeLambdaHandler {
+        + handleRequest(InputStream, OutputStream, Context)
+    }
+
+    class IngredientLambdaHandler {
+        + handleRequest(InputStream, OutputStream, Context)
+    }
+
+    class ShoppingListLambdaHandler {
+        + handleRequest(InputStream, OutputStream, Context)
+    }
+
+    class PriceComparisonLambdaHandler {
+        + handleRequest(InputStream, OutputStream, Context)
+    }
+
+    class ListSharingLambdaHandler {
+        + handleRequest(InputStream, OutputStream, Context)
+    }
+}
+@enduml
