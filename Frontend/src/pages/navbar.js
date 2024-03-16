@@ -22,7 +22,7 @@ var currentScrollPos = window.pageYOffset;
   if (prevScrollpos > currentScrollPos) {
     document.getElementById("nav").style.top = "0";
   } else {
-    document.getElementById("nav").style.top = "-300px";
+    document.getElementById("nav").style.top = "-1000px";
   }
   prevScrollpos = currentScrollPos;
 }
