@@ -10,7 +10,7 @@
 export CAPSTONE_REPO_NAME=ata-capstone-project-smartgrocery
 
 # Fill out the following value with the group name in all lowercase and no spaces or special characters.
-export GITHUB_GROUP_NAME=replacewithyourgroupname
+export GITHUB_GROUP_NAME=smartshopsolutions
 
 # Step Two - configure your shell to always have these variables.
 # For OSX / Linux
@@ -18,8 +18,8 @@ export GITHUB_GROUP_NAME=replacewithyourgroupname
 
 # For Windows
 # Copy and paste ALL of the properties below into your .bashrc file in your home directory
-export JAVA_HOME=c/Users/12146/.jdks/corretto-16.0.2
-export GITHUB_TOKEN=
+#export JAVA_HOME=c/Users/12146/.jdks/corretto-16.0.2
+#export GITHUB_TOKEN=
 # In IntelliJ Terminal
 # Type source ./setupEnvironment.sh
 
