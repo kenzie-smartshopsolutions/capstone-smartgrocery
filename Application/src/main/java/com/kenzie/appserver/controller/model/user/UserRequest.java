@@ -1,4 +1,4 @@
-package com.kenzie.appserver.controller.model;
+package com.kenzie.appserver.controller.model.user;
 
 public class UserRequest {
     private  String userId;

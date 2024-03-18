@@ -1,6 +1,6 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.UserRequest;
+import com.kenzie.appserver.controller.model.user.UserRequest;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.User;
