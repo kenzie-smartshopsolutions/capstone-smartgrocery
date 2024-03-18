@@ -1,19 +1,10 @@
 package com.kenzie.appserver.controller.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse {
-    @JsonProperty("userId")
+public class UserRequest {
     private  String userId;
-    @JsonProperty("username")
     private  String username;
-    @JsonProperty("email")
     private  String email;
-    @JsonProperty("passwordHash")
-    private String passwordHash;
-    @JsonProperty("householdName")
+    private String password;
     private  String householdName;
 
     public String getUserId() {
@@ -40,12 +31,8 @@ public class UserResponse {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPasswordHash(String password) {
+        this.password = password;
     }
 
     public String getHouseholdName() {
@@ -54,5 +41,9 @@ public class UserResponse {
 
     public void setHouseholdName(String householdName) {
         this.householdName = householdName;
+    }
+
+    public Object getPassword() {
+        return password;
     }
 }

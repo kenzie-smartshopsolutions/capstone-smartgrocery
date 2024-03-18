@@ -2,20 +2,28 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
+import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
-    private BCryptPasswordEncoder passwordEncoder;
-    private UserRepository userRepository;
-    private LambdaServiceClient lambdaServiceClient;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final LambdaServiceClient lambdaServiceClient;
 
-    public UserService(UserRepository userRepository, LambdaServiceClient lambdaServiceClient) {
+    @Autowired
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, LambdaServiceClient lambdaServiceClient) {
         this.userRepository = userRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
         this.lambdaServiceClient = lambdaServiceClient;
     }
 
@@ -30,32 +38,46 @@ public class UserService {
     }
 
     // Create a new user
-    public UserRecord createUser(UserRecord userRecord) {
-        // User getting data from the lambda
-        //UserData dataFromLambda = lambdaServiceClient.setUserData(userId);
+    public UserRecord createUser(User userDto) {
+        UserRecord userRecord = convertFromDto(userDto);
+        userRecord.setPassword(passwordEncoder.encode(userDto.getPasswordHash()));
 
-        /*
-        //????reference from ExampleService
-         // User sending data to the local repository
+        UserRecord savedUser = userRepository.save(userRecord);
+
+        //// check this shit -need to fix "data"
+        lambdaServiceClient.setUserData(String.valueOf(savedUser));
+
+        return savedUser;
+    }
+
+    /** Helper methods to convert DTOs **/
+    // Convert DTO to UserRecord (Entity)
+    public UserRecord convertFromDto(User userDto) {
         UserRecord userRecord = new UserRecord();
-        userRecord.setUserId(dataFromLambda.getUserId());
-        userRecord.setUserName(dataFromLambda.getData());
-        userRepository.save(userRecord);
+        userRecord.setUserId(userDto.getUserId());
+        userRecord.setUsername(userDto.getUsername());
+        userRecord.setPassword(userDto.getPasswordHash());
+        userRecord.setEmail(userDto.getEmail());
+        userRecord.setHouseholdName(userDto.getHouseholdName());
+        return userRecord;
+    }
 
-        User user = new User(dataFromLambda.getUserId(), userName);
-        return user;
-         */
-
-        // ????? handle password hashing here before saving the user
-        String encodedPassword = passwordEncoder.encode(userRecord.getPasswordHash());
-        userRecord.setPasswordHash(encodedPassword);
-        return userRepository.save(userRecord);
+    // Convert UserRecord (Entity) to DTO
+    public User convertToDto(UserRecord userRecord) {
+        User userDto = new User(
+                userRecord.getUserId(),
+                userRecord.getUsername(),
+                userRecord.getEmail(),
+                userRecord.getPassword(),
+                userRecord.getHouseholdName());
+        return userDto;
     }
 
     // Update an existing user
     public UserRecord updateUser(UserRecord userRecord) {
         return userRepository.save(userRecord);
     }
+
 
     // Delete a user by their ID
     public void deleteUser(String userId) {
@@ -67,11 +89,49 @@ public class UserService {
         // ? validate the password and generate authentication
         // Return the user record if login is successful, otherwise return null
         UserRecord userRecord = userRepository.findByEmail(email);
-        if (userRecord != null && passwordEncoder.matches(password, userRecord.getPasswordHash())) {
+        if (userRecord != null && passwordEncoder.matches(password, userRecord.getPassword())) {
             return userRecord;
         } else {
             return null;
         }
+    }
+    public void incrementFailedLoginAttempts(String username) {
+        UserRecord user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
+            if (user.getFailedLoginAttempts() >= 5) {
+                user.setAccountNonLocked(false);
+            }
+            userRepository.save(user);
+        }
+    }
+
+    public void resetFailedLoginAttempts(String username) {
+        UserRecord user = userRepository.findByUsername(username);
+        if (user != null && user.isAccountNonLocked()) {
+            user.setFailedLoginAttempts(0);
+            userRepository.save(user);
+        }
+    }
+
+    public void unlockAccount(String username) {
+        UserRecord user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setFailedLoginAttempts(0);
+            user.setAccountNonLocked(true);
+            userRepository.save(user);
+        }
+    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserRecord user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                Collections.emptyList());
     }
 }
 

@@ -2,6 +2,7 @@ package com.kenzie.capstone.service.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.UserData;
 
 
 public class LambdaServiceClient {
@@ -38,4 +39,29 @@ public class LambdaServiceClient {
         }
         return exampleData;
     }
+
+    public UserData getUserData(String userId) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.getEndpoint(GET_EXAMPLE_ENDPOINT.replace("{userId}", userId));
+        UserData userData;
+        try {
+            userData = mapper.readValue(response, UserData.class);
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return userData;
+    }
+
+    public UserData setUserData(String data) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.postEndpoint(SET_EXAMPLE_ENDPOINT, data);
+        UserData userData;
+        try {
+            userData = mapper.readValue(response, UserData.class);
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return userData;
+    }
+
 }
