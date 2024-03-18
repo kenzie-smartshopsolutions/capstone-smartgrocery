@@ -2,6 +2,7 @@ package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 @DynamoDBTable(tableName = "Pantry")
 public class PantryRecord {
+    private String userId;
     private  String pantryItemId;
     @NotNull(message = "Item name cannot be null")
     private  String itemName;
@@ -21,6 +23,7 @@ public class PantryRecord {
     private  Date datePurchased;
 
     public PantryRecord() {
+        this.userId = userId;
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.category = category;
@@ -30,9 +33,14 @@ public class PantryRecord {
         this.datePurchased = datePurchased;
 
     }
-
-    @DynamoDBHashKey(attributeName = "ItemId")
-
+    @DynamoDBHashKey(attributeName = "UserId")
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    @DynamoDBRangeKey(attributeName = "ItemId")
     public String getPantryItemId() {
         return pantryItemId;
     }
