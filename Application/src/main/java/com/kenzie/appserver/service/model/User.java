@@ -10,14 +10,14 @@ dateCreated**
 householdName (String) - [in case of multiple household members sharing same pantry]**
 */
     private final String userId;
-    private final String userName;
+    private final String username;
     private final String email;
     private final String passwordHash;
     private final String householdName;
 
-    public User(String userId, String userName, String email, String passwordHash, String householdName) {
+    public User(String userId, String username, String email, String passwordHash, String householdName) {
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
         this.householdName = householdName;
@@ -27,8 +27,8 @@ householdName (String) - [in case of multiple household members sharing same pan
         return userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getEmail() {

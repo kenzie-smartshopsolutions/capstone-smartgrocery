@@ -1,0 +1,54 @@
+SmartCarter Application Architecture
+
+FRONT-END
+------------------------------------
+HTML Page
+   |__ EventListener(s) --(trigger)--> Javascript Client Functions
+   |__ Assigning .innerHTML
+
+Javascript Page (UI Logic)
+   |__ EventListener(s) --(trigger)--> Service Client Functions
+   |__ ChangeListener
+
+Service Client (Javascript - Axios for HTTP calls)
+   |__ Client Function --(HTTP Request)--> Endpoint Utility
+   |__ Return Statement <--(HTTP Response)-- REST Controller
+
+BACK-END (Spring Boot Application)
+------------------------------------
+Endpoint Utility (API Layer)
+   |__ Utility Function --(HTTP Request)--> Java Service
+   |__ Return Statement
+
+Java Service (Business Logic)
+   |__ Service Function --(Invoke)--> Lambda Service (If required)
+   |__ Return Statement <--(Data)-- Lambda Handler
+
+AWS LAMBDA FUNCTIONS
+------------------------------------
+Lambda Handler (AWS Lambda)
+   |__ Lambda Service Function --(Invoke)--> Lambda DAO
+   |__ Return Statement <--(Data)-- DynamoDB Table
+
+Lambda DAO (Data Access)
+   |__ DAO Function --(CRUD Ops)--> AWS DynamoDB Table
+   |__ Return Statement (If required)
+
+AWS SERVICES
+------------------------------------
+   |__ AWS DynamoDB --(Stores)--> User Table, Recipe Table, etc.
+
+ADDITIONAL AWS SERVICES (If required)
+------------------------------------
+   |__ AWS SNS --(Notifications)--|
+   |__ AWS SES --(Email Service)--|
+
+API (Rest Controllers)
+------------------------------------
+REST Controller (Spring Boot Annotations)
+   |__ RequestMapping Methods --(CRUD Ops)--> Java Service
+   |__ Return Statement <--(HTTP Response)-- Service Client
+
+   |__ Alternate Path: Direct API Call --(HTTP Request)--> Endpoint Utility
+
+@enduml

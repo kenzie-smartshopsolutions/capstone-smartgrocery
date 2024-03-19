@@ -1,10 +1,5 @@
 <!--
-    ____              __
-   / __ \____ _____  / /________  __
-  / /_/ / __ `/ __ \/ __/ ___/ / / /
- / ____/ /_/ / / / / /_/ /  / /_/ /
-/_/    \__,_/_/ /_/\__/_/   \__, /
-                           /____/
+
     Owner:
     Maintainers:
     Date created:
@@ -30,8 +25,8 @@
     <script type="text/javascript" src="navbar.js"></script>
 </head>
 <body>
-<header class="pantry">
-    <h1 class="hero-text">Pantry</h1>
+<header class="login">
+    <h1 class="hero-text">Registration</h1>
     <div class="nav-menu" id="nav">
         <img src="img/shopping-cart.png" alt="logo">
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
@@ -39,8 +34,8 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="analytics.html">Analytics</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a aria-current="page" href="pantry.html">Pantry</a></li>
+                <li><a aria-current="page" href="login.html">Login</a></li>
+                <li><a href="pantry.html">Pantry</a></li>
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="recipe.html">Recipe</a></li>
                 <li><a href="shared.html">Shared</a></li>
@@ -54,38 +49,31 @@
 <main>
     <section class="slant">
         <div class="slantB">
-            <img src="img/" width="100%" alt="img1">
+            <img src="img/heroImg.webp" width="100%" alt="img1">
         </div>
         <div class="slantA">
-            <h2>About</h2>
-            <p>SmartCarter is your one solution to blank</p>
+            <h2>Register</h2>
+            <form id="registration-form">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <p></p>
+
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <p></p>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <p></p>
+                <button type="submit">Register</button>
+            </form>
+
+            <script src="registration.js"></script>
         </div>
     </section>
     <section>
         <h2>section two</h2>
-        <p>
-        <section id="pantry-list">
-        </section>
-
-        <script>
-            const userId = retrieveUserId();
-            fetch(`/Pantry/${userId}`)
-                    .then(response => response.json())
-                .then(pantryItems => {
-                    const pantryList = document.getElementById('pantry-list');
-                    pantryItems.forEach(item => {
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `
-          <strong>Item Name:</strong> ${item.itemName} <br>
-          <strong>Category:</strong> ${item.category} <br>
-          <strong>Expiry Date:</strong> ${item.expiryDate} <br>
-        `;
-                        pantryList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching pantry items:', error));
-        </script>
-        </p>
+        <p>Contents..</p>
     </section>
     <section>
         <h2>section three</h2>
