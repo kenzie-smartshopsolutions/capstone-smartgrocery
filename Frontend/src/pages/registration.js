@@ -1,21 +1,22 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const loginForm = document.getElementById('login-form');
+    const registrationForm = document.getElementById('registration-form');
 
-    loginForm.addEventListener('submit', function (e) {
+    registrationForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        const email = document.getElementById('email').value;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
         // Placeholder for API endpoint
-        const apiEndpoint = '/login';
+        const apiEndpoint = '/register';
 
         fetch(apiEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email, username, password }),
         })
             .then(response => {
                 if (!response.ok) {
@@ -24,11 +25,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 return response.json();
             })
             .then(data => {
-                console.log('Login successful', data);
-                // Redirect to a different page or something
+                // Handle registration success
+                console.log('Registration successful', data);
+                // Redirect to login page or other action
             })
             .catch(error => {
-                console.error('Login failed', error);
+                // Handle errors, such as displaying a registration failed message
+                console.error('Registration failed', error);
             });
     });
 });

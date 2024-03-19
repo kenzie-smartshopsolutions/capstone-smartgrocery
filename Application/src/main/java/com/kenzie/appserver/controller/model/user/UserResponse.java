@@ -1,4 +1,4 @@
-package com.kenzie.appserver.controller.model;
+package com.kenzie.appserver.controller.model.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserResponse {
     @JsonProperty("userId")
     private  String userId;
-    @JsonProperty("userName")
-    private  String userName;
+    @JsonProperty("username")
+    private  String username;
     @JsonProperty("email")
     private  String email;
     @JsonProperty("passwordHash")
@@ -24,12 +24,12 @@ public class UserResponse {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

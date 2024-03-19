@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class FoodCategoryConverter {
     public static Map<String, String> convertCsvToCategoryMap() throws IOException {
-        File file = new File("/food_category.csv");
+        File file = new File("com/kenzie/appserver/repositories/model/food_category.csv");
         CsvSchema bootstrap = CsvSchema.emptySchema().withHeader();
         CsvMapper csvMapper = new CsvMapper();
 
