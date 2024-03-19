@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script type="text/javascript" src="navbar.js"></script>
+    <script src="dist/login.js"></script>
 </head>
 <body>
 <header class="login">
@@ -47,25 +48,22 @@
     </div>
 </header>
 <main>
-    <section class="slant">
-        <div class="slantB">
-            <img src="img/heroImg.webp" width="100%" alt="img1">
-        </div>
-        <div class="slantA">
+    <section>
+        <div class="card">
             <h2>Login</h2>
-        <form id="login-form">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <button type="submit">Login</button>
-    </form>
-
-        <script src="dist/login.js"></script>
+            <form class="card-content" autocomplete="off" id="login-form">
+                <p class="form-field">
+                    <label>Username:</label>
+                    <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="First and last name" id="username">
+                    <!-- js to prevent dictionary words, patterns -->
+                    <label>Password:</label>
+                    <input type="password" title="Minimum of 15 unique characters max 128." maxlength="128" pattern="[a-zA-Z0-9]{15,}" required placeholder="password" id="password">
+                </p>
+                <input type="submit" value="Login">
+                <!-- <button type="submit">Login</button> -->
+            </form>
+        </div>
     </section>
-
 </main>
 </body>
 <footer>
