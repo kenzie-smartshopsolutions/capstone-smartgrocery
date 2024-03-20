@@ -17,11 +17,6 @@ public class RecipeService {
         this.lambdaServiceClient = lambdaServiceClient;
     }
 
-    /*Recipe Model: Manages recipe information.
-getRecipe()
-getRecipeByIngredient()
-deleteRecipe()
-*/
     public RecipeRecord getRecipe(String recipeId){
        return recipeRepository.findByRecipeId(recipeId);
     }

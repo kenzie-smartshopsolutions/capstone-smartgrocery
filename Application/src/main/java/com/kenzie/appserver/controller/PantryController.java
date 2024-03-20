@@ -74,7 +74,8 @@ public class PantryController {
                        pantryUpdateRequest.getCatagoryId());
                // return response build
                PantryResponse pantryResponse = createPantryResponse(pantry);
-              pantryService.updatePantryFromRecipe(userId, recipeId);
+
+               pantryService.updatePantryFromRecipe(userId, recipeId);
 
 
                // catch exception

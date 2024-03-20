@@ -4,14 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Pantry {
-    /*pantryItemId (String)
-itemName (String)
-quantity (int)
-expiryDate (String)
-datePurchased (Date/time)
-isExpired (boolean
-*/
-
     private final String pantryItemId;
     private final String itemName;
     private final String expiryDate;
