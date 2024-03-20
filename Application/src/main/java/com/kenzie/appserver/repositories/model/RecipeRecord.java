@@ -3,7 +3,6 @@ package com.kenzie.appserver.repositories.model;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.kenzie.appserver.service.model.Ingredient;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +10,7 @@ import java.util.Objects;
 public class RecipeRecord {
     private  String recipeId;
     private  String title;
-    private  List<Ingredient> ingredients;
+    private  List<PantryRecord> ingredients;
     private  String instructions;
     @DynamoDBHashKey(attributeName = "RecipeId")
     public String getRecipeId() {
@@ -30,11 +29,11 @@ public class RecipeRecord {
         this.title = title;
     }
     @DynamoDBAttribute(attributeName = "Ingredients")
-    public List<Ingredient> getIngredients() {
+    public List<PantryRecord> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<PantryRecord> ingredients) {
         this.ingredients = ingredients;
     }
     @DynamoDBAttribute(attributeName = "Instructions")

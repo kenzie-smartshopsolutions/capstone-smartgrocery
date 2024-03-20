@@ -48,7 +48,7 @@ dependencies {
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    // Jackson Dataformat CSV
+    // Jackson Dataformat CSV for conversion
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.1'
 
     // Spring Security's bcrypt and config + dynamoDB
