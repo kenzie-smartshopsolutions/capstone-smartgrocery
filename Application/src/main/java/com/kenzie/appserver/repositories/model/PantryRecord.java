@@ -11,7 +11,6 @@ public class PantryRecord {
     private  String pantryItemId;
     private  String itemName;
     private  String expiryDate;
-
     private  int quantity;
     private  boolean isExpired;
     private  Date datePurchased;

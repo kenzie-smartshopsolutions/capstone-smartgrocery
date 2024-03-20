@@ -47,36 +47,37 @@ public class PantryService {
         pantryRepository.deleteById(pantryItemId);
     }
 
-    public void updatePantryFromRecipe (String userId, String recipeId) {
-
-        List<PantryRecord> pantry = pantryRepository.findByUserId(userId);
-        //same with recipe
-        RecipeRecord recipe = recipeRepository.findByRecipeId(recipeId);
-
-        //getIngredients returns list, how do I get individual ingredients?
-        //how do I get recipe ingredient quantities? ingredient.getQuantity?
-
-        // check if pantry has ingredient
-//        if (pantry.contains(recipe.getIngredients())) {
-        // validation -  if pantryItem != null
-        if (pantry != null && recipe != null) {
-            for (PantryRecord record : pantry) {
-                for (Ingredient ingredient : recipe.getIngredients()) {
-                    if (record.getItemName().equalsIgnoreCase(ingredient.getIngredientName())) {
-                        //subtract amount used in recipe from pantry
-                        //update pantry with new amount
-                        record.setQuantity(record.getQuantity() - ingredient.getQuantity());
-                        //      pantry.setQuantity(pantry.getQuantity() - ingredient.getQuantity());
-                        //can't setQuanity in pantry because its a list
-                    }
-                }
-            }
-            // ** would need some sort of validation if pantry items < 0
-            // maybe if pantry item <= 0, set pantry item to 0
-            // (there have been times where I just bought stuff from the store just to
-            // make something, if i didnt have all ingredients)
-            //.save(pantry)
-        }
-
-    }
+    //for future dev
+//    public void updatePantryFromRecipe (String userId, String recipeId) {
+//
+//        List<PantryRecord> pantry = pantryRepository.findByUserId(userId);
+//        //same with recipe
+//        RecipeRecord recipe = recipeRepository.findByRecipeId(recipeId);
+//
+//        //getIngredients returns list, how do I get individual ingredients?
+//        //how do I get recipe ingredient quantities? ingredient.getQuantity?
+//
+//        // check if pantry has ingredient
+////        if (pantry.contains(recipe.getIngredients())) {
+//        // validation -  if pantryItem != null
+//        if (pantry != null && recipe != null) {
+//            for (PantryRecord record : pantry) {
+//                for (Ingredient ingredient : recipe.getIngredients()) {
+//                    if (record.getItemName().equalsIgnoreCase(ingredient.getIngredientName())) {
+//                        //subtract amount used in recipe from pantry
+//                        //update pantry with new amount
+//                        record.setQuantity(record.getQuantity() - ingredient.getQuantity());
+//                        //      pantry.setQuantity(pantry.getQuantity() - ingredient.getQuantity());
+//                        //can't setQuanity in pantry because its a list
+//                    }
+//                }
+//            }
+//            // ** would need some sort of validation if pantry items < 0
+//            // maybe if pantry item <= 0, set pantry item to 0
+//            // (there have been times where I just bought stuff from the store just to
+//            // make something, if i didnt have all ingredients)
+//            //.save(pantry)
+//        }
+//
+//    }
 }

@@ -62,26 +62,6 @@ public class PantryController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<PantryResponse> updatePantryFromRecipe(@RequestBody PantryUpdateRequest pantryUpdateRequest, String userId, String recipeId) {
-               //update pantry
-               Pantry pantry = new Pantry(pantryUpdateRequest.getPantryItemId(),
-                       pantryUpdateRequest.getItemName(),
-                       pantryUpdateRequest.getExpiryDate(),
-                       pantryUpdateRequest.getQuantity(),
-                       pantryUpdateRequest.isExpired(),
-                       pantryUpdateRequest.getDatePurchased(),
-                       pantryUpdateRequest.getCatagoryId());
-               // return response build
-               PantryResponse pantryResponse = createPantryResponse(pantry);
-
-               pantryService.updatePantryFromRecipe(userId, recipeId);
-
-
-               // catch exception
-                //return bad request
-               return ResponseEntity.ok(pantryResponse);
-}
 private PantryResponse createPantryResponse(Pantry pantry) {
     PantryResponse pantryResponse = new PantryResponse();
     pantryResponse.setCatagoryId(pantry.getCatagoryId());
@@ -92,5 +72,30 @@ private PantryResponse createPantryResponse(Pantry pantry) {
     return pantryResponse;
 }
 
+
+
+
+
+//..........................for future dev..............................
+//    @PutMapping
+//    public ResponseEntity<PantryResponse> updatePantryFromRecipe(@RequestBody PantryUpdateRequest pantryUpdateRequest, String userId, String recipeId) {
+//               //update pantry
+//               Pantry pantry = new Pantry(pantryUpdateRequest.getPantryItemId(),
+//                       pantryUpdateRequest.getItemName(),
+//                       pantryUpdateRequest.getExpiryDate(),
+//                       pantryUpdateRequest.getQuantity(),
+//                       pantryUpdateRequest.isExpired(),
+//                       pantryUpdateRequest.getDatePurchased(),
+//                       pantryUpdateRequest.getCatagoryId());
+//               // return response build
+//               PantryResponse pantryResponse = createPantryResponse(pantry);
+//
+//               pantryService.updatePantryFromRecipe(userId, recipeId);
+//
+//
+//               // catch exception
+//                //return bad request
+//               return ResponseEntity.ok(pantryResponse);
+//}
 
 }
