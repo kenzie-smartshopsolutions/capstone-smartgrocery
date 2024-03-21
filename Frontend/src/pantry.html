@@ -52,56 +52,81 @@
     </div>
 </header>
 <main>
-    <section class="slant">
-        <div class="slantB">
-            <img src="img/" width="100%" alt="img1">
+    <section>
+        <div class="card" id="result">
+            <h2>Result:</h2>
+            <p id="result-info"></p>
         </div>
-        <div class="slantA">
-            <h2>About</h2>
-            <p>SmartCarter is your one solution to blank</p>
+        <button class="collapsible">Add Items</button>
+        <div class="collapsible-content">
+            <div class="card">
+                <form class="card-content" autocomplete="off" id="">
+                    <p class="form-field">
+                        <label>Add to pantry</label>
+                        <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="Name of Patient" id="">
+                        <label>Quantity</label>
+                        <input type="text" maxlength="50" required placeholder="" id="">
+                        <label>Expiration Date</label>
+                        <input type="text" maxlength="50" required placeholder="" id="">
+                        <label>Date purchased</label>
+                        <input type="text" maxlength="50" required placeholder="" id="">
+                    </p>
+                    <input type="submit" value="add item">
+                </form>
+            </div>
         </div>
-    </section>
-    <section>
-        <h2>section two</h2>
-        <p>
-        <section id="pantry-list">
-        </section>
-
-        <script>
-            const userId = retrieveUserId();
-            fetch(`/Pantry/${userId}`)
-                    .then(response => response.json())
-                .then(pantryItems => {
-                    const pantryList = document.getElementById('pantry-list');
-                    pantryItems.forEach(item => {
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `
-          <strong>Item Name:</strong> ${item.itemName} <br>
-          <strong>Category:</strong> ${item.category} <br>
-          <strong>Expiry Date:</strong> ${item.expiryDate} <br>
-        `;
-                        pantryList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching pantry items:', error));
-        </script>
-        </p>
-    </section>
-    <section>
-        <h2>section three</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section four</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section five</h2>
-        <p>Contents..</p>
+        <button class="collapsible">Delete Items</button>
+        <div class="collapsible-content">
+            <div class="card">
+                <form class="card-content" autocomplete="off" id="">
+                    <p class="form-field">
+                        <label>Delete</label>
+                        <!-- jedis cache for the js rendering -->
+                        <select>
+                            <option value="">thing1</option>
+                            <option value="">thing2</option>
+                            <option value="">thing3</option>
+                            <option value="">thing4</option>
+                            <option value="">thing5</option>
+                        </select>
+                    </p>
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
+        <button class="collapsible">Update Items</button>
+        <div class="collapsible-content">
+            <div class="card">
+                <form class="card-content" autocomplete="off" id="">
+                    <p class="form-field">
+                        <label>Change an item</label>
+                        <input type="text" maxlength="50" required placeholder="" id="">
+                    </p>
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
     </section>
 </main>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    }
+</script>
 </body>
 <footer>
     <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p><a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank" rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>
+    <a href="https://www.flaticon.com/free-icons/next" title="next icons">Next icons created by Roundicons - Flaticon</a>
 </footer>
 </html>
