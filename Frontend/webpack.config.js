@@ -10,6 +10,7 @@ module.exports = {
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
     navbar: path.resolve(__dirname, 'src', 'pages', 'navbar.js'),
+    collapsible: path.resolve(__dirname, 'src', 'pages', 'collapsible.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
