@@ -23,7 +23,6 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script type="text/javascript" src="navbar.js"></script>
-    <script src="dist/login.js"></script>
 </head>
 <body>
 <header class="login">
@@ -54,7 +53,7 @@
             <form class="card-content" autocomplete="off" id="login-form">
                 <p class="form-field">
                     <label>Username:</label>
-                    <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="First and last name" id="username">
+                    <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="username" id="username">
                     <!-- js to prevent dictionary words, patterns -->
                     <label>Password:</label>
                     <input type="password" title="Minimum of 15 unique characters max 128." maxlength="128" pattern="[a-zA-Z0-9]{15,}" required placeholder="password" id="password">
@@ -65,6 +64,7 @@
         </div>
     </section>
 </main>
+<script type="text/javascript" src="dist/login.js"></script>
 </body>
 <footer>
     <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p><a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank" rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>

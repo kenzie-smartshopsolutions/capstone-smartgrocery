@@ -230,6 +230,24 @@ section p, h2 {
     background: #9cc3e4;
 }
 
+.uploadimg {
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: white;
+  border-style: solid;
+  border-color: gray;
+  transition: 1s;
+}
+
+.uploadimg:hover {
+  background-color: gray;
+  color: white;
+}
+
+.form-field input {
+    margin: 5px;
+}
+
 .collapsible {
   display: block;
   margin-right: auto;
@@ -239,7 +257,7 @@ section p, h2 {
   color: black;
   cursor: pointer;
   padding: 18px;
-  width: 50%;
+  width: 64%;
   border: none;
   text-align: left;
   outline: none;
@@ -273,7 +291,6 @@ section p, h2 {
   overflow: hidden;
   transition: max-height 0.5s ease-out;
 }
-*/
 
 .card {
     background-color: white;

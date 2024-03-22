@@ -52,32 +52,29 @@
     </div>
 </header>
 <main>
-    <section class="slant">
-        <div class="slantB">
-            <img src="img/heroImg.webp" width="100%" alt="img1">
+<section>
+    <div class="card" id="result">
+        <h2>Result:</h2>
+        <p id="result-info"></p>
+    </div>
+    <button class="collapsible">Change preferences</button>
+    <div class="collapsible-content">
+        <div class="card">
+            <form class="card-content" autocomplete="off" id="">
+                <p class="form-field">
+                    <button class="uploadimg" type="submit">Upload image</button>
+                    <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="change password" id="">
+                    <input type="text" maxlength="50" required placeholder="change blank" id="">
+                    <input type="text" maxlength="50" required placeholder="change blank" id="">
+                </p>
+                <input type="submit" value="Update settings">
+            </form>
         </div>
-        <div class="slantA">
-            <h2>About</h2>
-            <p>SmartCarter is your one solution to blank</p>
-        </div>
-    </section>
-    <section>
-        <h2>section two</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section three</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section four</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section five</h2>
-        <p>Contents..</p>
-    </section>
+    </div>
+</section>
+<br>
 </main>
+<script type="text/javascript" src="collapsible.js"></script>
 </body>
 <footer>
     <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p><a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank" rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>
