@@ -2,6 +2,7 @@
     resources:
     https://www.w3schools.com
     https://www.youtube.com/@KevinPowell/videos
+    https://stackoverflow.com/questions/62721852/manipulate-a-checkbox-to-have-css-rotate-when-unchecked
 
     assets:
     https://www.pexels.com/
@@ -230,40 +231,49 @@ section p, h2 {
 }
 
 .collapsible {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
   background-color: white;
+  box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   color: black;
   cursor: pointer;
   padding: 18px;
-  width: 100%;
+  width: 50%;
   border: none;
   text-align: left;
   outline: none;
   font-size: 15px;
+  transition: 1s;
 }
 
 .active, .collapsible:hover {
   background-color: #555;
+  color: white;
 }
 
 .collapsible:after {
-  content: '\002B';
+  content: 'v';
+  transform: rotate(-90deg);
   color: black;
   font-weight: bold;
+  font-size: 26px;
   float: right;
   margin-left: 5px;
 }
 
 .active:after {
-  content: "\2212";
+  transform-origin: center center;
+  transform: rotate(0deg);
 }
 
 .collapsible-content {
   padding: 0 18px;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
-  background-color: #f1f1f1;
+  transition: max-height 0.5s ease-out;
 }
+*/
 
 .card {
     background-color: white;
