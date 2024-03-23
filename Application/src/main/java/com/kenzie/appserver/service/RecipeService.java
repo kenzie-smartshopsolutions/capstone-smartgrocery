@@ -1,10 +1,16 @@
 package com.kenzie.appserver.service;
 
+
 import com.kenzie.appserver.controller.RecipeController;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+
+
+//import org.springframework.stereotype.Service;
+//
+//@Service
 
 public class RecipeService {
 

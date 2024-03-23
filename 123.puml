@@ -1,0 +1,579 @@
+@startuml
+class com.kenzie.appserver.controller.UserController {
+- UserService userService
++ <<Create>> UserController(UserService)
++ ResponseEntity<UserRecord> getUserById(String)
++ ResponseEntity<UserRecord> registerUser(UserRecord)
++ ResponseEntity<UserRecord> updateUser(String,UserRecord)
++ ResponseEntity<Void> deleteUser(String)
++ ResponseEntity<UserRecord> loginUser(String,String)
+}
+
+
+class com.kenzie.appserver.controller.model.RecipeResponse {
+- String recipeId
+- String title
+- List<Ingredient> ingredients
+- String instructions
++ String getRecipeId()
++ void setRecipeId(String)
++ String getTitle()
++ void setTitle(String)
++ List<Ingredient> getIngredients()
++ void setIngredients(List<Ingredient>)
++ String getInstructions()
++ void setInstructions(String)
+}
+
+
+class com.kenzie.appserver.controller.PantryController {
+- PantryService pantryService
++ ResponseEntity<List<PantryRecord>> getPantryItems(String)
++ ResponseEntity<PantryRecord> addPantryItem(PantryRecord)
++ ResponseEntity<PantryRecord> updatePantryItem(String,PantryRecord)
++ ResponseEntity<Void> deletePantryItem(String)
+}
+
+
+class com.kenzie.capstone.service.util.DynamoDbClientProvider {
++ {static} AmazonDynamoDB getDynamoDBClient()
++ {static} AmazonDynamoDB getDynamoDBClient(Regions)
+}
+
+class AtaCurriculumDaggerConventionsPlugin {
+- {static} String MIN_SUPPORTED_GRADLE_VERSION
++ void apply(org.gradle.api.internal.project.ProjectInternal)
+- {static} ScriptSource scriptSource(Class<?>)
+- {static} void assertSupportedByCurrentGradleVersion()
+}
+
+
+class AtaCurriculumSnippetsConventionsPlugin {
+- {static} String MIN_SUPPORTED_GRADLE_VERSION
++ void apply(org.gradle.api.internal.project.ProjectInternal)
+- {static} ScriptSource scriptSource(Class<?>)
+- {static} void assertSupportedByCurrentGradleVersion()
+}
+
+
+class com.kenzie.appserver.repositories.model.RecipeRecord {
+- String recipeId
+- String title
+- List<Ingredient> ingredients
+- String instructions
++ String getRecipeId()
++ void setRecipeId(String)
++ String getTitle()
++ void setTitle(String)
++ List<Ingredient> getIngredients()
++ void setIngredients(List<Ingredient>)
++ String getInstructions()
++ void setInstructions(String)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.kenzie.appserver.config.CacheConfig {
+}
+interface com.kenzie.appserver.repositories.RecipeRepository {
+}
+interface com.kenzie.appserver.repositories.PantryRepository {
+~ List<PantryRecord> findByUserId(String)
+}
+
+class com.kenzie.appserver.controller.model.UserCreateRequest {
+}
+class com.kenzie.appserver.service.UserService {
+- UserRepository userRepository
+- LambdaServiceClient lambdaServiceClient
++ <<Create>> UserService(UserRepository,LambdaServiceClient)
++ UserRecord getUserById(String)
++ UserRecord createUser(UserRecord)
++ UserRecord updateUser(UserRecord)
++ void deleteUser(String)
++ UserRecord loginUser(String,String)
+}
+
+
+class com.kenzie.appserver.repositories.model.UserRecord {
+- String userId
+- String userName
+- String email
+- String passwordHash
+- String householdName
++ String getUserId()
++ void setUserId(String)
++ String getUserName()
++ void setUserName(String)
++ String getEmail()
++ void setEmail(String)
++ String getPasswordHash()
++ void setPasswordHash(String)
++ String getHouseholdName()
++ void setHouseholdName(String)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.kenzie.appserver.ApplicationStartUpListener {
++ void onApplicationEvent(ContextRefreshedEvent)
+}
+
+class com.kenzie.appserver.controller.RecipeController {
+}
+class AtaCurriculumIntegrationTestConventionsPlugin {
+- {static} String MIN_SUPPORTED_GRADLE_VERSION
++ void apply(org.gradle.api.internal.project.ProjectInternal)
+- {static} ScriptSource scriptSource(Class<?>)
+- {static} void assertSupportedByCurrentGradleVersion()
+}
+
+
+class com.kenzie.appserver.controller.model.RecipeCreateRequest {
+}
+class com.kenzie.appserver.service.model.User {
+- String userId
+- String userName
+- String email
+- String passwordHash
+- String householdName
++ <<Create>> User(String,String,String,String,String)
++ String getUserId()
++ String getUserName()
++ String getEmail()
++ String getPasswordHash()
++ String getHouseholdName()
+}
+
+
+class com.kenzie.capstone.service.LambdaServiceTest {
+- ExampleDao exampleDao
+- LambdaService lambdaService
+~ void setup()
+~ void setDataTest()
+~ void getDataTest()
+}
+
+
+class com.kenzie.appserver.controller.ExampleController {
+- ExampleService exampleService
+~ <<Create>> ExampleController(ExampleService)
++ ResponseEntity<ExampleResponse> get(String)
++ ResponseEntity<ExampleResponse> addNewExample(ExampleCreateRequest)
+}
+
+
+class com.kenzie.appserver.controller.ExampleControllerTest {
+- MockMvc mvc
+~ ExampleService exampleService
+- MockNeat mockNeat
+- ObjectMapper mapper
++ void getById_Exists()
++ void createExample_CreateSuccessful()
+}
+
+
+class com.kenzie.capstone.service.model.ExampleData {
+- String id
+- String data
++ <<Create>> ExampleData(String,String)
++ <<Create>> ExampleData()
++ String getId()
++ void setId(String)
++ String getData()
++ void setData(String)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.kenzie.appserver.controller.model.UserResponse {
+- String userId
+- String userName
+- String email
+- String passwordHash
+- String householdName
++ String getUserId()
++ void setUserId(String)
++ String getUserName()
++ void setUserName(String)
++ String getEmail()
++ void setEmail(String)
++ String getPasswordHash()
++ void setPasswordHash(String)
++ String getHouseholdName()
++ void setHouseholdName(String)
+}
+
+
+class com.kenzie.capstone.service.client.LambdaServiceClient {
+- {static} String GET_EXAMPLE_ENDPOINT
+- {static} String SET_EXAMPLE_ENDPOINT
+- ObjectMapper mapper
++ <<Create>> LambdaServiceClient()
++ ExampleData getExampleData(String)
++ ExampleData setExampleData(String)
+}
+
+
+class com.kenzie.appserver.Application {
++ {static} void main(String[])
+}
+
+class com.kenzie.capstone.service.dao.ExampleDao {
+- DynamoDBMapper mapper
++ <<Create>> ExampleDao(DynamoDBMapper)
++ ExampleData storeExampleData(ExampleData)
++ List<ExampleRecord> getExampleData(String)
++ ExampleRecord setExampleData(String,String)
+}
+
+
+class com.kenzie.appserver.service.model.Ingredient {
+- String ingredientId
+- String ingredientName
+- double price
+- Date datePriced
+- int quantity
++ <<Create>> Ingredient(String,String,double,Date,int)
++ String getIngredientId()
++ String getIngredientName()
++ double getPrice()
++ Date getDatePriced()
++ int getQuantity()
+}
+
+
+interface com.kenzie.appserver.repositories.IngredientRepository {
+}
+class com.kenzie.appserver.repositories.model.PantryRecord {
+- String pantryItemId
+- String itemName
+- String expiryDate
+- int quantity
+- boolean isExpired
+- Date datePurchased
++ String getPantryItemId()
++ void setPantryItemId(String)
++ String getItemName()
++ void setItemName(String)
++ String getExpiryDate()
++ void setExpiryDate(String)
++ int getQuantity()
++ void setQuantity(int)
++ boolean isExpired()
++ void setExpired(boolean)
++ Date getDatePurchased()
++ void setDatePurchased(Date)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+interface com.kenzie.appserver.repositories.UserRepository {
+}
+class com.kenzie.capstone.service.LambdaService {
+- ExampleDao exampleDao
++ <<Create>> LambdaService(ExampleDao)
++ ExampleData getExampleData(String)
++ ExampleData setExampleData(String)
+}
+
+
+class com.kenzie.appserver.Scheduler {
+}
+class com.kenzie.appserver.service.model.Pantry {
+- String pantryItemId
+- String itemName
+- String expiryDate
+- int quantity
+- boolean isExpired
+- Date datePurchased
++ <<Create>> Pantry(String,String,String,int,boolean,Date)
++ String getPantryItemId()
++ String getItemName()
++ String getExpiryDate()
++ int getQuantity()
++ boolean isExpired()
++ Date getDatePurchased()
+}
+
+
+class com.kenzie.appserver.controller.IngredientController {
+}
+class com.kenzie.capstone.service.client.EnvironmentVariableUtility {
+- {static} String resolveEnvVars(Map<String,String>,String,boolean)
+- {static} Map<String,String> computeEnvVar(Map<String,String>,String,boolean)
++ {static} Map<String,String> getEnvVariablesFromFile(List<String>,String,Map<String,String>,boolean)
++ {static} String getEnvVariableFromFile(List<String>,String,Map<String,String>,String,boolean)
++ {static} String getEnvVarFromSetupEnvironment(String)
+}
+
+class com.kenzie.capstone.service.client.ApiGatewayException {
++ <<Create>> ApiGatewayException(String)
++ <<Create>> ApiGatewayException(String,Exception)
+}
+
+class com.kenzie.appserver.controller.model.ExampleResponse {
+- String id
+- String name
++ String getId()
++ void setId(String)
++ String getName()
++ void setName(String)
+}
+
+
+class com.kenzie.appserver.service.PantryService {
+- PantryRepository pantryRepository
+- LambdaServiceClient lambdaServiceClient
++ <<Create>> PantryService(PantryRepository,LambdaServiceClient)
++ List<PantryRecord> getPantryItems(String)
++ PantryRecord addPantryItem(PantryRecord)
++ PantryRecord updatePantryItem(PantryRecord)
++ void deletePantryItem(String)
+}
+
+
+class com.kenzie.appserver.controller.model.ExampleCreateRequest {
+- String name
++ String getName()
++ void setName(String)
+}
+
+
+interface com.kenzie.appserver.repositories.ExampleRepository {
+}
+class com.kenzie.capstone.service.dependency.ServiceModule {
++ LambdaService provideLambdaService(ExampleDao)
+}
+
+class AtaCurriculumJavaConventionsPlugin {
+- {static} String MIN_SUPPORTED_GRADLE_VERSION
++ void apply(org.gradle.api.internal.project.ProjectInternal)
+- {static} ScriptSource scriptSource(Class<?>)
+- {static} void assertSupportedByCurrentGradleVersion()
+}
+
+
+class com.kenzie.appserver.service.IngredientService {
+}
+class com.kenzie.appserver.config.ExecutorServiceConfig {
++ TaskExecutor executorService()
+}
+
+class com.kenzie.appserver.config.LambdaServiceClientConfiguration {
++ LambdaServiceClient referralServiceClient()
+}
+
+class com.kenzie.appserver.service.model.Example {
+- String id
+- String name
++ <<Create>> Example(String,String)
++ String getId()
++ String getName()
+}
+
+
+class com.kenzie.appserver.controller.BaseController {
++ ResponseEntity getServiceName()
+}
+
+class com.kenzie.capstone.service.lambda.GetExampleData {
+~ {static} Logger log
++ APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent,Context)
+}
+
+
+class com.kenzie.appserver.service.RecipeService {
+}
+class com.kenzie.appserver.service.model.Recipe {
+- String recipeId
+- String title
+- List<Ingredient> ingredients
+- String instructions
++ <<Create>> Recipe(String,String,List<Ingredient>,String)
++ String getRecipeId()
++ String getTitle()
++ List<Ingredient> getIngredients()
++ String getInstructions()
+}
+
+
+class com.kenzie.capstone.service.dependency.DaoModule {
++ DynamoDBMapper provideDynamoDBMapper()
++ ExampleDao provideExampleDao(DynamoDBMapper)
+}
+
+class com.kenzie.appserver.service.ExampleServiceTest {
+- ExampleRepository exampleRepository
+- ExampleService exampleService
+- LambdaServiceClient lambdaServiceClient
+~ void setup()
+~ void findById()
+~ void findByConcertId_invalid()
+}
+
+
+class com.kenzie.appserver.repositories.model.ExampleRecord {
+- String id
+- String name
++ String getId()
++ String getName()
++ void setId(String)
++ void setName(String)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.kenzie.appserver.repositories.model.IngredientRecord {
+- String ingredientId
+- String ingredientName
+- double price
+- Date datePriced
+- int quantity
++ String getIngredientId()
++ void setIngredientId(String)
++ String getIngredientName()
++ void setIngredientName(String)
++ double getPrice()
++ void setPrice(double)
++ Date getDatePriced()
++ void setDatePriced(Date)
++ int getQuantity()
++ void setQuantity(int)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.kenzie.capstone.service.lambda.SetExampleData {
+~ {static} Logger log
++ APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent,Context)
+}
+
+
+class com.kenzie.appserver.config.DynamoDbConfig {
+~ String dynamoOverrideEndpoint
++ AmazonDynamoDB amazonDynamoDB(String)
++ AmazonDynamoDB defaultAmazonDynamoDb()
+}
+
+
+interface com.kenzie.capstone.service.dependency.ServiceComponent {
+~ LambdaService provideLambdaService()
+}
+
+class com.kenzie.appserver.service.ExampleService {
+- ExampleRepository exampleRepository
+- LambdaServiceClient lambdaServiceClient
++ <<Create>> ExampleService(ExampleRepository,LambdaServiceClient)
++ Example findById(String)
++ Example addNewExample(String)
+}
+
+
+class com.kenzie.capstone.service.model.ExampleRecord {
+- String id
+- String data
++ String getId()
++ String getData()
++ void setId(String)
++ void setData(String)
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class com.kenzie.capstone.service.client.EndpointUtility {
+- String apiEndpoint
++ <<Create>> EndpointUtility()
++ {static} String getStackName()
++ {static} String getApiEndpint()
++ String postEndpoint(String,String)
++ String getEndpoint(String)
+}
+
+
+class com.kenzie.appserver.DynamoDbInitializer {
+- {static} GenericContainer<?> dynamoDb
+- {static} GenericContainer<?> getDynamoDbInstance()
++ void initialize(ConfigurableApplicationContext)
+}
+
+class com.kenzie.appserver.controller.PantryController {
++ ResponseEntity<List<PantryRecord>> getPantryItems(String userId)
++ ResponseEntity<PantryRecord> addPantryItem(PantryRecord)
++ ResponseEntity<PantryRecord> updatePantryItem(String id, PantryRecord)
++ ResponseEntity<Void> deletePantryItem(String id)
+}
+
+class com.kenzie.appserver.service.PantryService {
+- PantryRepository pantryRepository
+- LambdaServiceClient lambdaServiceClient
++ <<Create>> PantryService(PantryRepository, LambdaServiceClient)
++ List<PantryRecord> getPantryItems(String userId)
++ PantryRecord addPantryItem(PantryRecord)
++ PantryRecord updatePantryItem(PantryRecord)
++ void deletePantryItem(String id)
++ void sendExpiryNotifications(String userId)
+}
+
+class com.kenzie.appserver.repositories.PantryRepository {
++ List<PantryRecord> findByUserId(String userId)
++ save(PantryRecord)
++ findById(String pantryItemId)
++ delete(PantryRecord)
+}
+
+class com.kenzie.appserver.controller.RecipeController {
++ ResponseEntity<List<RecipeResponse>> getRecipes(String userId)
++ ResponseEntity<RecipeResponse> getRecipeById(String recipeId)
++ ResponseEntity<RecipeResponse> addRecipe(RecipeCreateRequest)
++ ResponseEntity<RecipeResponse> updateRecipe(String recipeId, RecipeCreateRequest)
++ ResponseEntity<Void> deleteRecipe(String recipeId)
+}
+
+class com.kenzie.appserver.service.RecipeService {
+- RecipeRepository recipeRepository
++ <<Create>> RecipeService(RecipeRepository)
++ List<RecipeResponse> getRecipes(String userId)
++ RecipeResponse getRecipeById(String recipeId)
++ RecipeResponse addRecipe(RecipeCreateRequest)
++ RecipeResponse updateRecipe(String recipeId, RecipeCreateRequest)
++ void deleteRecipe(String recipeId)
+}
+
+class com.kenzie.appserver.repositories.RecipeRepository {
++ List<RecipeRecord> findByUserId(String userId)
++ save(RecipeRecord)
++ findById(String recipeId)
++ delete(RecipeRecord)
+}
+
+class com.kenzie.capstone.service.lambda.SendExpiryNotificationsHandler {
++ {static} Logger log
++ APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent, Context)
+}
+
+com.kenzie.appserver.controller.PantryController --> com.kenzie.appserver.service.PantryService
+com.kenzie.appserver.service.PantryService --> com.kenzie.appserver.repositories.PantryRepository
+com.kenzie.appserver.service.PantryService --> com.kenzie.capstone.service.lambda.SendExpiryNotificationsHandler
+
+
+
+Plugin <|.. AtaCurriculumDaggerConventionsPlugin
+Plugin <|.. AtaCurriculumSnippetsConventionsPlugin
+org.springframework.data.repository.CrudRepository <|-- com.kenzie.appserver.repositories.PantryRepository
+Plugin <|.. AtaCurriculumIntegrationTestConventionsPlugin
+org.springframework.data.repository.CrudRepository <|-- com.kenzie.appserver.repositories.UserRepository
+com.amazonaws.AmazonServiceException <|-- com.kenzie.capstone.service.client.ApiGatewayException
+org.springframework.data.repository.CrudRepository <|-- com.kenzie.appserver.repositories.ExampleRepository
+Plugin <|.. AtaCurriculumJavaConventionsPlugin
+com.amazonaws.services.lambda.runtime.RequestHandler <|.. com.kenzie.capstone.service.lambda.GetExampleData
+com.amazonaws.services.lambda.runtime.RequestHandler <|.. com.kenzie.capstone.service.lambda.SetExampleData
+org.springframework.context.ApplicationContextInitializer <|.. com.kenzie.appserver.DynamoDbInitializer
+@enduml
