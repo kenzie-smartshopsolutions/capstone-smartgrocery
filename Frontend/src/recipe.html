@@ -52,25 +52,34 @@
     </div>
 </header>
 <main>
-    <section class="slant">
-        <div class="slantB">
-            <img src="img/heroImg.webp" width="100%" alt="img1">
-        </div>
-        <div class="slantA">
-            <h2>About</h2>
-            <p>SmartCarter is your one solution to blank</p>
-        </div>
-    </section>
     <section>
-        <h2>section two</h2>
-        <p>Contents..</p>
-        <!--
-        not a form but is saved table
-
-        add a button to update pantry from recipe
-        popup did you finish cooking yn
-        popup confirmation
-        -->
+        <div class="card" id="result">
+            <h2>Result:</h2>
+            <p id="result-info"></p>
+        </div>
+        <details>
+            <summary>thing1</summary>
+                <div class="card">
+                    <form class="card-content" autocomplete="off" id="doctor">
+                        <p class="form-field">
+                            <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="Name of Patient" id="Recipe One">
+                            <input type="text" maxlength="50" required placeholder="thing2" id="id">
+                        </p>
+                        <input type="submit" value="Find">
+                    </form>
+                </div>
+        </details>
+        <details>
+            <summary>thing2</summary>
+                <div class="card">
+                    <form class="card-content" autocomplete="off" id="doctorDelete">
+                        <p class="form-field">
+                            <input type="text" maxlength="50" required placeholder="thing3" id="doctorId">
+                        </p>
+                        <input type="submit" value="Delete">
+                    </form>
+                </div>
+        </details>
     </section>
 </main>
 </body>

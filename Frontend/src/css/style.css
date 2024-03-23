@@ -2,6 +2,7 @@
     resources:
     https://www.w3schools.com
     https://www.youtube.com/@KevinPowell/videos
+    https://stackoverflow.com/questions/62721852/manipulate-a-checkbox-to-have-css-rotate-when-unchecked
 
     assets:
     https://www.pexels.com/
@@ -215,23 +216,6 @@ section p, h2 {
     text-align: center;
 }
 
-.slant {
-    margin: 150px 50px 10px 50px;
-    display: grid;
-    grid-template-rows: auto auto;
-    box-shadow:0 10px 20px 0 rgba(0, 0, 0, 0.9), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.slantA {
-    background-color: black;
-    color: white;
-    padding: 20px;
-}
-
-.slantB {
-    background-color: black;
-}
-
 .button, button {
     background: #aed9ff;
     padding: 3px;
@@ -246,11 +230,67 @@ section p, h2 {
     background: #9cc3e4;
 }
 
+.uploadimg {
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: white;
+  border-style: solid;
+  border-color: gray;
+  transition: 1s;
+}
+
+.uploadimg:hover {
+  background-color: gray;
+  color: white;
+}
+
+.form-field input {
+    margin: 5px;
+}
+
+details {
+  width: 64%;
+  margin: 0 auto ;
+  background: none;
+  margin-bottom: .5rem;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+summary {
+  padding: 1rem;
+  display: block;
+  background: #333;
+  padding-left: 2.2rem;
+  position: relative;
+  cursor: pointer;
+  color: white;
+}
+
+summary:before {
+  content: '';
+  border-width: .4rem;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  top: 1.3rem;
+  left: 1rem;
+  transform: rotate(0);
+  transform-origin: .2rem 50%;
+  transition: .25s transform ease;
+}
+
+details[open] > summary:before {
+  transform: rotate(90deg);
+}
+
+details summary::-webkit-details-marker {
+  display:none;
+}
+
 .card {
     background-color: white;
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin: 20px;
-    padding: 10px 20px;
     border-radius: 10px;
 }
 

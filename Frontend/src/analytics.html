@@ -55,31 +55,24 @@
     </div>
 </header>
 <main>
-    <section class="slant">
-        <div class="slantB">
-            <img src="img/heroImg.webp" width="100%" alt="img1">
+    <section>
+        <div class="card" id="result">
+            <h2>Result:</h2>
+            <p id="result-info"></p>
         </div>
-        <div class="slantA">
-            <h2>About</h2>
-            <p>SmartCarter is your one solution to blank</p>
-        </div>
-    </section>
-    <section>
-        <h2>section two</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section three</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section four</h2>
-        <p>Contents..</p>
-    </section>
-    <section>
-        <h2>section five</h2>
-        <p>Contents..</p>
-    </section>
+        <details>
+            <summary>View Analytics</summary>
+            <div class="card">
+                <form class="card-content" autocomplete="off" id="">
+                    <p class="form-field">
+                        <label>Name of thing</label>
+                        <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="Name of thing" id="">
+                    </p>
+                    <input type="submit" value="Fetch">
+                </form>
+            </div>
+        </details>
+        <br>
 </main>
 </body>
 <footer>
