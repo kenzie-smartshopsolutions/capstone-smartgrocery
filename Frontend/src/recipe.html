@@ -53,35 +53,33 @@
 </header>
 <main>
     <section>
-        <h2>section two</h2>
-        <p>Contents..</p>
-        <div class="card">
-            <h2></h2>
-            <form class="card-content" autocomplete="off" id="doctor">
-                <p class="form-field">
-                    <label>Recipe One</label>
-                    <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="Name of Patient" id="patientName">
-                    <label>ID</label>
-                    <input type="text" maxlength="50" required placeholder="Patient's Id" id="id">
-                </p>
-                <input type="submit" value="Find">
-            </form>
-        </div>
-        <div class="card">
-            <h2></h2>
-            <form class="card-content" autocomplete="off" id="doctorDelete">
-                <p class="form-field">
-                    <label>ID</label>
-                    <input type="text" maxlength="50" required placeholder="Id to delete" id="doctorId">
-                </p>
-                <input type="submit" value="Delete">
-            </form>
-        </div>
         <div class="card" id="result">
             <h2>Result:</h2>
             <p id="result-info"></p>
         </div>
-
+        <details>
+            <summary>thing1</summary>
+                <div class="card">
+                    <form class="card-content" autocomplete="off" id="doctor">
+                        <p class="form-field">
+                            <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="Name of Patient" id="Recipe One">
+                            <input type="text" maxlength="50" required placeholder="thing2" id="id">
+                        </p>
+                        <input type="submit" value="Find">
+                    </form>
+                </div>
+        </details>
+        <details>
+            <summary>thing2</summary>
+                <div class="card">
+                    <form class="card-content" autocomplete="off" id="doctorDelete">
+                        <p class="form-field">
+                            <input type="text" maxlength="50" required placeholder="thing3" id="doctorId">
+                        </p>
+                        <input type="submit" value="Delete">
+                    </form>
+                </div>
+        </details>
     </section>
 </main>
 </body>
