@@ -3,6 +3,7 @@
     https://www.w3schools.com
     https://www.youtube.com/@KevinPowell/videos
     https://stackoverflow.com/questions/62721852/manipulate-a-checkbox-to-have-css-rotate-when-unchecked
+    https://css-tricks.com/how-to-animate-the-details-element/
 
     assets:
     https://www.pexels.com/
@@ -318,6 +319,20 @@ label {
 .card-content .form-field {
     display: flex;
     flex-direction: column;
+}
+
+.align-login {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+}
+
+.align-login img {
+  width: 60px;
+}
+
+.align-login-submit {
+  margin-left: 68px;
 }
 
 #concert-list li {

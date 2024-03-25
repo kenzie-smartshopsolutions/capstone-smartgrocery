@@ -51,14 +51,14 @@
         <div class="card">
             <h2>Login</h2>
             <form class="card-content" autocomplete="off" id="login-form">
-                <p class="form-field">
-                    <label>Username:</label>
+                <p class="align-login">
+                    <img src="img/user.png">
                     <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="username" id="username">
                     <!-- js to prevent dictionary words, patterns -->
-                    <label>Password:</label>
+                    <img src="img/locked.png">
                     <input type="password" title="Minimum of 15 unique characters max 128." maxlength="128" pattern="[a-zA-Z0-9]{15,}" required placeholder="password" id="password">
                 </p>
-                <input type="submit" value="Login">
+                <input class="align-login-submit" type="submit" value="Login">
                 <!-- <button type="submit">Login</button> -->
             </form>
         </div>
@@ -67,6 +67,13 @@
 <script type="text/javascript" src="dist/login.js"></script>
 </body>
 <footer>
-    <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p><a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank" rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>
+    <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p>
+    <p>
+        <a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank" rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>
+        <br>
+        <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Uniconlabs - Flaticon</a>
+        <br>
+        <a href="https://www.flaticon.com/free-icons/padlock" title="padlock icons">Padlock icons created by Uniconlabs - Flaticon</a>
+    </p>
 </footer>
 </html>
