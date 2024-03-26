@@ -1,5 +1,7 @@
 package com.kenzie.appserver.service.model;
 
+import com.kenzie.appserver.repositories.model.PantryRecord;
+
 import java.util.List;
 
 public class Recipe {
@@ -10,11 +12,11 @@ instructions (String)
 */
     private final String recipeId;
     private final String title;
-    private final List<Ingredient> ingredients;
+    private final List<PantryRecord> ingredients;
     private final String instructions;
 
 
-    public Recipe(String recipeId, String title, List<Ingredient> ingredients, String instructions) {
+    public Recipe(String recipeId, String title, List<PantryRecord> ingredients, String instructions) {
         this.recipeId = recipeId;
         this.title = title;
         this.ingredients = ingredients;
@@ -30,7 +32,7 @@ instructions (String)
         return title;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<PantryRecord> getIngredients() {
         return ingredients;
     }
 
