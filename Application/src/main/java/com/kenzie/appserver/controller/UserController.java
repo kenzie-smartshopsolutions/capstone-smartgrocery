@@ -82,6 +82,8 @@ public class UserController {
         }
     }
 
+    //for appropriate authentication and security measures
+    //handles the process of validating user credentials and managing account lockout due to multiple failed login attempts
     // Log in a user
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {

@@ -10,7 +10,7 @@ import java.util.Objects;
 public class RecipeRecord {
     private  String recipeId;
     private  String title;
-    private  List<Ingredient> ingredients;
+   // private  List<Ingredient> ingredients;
     private  String instructions;
     @DynamoDBHashKey(attributeName = "RecipeId")
     public String getRecipeId() {
@@ -28,14 +28,14 @@ public class RecipeRecord {
     public void setTitle(String title) {
         this.title = title;
     }
-    @DynamoDBAttribute(attributeName = "Ingredients")
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
+  //  @DynamoDBAttribute(attributeName = "Ingredients")
+   // public List<Ingredient> getIngredients() {
+       // return ingredients;
+   // }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
+   // public void setIngredients(List<Ingredient> ingredients) {
+       // this.ingredients = ingredients;
+   // }
     @DynamoDBAttribute(attributeName = "Instructions")
     public String getInstructions() {
         return instructions;

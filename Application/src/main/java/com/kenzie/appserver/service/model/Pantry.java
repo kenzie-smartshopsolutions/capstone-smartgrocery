@@ -23,7 +23,7 @@ category(String)
 
     public final String category;
 
-    private final Date dateUsed;
+   // private final Date dateUsed;
 
 
 
@@ -36,7 +36,7 @@ category(String)
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
-        this.dateUsed = dateUsed;
+       // this.dateUsed = dateUsed;
     }
 
     public String getPantryItemId() {
@@ -63,11 +63,11 @@ category(String)
         return datePurchased;
     }
 
-    public String getCategory() {
-        return category;
-    }
+   // public String getCategory() {
+     //   return category;
+   // }
 
-    public Date getDateUsed() {
-        return dateUsed;
-    }
+   // public Date getDateUsed() {
+     //   return dateUsed;
+    //}
 }
