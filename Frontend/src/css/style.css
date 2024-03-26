@@ -62,15 +62,6 @@ main {
     position: relative;
 }
 
-.login {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
-    height: 70%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-}
-
 .pantry {
     background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/pantry.webp");
     height: 70%;
@@ -100,6 +91,15 @@ main {
 
 .shared {
     background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/shared.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.register {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -189,13 +189,13 @@ nav a:focus {
     margin-right: 1.5em;
 }
 
-span {
+.nav-menu span {
     font-size: 30px;
     color: white;
     transition: 1s;
 }
 
-span:hover {
+.nav-menu span:hover {
     border-radius: 4px;
     background: gray;
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -321,19 +321,156 @@ label {
     flex-direction: column;
 }
 
-.align-login {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 10px;
+.login-button {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.0);
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 2px 2px black;
+    transition: 1s;
 }
 
-.align-login img {
-  width: 60px;
+.login-button:hover {
+    color: black;
+    text-shadow: 2px 2px white;
+    background-color: rgba(0, 0, 0, 0.0);
+}
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
-.align-login-submit {
-  margin-left: 68px;
+/* Set a style for all buttons */
+.login-popup-button {
+  background-color: DodgerBlue;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
 }
+
+.login-popup-button:hover {
+  opacity: 0.8;
+  color: black;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+.psw a {
+    color: white;
+    background-color: DodgerBlue;
+    border-radius: 3px;
+    padding: 5px;
+    text-shadow: none;
+    text-decoration: none;
+}
+
+.psw a:hover {
+  opacity: 0.8;
+  color: black;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  border-radius: 5px;
+  width: 40%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)}
+  to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+/*@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}*/
 
 #concert-list li {
     margin-bottom: 1rem;
@@ -423,7 +560,7 @@ tr:hover {
         grid-template-columns: 2fr 1fr;
     }
 
-    span {
+    .nav-menu span {
         display: none;
     }
 }
