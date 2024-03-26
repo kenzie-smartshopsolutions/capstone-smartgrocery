@@ -42,25 +42,19 @@
 </header>
 <main>
     <section>
-        <div>
-            <h2>Register</h2>
-            <form id="registration-form">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <p></p>
+        <div class="card">
+            <form class="card-content" id="registration-form">
+                <p class="form-field">
+                    <input type="email" id="email" name="email" required placeholder="email">
+                    <input type="text" id="username" name="username" required placeholder="username">
+                    <input type="password" id="password" name="password" required placeholder="password">
+                </p>
 
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                <p></p>
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <p></p>
-                <button type="submit">Register</button>
+                <!-- <button type="submit">Register</button> -->
+                <input type="submit" value="Register">
             </form>
-
-            <script src="registration.js"></script>
         </div>
+        <script src="registration.js"></script>
     </section>
 </main>
 </body>
