@@ -1,7 +1,6 @@
 package com.kenzie.appserver.service.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class Pantry {
     /*pantryItemId (String)
@@ -10,6 +9,8 @@ quantity (int)
 expiryDate (String)
 datePurchased (Date/time)
 isExpired (boolean
+dateUsed(Date/time)
+category(String)
 */
 
     private final String pantryItemId;
@@ -20,14 +21,22 @@ isExpired (boolean
     private final boolean isExpired;
     private final Date datePurchased;
 
+    public final String category;
 
-    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased) {
+    private final Date dateUsed;
+
+
+
+
+    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, Date dateUsed) {
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
+        this.category = category;
+        this.dateUsed = dateUsed;
     }
 
     public String getPantryItemId() {
@@ -52,5 +61,13 @@ isExpired (boolean
 
     public Date getDatePurchased() {
         return datePurchased;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public Date getDateUsed() {
+        return dateUsed;
     }
 }

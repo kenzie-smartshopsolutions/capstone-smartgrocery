@@ -12,8 +12,13 @@ import java.util.List;
 @RequestMapping("Pantry")
 public class PantryController {
 
-    @Autowired
+
     private PantryService pantryService;
+
+    @Autowired
+    public PantryController(PantryService pantryService) {
+        this.pantryService = pantryService;
+    }
 
     // Get pantry items for a user
     @GetMapping("/{userId}")
@@ -23,14 +28,16 @@ public class PantryController {
 //            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 //        }
         List<PantryRecord> pantryItems = pantryService.getPantryItems(userId);
-        return new ResponseEntity<>(pantryItems, HttpStatus.OK);
+        // return new ResponseEntity<>(pantryItems, HttpStatus.OK);
+        return ResponseEntity.ok(pantryItems);
     }
 
     // Add a new pantry item
     @PostMapping
     public ResponseEntity<PantryRecord> addPantryItem(@RequestBody PantryRecord pantryRecord) {
         PantryRecord addedItem = pantryService.addPantryItem(pantryRecord);
-        return new ResponseEntity<>(addedItem, HttpStatus.CREATED);
+        // return new ResponseEntity<>(addedItem, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedItem);
     }
 
     // Update an existing pantry item
@@ -38,12 +45,16 @@ public class PantryController {
     @PutMapping("/{pantryItemId}")
     public ResponseEntity<PantryRecord> updatePantryItem(
             @PathVariable String pantryItemId, @RequestBody PantryRecord pantryRecord) {
-        if (pantryService.getPantryItems(pantryItemId) != null) {
-            pantryRecord.setPantryItemId(pantryItemId);
-            PantryRecord updatedItem = pantryService.updatePantryItem(pantryRecord);
-            return new ResponseEntity<>(updatedItem, HttpStatus.OK);
+        // Call the service layer to update the pantry item
+        PantryRecord updatedItem = pantryService.updatePantryItem(pantryItemId, pantryRecord);
+
+        // Check if the item was successfully updated
+        if (updatedItem != null) {
+            // Return a success response with the updated pantry item
+            return ResponseEntity.ok(updatedItem);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            // Return a not found response if the pantry item with the given ID was not found
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -51,11 +62,7 @@ public class PantryController {
     //????
     @DeleteMapping("/{pantryItemId}")
     public ResponseEntity<Void> deletePantryItem(@PathVariable String pantryItemId) {
-        if (pantryService.getPantryItems(pantryItemId) != null) {
-            pantryService.deletePantryItem(pantryItemId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        pantryService.deletePantryItem(pantryItemId);
+        return ResponseEntity.noContent().build();
     }
 }

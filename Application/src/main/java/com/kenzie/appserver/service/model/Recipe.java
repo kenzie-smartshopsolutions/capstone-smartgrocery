@@ -10,14 +10,14 @@ instructions (String)
 */
     private final String recipeId;
     private final String title;
-    private final List<Ingredient> ingredients;
+   // private final List<Ingredient> ingredients;
     private final String instructions;
 
 
-    public Recipe(String recipeId, String title, List<Ingredient> ingredients, String instructions) {
+    public Recipe(String recipeId, String title, String instructions) {
         this.recipeId = recipeId;
         this.title = title;
-        this.ingredients = ingredients;
+       // this.ingredients = ingredients;
         this.instructions = instructions;
     }
 
@@ -30,9 +30,9 @@ instructions (String)
         return title;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
+   // public List<Ingredient> getIngredients() {  return ingredients;}
+
+
 
     public String getInstructions() {
         return instructions;
