@@ -10,13 +10,12 @@ import java.util.Objects;
 public class RecipeRecord {
     private  String recipeId;
     private  String title;
-   // private  List<Ingredient> ingredients;
+    private  List<PantryRecord> ingredients;
     private  String instructions;
     @DynamoDBHashKey(attributeName = "RecipeId")
     public String getRecipeId() {
         return recipeId;
     }
-
     public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
     }
@@ -24,18 +23,18 @@ public class RecipeRecord {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-  //  @DynamoDBAttribute(attributeName = "Ingredients")
-   // public List<Ingredient> getIngredients() {
-       // return ingredients;
-   // }
+    @DynamoDBAttribute(attributeName = "Ingredients")
+    public List<PantryRecord> getIngredients() {
+        return ingredients;
+    }
 
-   // public void setIngredients(List<Ingredient> ingredients) {
-       // this.ingredients = ingredients;
-   // }
+    public void setIngredients(List<PantryRecord> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     @DynamoDBAttribute(attributeName = "Instructions")
     public String getInstructions() {
         return instructions;
@@ -52,7 +51,6 @@ public class RecipeRecord {
         RecipeRecord that = (RecipeRecord) o;
         return Objects.equals(recipeId, that.recipeId);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(recipeId);

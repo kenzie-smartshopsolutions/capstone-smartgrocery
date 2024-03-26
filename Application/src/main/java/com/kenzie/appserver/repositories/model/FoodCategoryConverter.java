@@ -3,11 +3,15 @@ package com.kenzie.appserver.repositories.model;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
+@Service
 public class FoodCategoryConverter {
     public static Map<String, String> convertCsvToCategoryMap() throws IOException {
         File file = new File("com/kenzie/appserver/repositories/model/food_category.csv");
@@ -28,5 +32,16 @@ public class FoodCategoryConverter {
             }
         }
         return foodCategories;
+    }
+    /**
+     * This method should return a map of category id to category description.
+     * The map should be populated from the food_category.csv file.
+     * @Cacheable annotation tells Spring to cache the result of getAllCategoriesWithDescriptions()
+     * for Frontend
+     */
+    @Cacheable("category")
+    public Map<String, String> getAllCategoriesWithDescriptions() {
+        // Method implementation that loads categories from CSV or other source
+        return null;
     }
 }
