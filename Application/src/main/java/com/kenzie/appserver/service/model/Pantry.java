@@ -1,7 +1,6 @@
 package com.kenzie.appserver.service.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class Pantry {
     /*pantryItemId (String)

@@ -48,7 +48,7 @@ dependencies {
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    // Jackson Dataformat CSV
+    // Jackson Dataformat CSV for conversion
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.1'
 
     // Spring Security's bcrypt and config + dynamoDB
@@ -56,6 +56,9 @@ dependencies {
     implementation 'software.amazon.awssdk:dynamodb:2.17.131'
     implementation 'org.springframework.security:spring-security-crypto:5.6.3'
     implementation 'org.springframework.security:spring-security-core:5.6.3'
+
+    //cloudinary for profile images
+    implementation 'com.cloudinary:cloudinary-http44:1.34.0'
 }
 
 processResources {
