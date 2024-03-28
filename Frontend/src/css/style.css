@@ -256,6 +256,7 @@ details {
   margin-bottom: .5rem;
   border-radius: 5px;
   overflow: hidden;
+  box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 summary {
@@ -289,10 +290,20 @@ details summary::-webkit-details-marker {
   display:none;
 }
 
+#result {
+    background-color: white;
+    margin: 10px 100px 10px 100px;
+    padding: 20px 20px;
+    border-radius: 5px;
+    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .card {
     background-color: white;
-    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 10px;
+    margin: 0px 0px 0px 0px;
+    padding: 20px 20px;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: none;
 }
 
 input:invalid:not(:placeholder-shown):not([type="date"]) {
@@ -535,11 +546,11 @@ tr:hover {
         text-align: left;
     }
 
-    .card {
+    #result {
         background-color: white;
         margin: 20px 200px 20px 200px;
         padding: 20px 20px;
-        border-radius: 10px;
+        border-radius: 5px;
         box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
