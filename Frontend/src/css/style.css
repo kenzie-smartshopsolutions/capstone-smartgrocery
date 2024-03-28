@@ -379,11 +379,11 @@ input[type=text], input[type=password], input[type=email] {
 
 img.avatar {
   width: 40%;
-  border-radius: 50%;
 }
 
 .container {
   padding: 16px;
+  border-radius: 10px;
 }
 
 .psw {
@@ -409,9 +409,9 @@ img.avatar {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 3; /* Sit on top */
   left: 0;
-  top: 0;
+  top: 0px;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -423,10 +423,10 @@ img.avatar {
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 15% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
   border-radius: 5px;
-  width: 40%; /* Could be more or less, depending on screen size */
+  width: 70%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button (x) */
@@ -460,17 +460,6 @@ img.avatar {
   from {transform: scale(0)}
   to {transform: scale(1)}
 }
-
-/* Change styles for span and cancel button on extra small screens */
-/*@media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
-  }
-  .cancelbtn {
-     width: 100%;
-  }
-}*/
 
 #concert-list li {
     margin-bottom: 1rem;
@@ -526,7 +515,7 @@ tr:hover {
 }
 
 /* mobile first viewport */
-@media (min-width: 50em) {
+@media (min-width: 55em) {
     nav {
         top: 30px;
         background: none;
@@ -562,5 +551,9 @@ tr:hover {
 
     .nav-menu span {
         display: none;
+    }
+
+    .modal-content {
+      width: 40%;
     }
 }
