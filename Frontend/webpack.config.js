@@ -10,8 +10,9 @@ module.exports = {
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
     navbar: path.resolve(__dirname, 'src', 'pages', 'navbar.js'),
-    login: path.resolve(__dirname, 'src', 'pages', 'login.js'),
+    //login: path.resolve(__dirname, 'src', 'pages', 'login.js'),
     //uploadPhoto: path.resolve(__dirname, 'src', 'pages', 'uploadPhoto.js'),
+    loginPopup: path.resolve(__dirname, 'src', 'pages', 'loginPopup.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -43,11 +44,6 @@ module.exports = {
       inject: false
     }),
     new HtmlWebpackPlugin({
-      template: './src/login.html',
-      filename: 'login.html',
-      inject: false
-    }),
-    new HtmlWebpackPlugin({
       template: './src/pantry.html',
       filename: 'pantry.html',
       inject: false
@@ -65,6 +61,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/shared.html',
       filename: 'shared.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/registration.html',
+      filename: 'registration.html',
       inject: false
     }),
     new CopyPlugin({

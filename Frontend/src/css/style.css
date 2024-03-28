@@ -3,6 +3,7 @@
     https://www.w3schools.com
     https://www.youtube.com/@KevinPowell/videos
     https://stackoverflow.com/questions/62721852/manipulate-a-checkbox-to-have-css-rotate-when-unchecked
+    https://css-tricks.com/how-to-animate-the-details-element/
 
     assets:
     https://www.pexels.com/
@@ -61,15 +62,6 @@ main {
     position: relative;
 }
 
-.login {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
-    height: 70%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-}
-
 .pantry {
     background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/pantry.webp");
     height: 70%;
@@ -99,6 +91,15 @@ main {
 
 .shared {
     background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/shared.webp");
+    height: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.register {
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -188,13 +189,13 @@ nav a:focus {
     margin-right: 1.5em;
 }
 
-span {
+.nav-menu span {
     font-size: 30px;
     color: white;
     transition: 1s;
 }
 
-span:hover {
+.nav-menu span:hover {
     border-radius: 4px;
     background: gray;
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -255,6 +256,7 @@ details {
   margin-bottom: .5rem;
   border-radius: 5px;
   overflow: hidden;
+  box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 summary {
@@ -288,10 +290,20 @@ details summary::-webkit-details-marker {
   display:none;
 }
 
+#result {
+    background-color: white;
+    margin: 10px 100px 10px 100px;
+    padding: 20px 20px;
+    border-radius: 5px;
+    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .card {
     background-color: white;
-    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 10px;
+    margin: 0px 0px 0px 0px;
+    padding: 20px 20px;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: none;
 }
 
 input:invalid:not(:placeholder-shown):not([type="date"]) {
@@ -318,6 +330,146 @@ label {
 .card-content .form-field {
     display: flex;
     flex-direction: column;
+}
+
+.login-button {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.0);
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 2px 2px black;
+    transition: 1s;
+}
+
+.login-button:hover {
+    color: black;
+    text-shadow: 2px 2px white;
+    background-color: rgba(0, 0, 0, 0.0);
+}
+/* Full-width input fields */
+input[type=text], input[type=password], input[type=email] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+.login-popup-button {
+  background-color: DodgerBlue;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-popup-button:hover {
+  opacity: 0.8;
+  color: black;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+}
+
+.container {
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+.psw a {
+    color: white;
+    background-color: DodgerBlue;
+    border-radius: 3px;
+    padding: 5px;
+    text-shadow: none;
+    text-decoration: none;
+}
+
+.psw a:hover {
+  opacity: 0.8;
+  color: black;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 3; /* Sit on top */
+  left: 0;
+  top: 0px;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  border-radius: 5px;
+  width: 70%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)}
+  to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
 }
 
 #concert-list li {
@@ -374,7 +526,7 @@ tr:hover {
 }
 
 /* mobile first viewport */
-@media (min-width: 50em) {
+@media (min-width: 55em) {
     nav {
         top: 30px;
         background: none;
@@ -394,11 +546,11 @@ tr:hover {
         text-align: left;
     }
 
-    .card {
+    #result {
         background-color: white;
         margin: 20px 200px 20px 200px;
         padding: 20px 20px;
-        border-radius: 10px;
+        border-radius: 5px;
         box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
@@ -408,7 +560,11 @@ tr:hover {
         grid-template-columns: 2fr 1fr;
     }
 
-    span {
+    .nav-menu span {
         display: none;
+    }
+
+    .modal-content {
+      width: 40%;
     }
 }
