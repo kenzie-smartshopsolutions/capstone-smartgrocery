@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+//@Repository
 @EnableScan
 public interface PantryRepository extends CrudRepository<PantryRecord, String> {
     List<PantryRecord> findByUserId(String userId);

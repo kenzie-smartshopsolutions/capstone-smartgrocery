@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -35,22 +36,21 @@ public class PantryRecord {
         this.datePurchased = datePurchased;
 
     }
-    @DynamoDBHashKey(attributeName = "UserId")
     public String getUserId() {
         return userId;
     }
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    @DynamoDBRangeKey(attributeName = "ItemId")
+    @Id
+    @DynamoDBHashKey(attributeName = "pantryItemId")
     public String getPantryItemId() {
         return pantryItemId;
     }
-
     public void setPantryItemId(String pantryItemId) {
         this.pantryItemId = pantryItemId;
     }
-    @DynamoDBAttribute(attributeName = "ItemName")
+    @DynamoDBAttribute(attributeName = "itemName")
     public String getItemName() {
         return itemName;
     }
@@ -58,7 +58,7 @@ public class PantryRecord {
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
-    @DynamoDBAttribute(attributeName = "ExpiryDate")
+    @DynamoDBAttribute(attributeName = "expiryDate")
     public String getExpiryDate() {
         return expiryDate;
     }
@@ -66,7 +66,7 @@ public class PantryRecord {
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
-    @DynamoDBAttribute(attributeName = "Quantity")
+    @DynamoDBAttribute(attributeName = "quantity")
     public int getQuantity() {
         return quantity;
     }
@@ -74,7 +74,7 @@ public class PantryRecord {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    @DynamoDBAttribute(attributeName = "Expired")
+    @DynamoDBAttribute(attributeName = "expired")
     public boolean isExpired() {
         return isExpired;
     }
@@ -82,7 +82,7 @@ public class PantryRecord {
     public void setExpired(boolean expired) {
         isExpired = expired;
     }
-    @DynamoDBAttribute(attributeName = "DatePurchased")
+    @DynamoDBAttribute(attributeName = "datePurchased")
     public Date getDatePurchased() {
         return datePurchased;
     }
