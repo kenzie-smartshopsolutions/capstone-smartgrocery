@@ -10,14 +10,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private UserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Autowired
     public SecurityConfig(UserService userService, BCryptPasswordEncoder passwordEncoder) {
         this.userService = userService;
@@ -31,15 +38,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Restrict endpoints (e.g., /user/* ) as needed based on your requirements.
-        http.authorizeRequests()
-                .antMatchers("/user/**").authenticated()
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .and()
-                .httpBasic();
+        http
+//                .cors()
+//                    .and()
+                .csrf()
+                    .disable()
+//                .exceptionHandling()
+//                    .and()
+//                .sessionManagement()
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                    .and()
+                .authorizeRequests()
+
+                        /** Allows unauthenticated access to Swagger UI
+                         FOR TESTING ONLY - PLEASE COMMENT OUT WHEN LIVE **/
+                        .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                    .antMatchers("User/login", "User").permitAll()
+                    .anyRequest().authenticated();
+
+        // Add JWT token filter
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

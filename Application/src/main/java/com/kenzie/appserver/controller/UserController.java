@@ -1,5 +1,6 @@
 package com.kenzie.appserver.controller;
 
+import com.kenzie.appserver.config.JwtTokenProvider;
 import com.kenzie.appserver.controller.model.user.UserRequest;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.UserService;
@@ -25,8 +26,11 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     // Get user by ID
-    @GetMapping("/{userId}")
+    @GetMapping("/userId/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable String userId) {
         UserRecord userRecord = userService.getUserById(userId);
 
@@ -39,7 +43,7 @@ public class UserController {
     }
 
     // Register a new user
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<User> registerUser(@RequestBody User userDTO) {
         UserRecord createdUser = userService.createUser(userDTO);
         User responseDTO = userService.convertToDto(createdUser);
@@ -47,7 +51,7 @@ public class UserController {
     }
 
     // Update an existing user
-    @PutMapping("/{userId}")
+    @PutMapping("/userId//{userId}")
     public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody User userDto) {
         if (userService.getUserById(userId) != null) {
             UserRecord userRecord = userService.convertFromDto(userDto);
@@ -61,7 +65,7 @@ public class UserController {
     }
 
     // Delete a user by ID
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/userId//{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
         if (userService.getUserById(userId) != null) {
             userService.deleteUser(userId);
@@ -82,7 +86,9 @@ public class UserController {
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            // TODO: Implement JWT token creation here and include it in the response
+
+            // Generates JWT token & responses
+            String jwt = tokenProvider.generateToken(authentication);
             return ResponseEntity.ok().body("User logged in successfully.");
         } catch (LockedException e) {
             return ResponseEntity
