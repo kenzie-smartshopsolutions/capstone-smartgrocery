@@ -3,7 +3,7 @@
 //import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 //import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 //import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-//import com.kenzie.appserver.service.model.Ingredient;
+////import com.kenzie.appserver.service.model.Ingredient;
 //
 //import java.util.List;
 //import java.util.Objects;
@@ -11,7 +11,7 @@
 //public class RecipeRecord {
 //    private  String recipeId;
 //    private  String title;
-//    private  List<Ingredient> ingredients;
+//    //private  List<Ingredient> ingredients;
 //    private  String instructions;
 //    @DynamoDBHashKey(attributeName = "RecipeId")
 //    public String getRecipeId() {
@@ -29,14 +29,14 @@
 //    public void setTitle(String title) {
 //        this.title = title;
 //    }
-//    @DynamoDBAttribute(attributeName = "Ingredients")
-//    public List<Ingredient> getIngredients() {
-//        return ingredients;
-//    }
-//
-//    public void setIngredients(List<Ingredient> ingredients) {
-//        this.ingredients = ingredients;
-//    }
+////    @DynamoDBAttribute(attributeName = "Ingredients")
+////    public List<Ingredient> getIngredients() {
+////        return ingredients;
+////    }
+////
+////    public void setIngredients(List<Ingredient> ingredients) {
+////        this.ingredients = ingredients;
+////    }
 //    @DynamoDBAttribute(attributeName = "Instructions")
 //    public String getInstructions() {
 //        return instructions;
