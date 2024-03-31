@@ -30,7 +30,7 @@ public class UserController {
     private JwtTokenProvider tokenProvider;
 
     // Get user by ID
-    @GetMapping("/userId/{userId}")
+    @GetMapping("/register/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable String userId) {
         UserRecord userRecord = userService.getUserById(userId);
 
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     // Register a new user
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User userDTO) {
         UserRecord createdUser = userService.createUser(userDTO);
         User responseDTO = userService.convertToDto(createdUser);
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     // Update an existing user
-    @PutMapping("/userId//{userId}")
+    @PutMapping("/register/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody User userDto) {
         if (userService.getUserById(userId) != null) {
             UserRecord userRecord = userService.convertFromDto(userDto);
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     // Delete a user by ID
-    @DeleteMapping("/userId//{userId}")
+    @DeleteMapping("/register/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
         if (userService.getUserById(userId) != null) {
             userService.deleteUser(userId);
@@ -89,7 +89,7 @@ public class UserController {
 
             // Generates JWT token & responses
             String jwt = tokenProvider.generateToken(authentication);
-            return ResponseEntity.ok().body("User logged in successfully.");
+            return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
         } catch (LockedException e) {
             return ResponseEntity
                     .status(HttpStatus.LOCKED)

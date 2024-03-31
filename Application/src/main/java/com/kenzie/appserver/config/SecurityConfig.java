@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -39,22 +40,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .cors()
-//                    .and()
+                .cors()
+                    .and()
                 .csrf()
+                    .ignoringAntMatchers("/User/register")
                     .disable()
-//                .exceptionHandling()
-//                    .and()
-//                .sessionManagement()
-//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                    .and()
+                .exceptionHandling()
+                    .and()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
                 .authorizeRequests()
 
                         /** Allows unauthenticated access to Swagger UI
                          FOR TESTING ONLY - PLEASE COMMENT OUT WHEN LIVE **/
                         .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
-                    .antMatchers("User/login", "User").permitAll()
+                    .antMatchers("/User/login", "/User/register").permitAll()
                     .anyRequest().authenticated();
 
         // Add JWT token filter

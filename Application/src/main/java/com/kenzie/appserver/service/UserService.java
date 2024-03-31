@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -40,7 +41,13 @@ public class UserService implements UserDetailsService {
     // Create a new user
     public UserRecord createUser(User userDto) {
         UserRecord userRecord = convertFromDto(userDto);
-        userRecord.setPassword(passwordEncoder.encode(userDto.getPasswordHash()));
+
+        // Check if userId is not provided and generate a new one
+        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
+            userRecord.setUserId(UUID.randomUUID().toString());
+        }
+
+        userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         UserRecord savedUser = userRepository.save(userRecord);
 
@@ -56,7 +63,7 @@ public class UserService implements UserDetailsService {
         UserRecord userRecord = new UserRecord();
         userRecord.setUserId(userDto.getUserId());
         userRecord.setUsername(userDto.getUsername());
-        userRecord.setPassword(userDto.getPasswordHash());
+        userRecord.setPassword(userDto.getPassword());
         userRecord.setEmail(userDto.getEmail());
         userRecord.setHouseholdName(userDto.getHouseholdName());
         return userRecord;

@@ -2,7 +2,6 @@ package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import org.springframework.data.annotation.Id;
 
@@ -18,14 +17,12 @@ public class PantryRecord {
 
     @DynamoDBAttribute(attributeName = "Category")
     public String category;
-
-
     private  String expiryDate;
     private  int quantity;
     private  boolean isExpired;
     private  Date datePurchased;
 
-    public PantryRecord() {
+    public PantryRecord(String userId, String pantryItemId, String itemName, String category, int quantity, String expiryDate, boolean isExpired, Date datePurchased) {
         this.userId = userId;
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
@@ -34,8 +31,8 @@ public class PantryRecord {
         this.expiryDate = expiryDate;
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
-
     }
+    public PantryRecord() {}
     public String getUserId() {
         return userId;
     }

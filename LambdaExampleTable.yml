@@ -1,5 +1,5 @@
 Resources:
-  UserTable:
+  ExampleTable:
     Type: AWS::DynamoDB::Table
     Properties:
       "AttributeDefinitions":
@@ -12,3 +12,30 @@ Resources:
         PointInTimeRecoveryEnabled: false
       BillingMode: PAY_PER_REQUEST
       TableName: "LambdaExample"
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "User"
+      AttributeDefinitions:
+        - AttributeName: "userId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "userId"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  PantryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "Pantry"
+      AttributeDefinitions:
+        - AttributeName: "pantryId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "pantryId"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
