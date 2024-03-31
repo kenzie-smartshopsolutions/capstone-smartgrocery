@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @DynamoDBTable(tableName = "Pantry")
 public class Pantry {
