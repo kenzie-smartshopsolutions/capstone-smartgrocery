@@ -4,11 +4,17 @@ phases:
   build:
     commands:
       - echo "build phase"
-      - ./buildScripts/runIntegrationTests.sh
+#      - ./buildScripts/runIntegrationTests.sh
+      - 'if [ "$SKIP_INTEGRATION_TESTS" = "true" ]; then echo "Skipping integration tests"; else ./buildScripts/runIntegrationTests.sh; fi'
+
   post_build:
     commands:
-      - aws cloudformation delete-stack --stack-name $SERVICE_STACK_NAME
-      - aws cloudformation delete-stack --stack-name $STACK_NAME
+#      - aws cloudformation delete-stack --stack-name $SERVICE_STACK_NAME
+#      - aws cloudformation delete-stack --stack-name $STACK_NAME
+      - echo "post build phase"
+      # The following delete-stack commands will fail if these stack names don't exist or you don't have permission
+      - 'if [ -n "$SERVICE_STACK_NAME" ]; then aws cloudformation delete-stack --stack-name $SERVICE_STACK_NAME; fi'
+      - 'if [ -n "$STACK_NAME" ]; then aws cloudformation delete-stack --stack-name $STACK_NAME; fi'
 reports:
   run-integration-tests-report:
     files:
