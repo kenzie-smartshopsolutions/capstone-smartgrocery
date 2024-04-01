@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                     .and()
                 .csrf()
-                    .ignoringAntMatchers("/User/register")
+                    .ignoringAntMatchers("/User/")
                     .disable()
                 .exceptionHandling()
                     .and()

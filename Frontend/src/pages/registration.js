@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const password = document.getElementById('password').value;
 
         // Placeholder for API endpoint
-        const apiEndpoint = '/register';
+        const apiEndpoint = '/User';
 
         fetch(apiEndpoint, {
             method: 'POST',

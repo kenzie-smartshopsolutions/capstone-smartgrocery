@@ -1,21 +1,21 @@
 package com.kenzie.appserver.controller.model.user;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
     @JsonProperty("userId")
-    private  String userId;
+    private String userId;
     @JsonProperty("username")
-    private  String username;
+    private String username;
     @JsonProperty("email")
-    private  String email;
+    private String email;
     @JsonProperty("password")
     private String password;
     @JsonProperty("householdName")
-    private  String householdName;
-
+    private String householdName;
+    @JsonProperty("failedLoginAttempts")
+    private int failedLoginAttempts;
     public String getUserId() {
         return userId;
     }
@@ -54,5 +54,13 @@ public class UserResponse {
 
     public void setHouseholdName(String householdName) {
         this.householdName = householdName;
+    }
+
+    public int getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(int failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
     }
 }

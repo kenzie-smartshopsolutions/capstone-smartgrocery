@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,12 +13,21 @@ import java.util.Collections;
 import java.util.Objects;
 @DynamoDBTable(tableName = "User")
 public class UserRecord implements UserDetails {
+
+    @Id
+    @DynamoDBHashKey(attributeName = "userId")
     private  String userId;
+    @DynamoDBAttribute(attributeName = "username")
     private  String username;
+    @DynamoDBAttribute(attributeName = "email")
     private  String email;
+    @DynamoDBAttribute(attributeName = "password")
     private String password;
+    @DynamoDBAttribute(attributeName = "householdName")
     private  String householdName;
+    @DynamoDBAttribute(attributeName = "accountNonLocked")
     private boolean accountNonLocked;
+    @DynamoDBAttribute(attributeName = "failedLoginAttempts")
     private int failedLoginAttempts;
 
     public UserRecord(String userId, String username, String password, String email, String householdName) {
@@ -38,7 +48,6 @@ public class UserRecord implements UserDetails {
         this.failedLoginAttempts = 0;
     }
 
-    @DynamoDBHashKey(attributeName = "userId")
     public String getUserId() {
         return userId;
     }
@@ -46,7 +55,6 @@ public class UserRecord implements UserDetails {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    @DynamoDBAttribute(attributeName = "username")
     public String getUsername() {
         return username;
     }
@@ -54,7 +62,6 @@ public class UserRecord implements UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
-    @DynamoDBAttribute(attributeName = "email")
     public String getEmail() {
         return email;
     }
@@ -63,7 +70,6 @@ public class UserRecord implements UserDetails {
         this.email = email;
     }
 
-    @DynamoDBAttribute(attributeName = "password")
     public String getPassword() {
         return password;
     }
@@ -71,7 +77,6 @@ public class UserRecord implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-    @DynamoDBAttribute(attributeName = "householdName")
     public String getHouseholdName() {
         return householdName;
     }

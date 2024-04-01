@@ -1,11 +1,20 @@
 package com.kenzie.appserver.controller.model.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserRequest {
-    private  String userId;
-    private  String username;
-    private  String email;
+    @JsonProperty("userId")
+    private String userId;
+    @JsonProperty("username")
+    private String username;
+    @JsonProperty("email")
+    private String email;
+    @JsonProperty("password")
     private String password;
-    private  String householdName;
+    @JsonProperty("householdName")
+    private String householdName;
+    @JsonProperty("failedLoginAttempts")
+    private int failedLoginAttempts;
 
     public String getUserId() {
         return userId;
@@ -45,5 +54,13 @@ public class UserRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public int getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(int failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
     }
 }
