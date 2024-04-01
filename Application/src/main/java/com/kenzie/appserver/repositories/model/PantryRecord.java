@@ -27,7 +27,6 @@ public class PantryRecord {
     public PantryRecord(String userId, String pantryItemId, String itemName, String category, int quantity, String expiryDate, boolean isExpired, Date datePurchased) {
    // private Date dateUsed;
 
-    public PantryRecord() {
         this.userId = userId;
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;

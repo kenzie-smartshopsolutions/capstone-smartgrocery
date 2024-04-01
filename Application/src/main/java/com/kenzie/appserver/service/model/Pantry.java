@@ -35,15 +35,15 @@ category(String)
     private final boolean isExpired;
     @DynamoDBAttribute(attributeName = "datePurchased")
     private final Date datePurchased;
-    @DynamoDBAttribute(attributeName = "catagoryId")
-    private final int catagoryId;
+//    @DynamoDBAttribute(attributeName = "catagoryId")
+//    private final int catagoryId;
 
     public final String category;
 
    // private final Date dateUsed;
 
 
-    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, Date dateUsed) {
+    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category) {
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
@@ -51,7 +51,7 @@ category(String)
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
-       // this.dateUsed = dateUsed;
+        // this.dateUsed = dateUsed;
     }
 
     public String getPantryItemId() {

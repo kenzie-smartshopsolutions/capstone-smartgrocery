@@ -5,6 +5,7 @@ import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,14 +47,12 @@ public class UserService implements UserDetailsService {
 
         userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        // Convert the User DTO to a UserRecord entity
-        UserRecord userRecord = convertFromDto(user);
+        UserRecord savedUser = userRepository.save(userRecord);
 
-        // Set the hashed password
-        userRecord.setPassword(hashedPassword);
+        //// check this shit -need to fix "data"
+        lambdaServiceClient.setUserData(String.valueOf(savedUser));
 
-        // Save the user record
-        return userRepository.save(userRecord);
+        return savedUser;
     }
 
 
@@ -111,7 +110,7 @@ public class UserService implements UserDetailsService {
         if (userRecord != null && passwordEncoder.matches(password, userRecord.getPassword())) {
             return userRecord;
         } else {
-            return null;
+            throw new BadCredentialsException("Invalid email or password");
         }
     }
 

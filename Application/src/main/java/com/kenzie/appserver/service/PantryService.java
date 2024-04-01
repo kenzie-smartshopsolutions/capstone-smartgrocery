@@ -2,34 +2,17 @@ package com.kenzie.appserver.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.kenzie.appserver.repositories.PantryRepository;
-
-//import com.kenzie.appserver.repositories.RecipeRepository;
-
-import com.kenzie.appserver.repositories.model.FoodCategoryConverter;
-
 import com.kenzie.appserver.repositories.model.PantryRecord;
-//import com.kenzie.appserver.repositories.model.RecipeRecord;
-//import com.kenzie.appserver.service.model.Ingredient;
-//import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import java.util.Optional;
-
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +26,6 @@ public class PantryService {
 
     private Map<String, String> foodCategories;
 
-    private LambdaServiceClient lambdaServiceClient;
 
     @Autowired
     public PantryService(PantryRepository pantryRepository, LambdaServiceClient lambdaServiceClient) {
@@ -57,29 +39,29 @@ public class PantryService {
      * Loads the food categories from a CSV file into a map during bean initialization.
      * The CSV file should contain mappings of food categories to their descriptions.
      */
-    @PostConstruct // Execute after Bean initialization
-    public void loadFoodCategories() {
-
-        //???? hardcoding the filepath/
-       // String filePath = "C:\\Users\\12146\\kenzie\\ata-capstone-project-smartgrocery\\Application\\src\\main\\java\\com\\kenzie\\appserver\\repositories\\model\\food_category.csv";
-       // File file = new File(filePath);
-
-        String filePath = "/food_category.csv"; // Relative path to the CSV file
-
-        // Load the file from the classpath/resources
-        File file = new File(getClass().getResource(filePath).getFile());
-
-        try {
-            // Convert the CSV file to a map of food categories
-            foodCategories = FoodCategoryConverter.convertCsvToCategoryMap();
-        } catch (IOException e) {
-            // Handle error,  log a message
-            Logger.getLogger(PantryService.class.getName()).log(Level.SEVERE, "Error loading food categories", e);
-
-            // Provide a default value or handle the error accordingly
-            foodCategories = Collections.emptyMap(); // Default to an empty map
-        }
-    }
+//    @PostConstruct // Execute after Bean initialization
+//    public void loadFoodCategories() {
+//
+//        //???? hardcoding the filepath/
+//       // String filePath = "C:\\Users\\12146\\kenzie\\ata-capstone-project-smartgrocery\\Application\\src\\main\\java\\com\\kenzie\\appserver\\repositories\\model\\food_category.csv";
+//       // File file = new File(filePath);
+//
+//        String filePath = "/food_category.csv"; // Relative path to the CSV file
+//
+//        // Load the file from the classpath/resources
+//        File file = new File(getClass().getResource(filePath).getFile());
+//
+//        try {
+//            // Convert the CSV file to a map of food categories
+//            foodCategories = FoodCategoryConverter.convertCsvToCategoryMap();
+//        } catch (IOException e) {
+//            // Handle error,  log a message
+//            Logger.getLogger(PantryService.class.getName()).log(Level.SEVERE, "Error loading food categories", e);
+//
+//            // Provide a default value or handle the error accordingly
+//            foodCategories = Collections.emptyMap(); // Default to an empty map
+//        }
+//    }
 
 
     // Retrieve pantry items for a user
@@ -175,15 +157,17 @@ public class PantryService {
 
     // Update an existing pantry item
 
-    public PantryRecord updatePantryItem(String pantryItemId, PantryRecord updatedPantryRecord) {
-        // Check if the pantry item exists before updating
-        if (pantryRepository.existsById(pantryItemId)) {
-            updatedPantryRecord.setPantryItemId(pantryItemId);
-            return pantryRepository.save(updatedPantryRecord);
-        }
-        return null; // Return null if item not found
-    }
-
+//    public PantryRecord updatePantryItem(String pantryItemId, PantryRecord updatedPantryRecord) {
+//        // Check if the pantry item exists before updating
+//        if (pantryRepository.existsById(pantryItemId)) {
+//            updatedPantryRecord.setPantryItemId(pantryItemId);
+//            return pantryRepository.save(updatedPantryRecord);
+//        }
+//        return null; // Return null if item not found
+//    }
+public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
+    return pantryRepository.save(pantryRecord);
+}
     // Delete a pantry item by ID
     /**
      * Deletes a pantry item from the repository by its ID.

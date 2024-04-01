@@ -35,7 +35,7 @@ public class UserController {
     }
 
     // Get user by ID
-    @GetMapping("/register/{userId}")
+    @GetMapping("/register/userId/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable String userId) {
         UserRecord userRecord = userService.getUserById(userId);
 
@@ -57,7 +57,7 @@ public class UserController {
     }
 
     // Update an existing user
-    @PutMapping("/register/{userId}")
+    @PutMapping("/register/userId/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody User userDto) {
         if (userService.getUserById(userId) != null) {
             UserRecord userRecord = userService.convertFromDto(userDto);
@@ -73,7 +73,7 @@ public class UserController {
     }
 
     // Delete a user by ID
-    @DeleteMapping("/register/{userId}")
+    @DeleteMapping("/register/userId/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
         if (userService.getUserById(userId) != null) {
             userService.deleteUser(userId);
