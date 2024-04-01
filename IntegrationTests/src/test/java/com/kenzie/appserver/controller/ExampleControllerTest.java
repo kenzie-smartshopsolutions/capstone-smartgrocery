@@ -18,51 +18,50 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-// @IntegrationTest
+@IntegrationTest
 class ExampleControllerTest {
-   @Autowired
-   private MockMvc mvc;
+    @Autowired
+    private MockMvc mvc;
 
-   @Autowired
-   ExampleService exampleService;
+    @Autowired
+    ExampleService exampleService;
 
-   private final MockNeat mockNeat = MockNeat.threadLocal();
+    private final MockNeat mockNeat = MockNeat.threadLocal();
 
-   private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
-   @Test
-   public void getById_Exists() throws Exception {
+    @Test
+    public void getById_Exists() throws Exception {
 
-       String name = mockNeat.strings().valStr();
+        String name = mockNeat.strings().valStr();
 
-       Example persistedExample = exampleService.addNewExample(name);
-       mvc.perform(get("/example/{id}", persistedExample.getId())
-                       .accept(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("id")
-                       .isString())
-               .andExpect(jsonPath("name")
-                       .value(is(name)))
-               .andExpect(status().is2xxSuccessful());
-   }
+        Example persistedExample = exampleService.addNewExample(name);
+        mvc.perform(get("/example/{id}", persistedExample.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("id")
+                        .isString())
+                .andExpect(jsonPath("name")
+                        .value(is(name)))
+                .andExpect(status().is2xxSuccessful());
+    }
 
-   @Test
-   public void createExample_CreateSuccessful() throws Exception {
-       String name = mockNeat.strings().valStr();
+    @Test
+    public void createExample_CreateSuccessful() throws Exception {
+        String name = mockNeat.strings().valStr();
 
-       ExampleCreateRequest exampleCreateRequest = new ExampleCreateRequest();
-       exampleCreateRequest.setName(name);
+        ExampleCreateRequest exampleCreateRequest = new ExampleCreateRequest();
+        exampleCreateRequest.setName(name);
 
-       mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new JavaTimeModule());
 
-       mvc.perform(post("/example")
-                       .accept(MediaType.APPLICATION_JSON)
-                       .contentType(MediaType.APPLICATION_JSON)
-                       .content(mapper.writeValueAsString(exampleCreateRequest)))
-               .andExpect(jsonPath("id")
-                       .exists())
-               .andExpect(jsonPath("name")
-                       .value(is(name)))
-               .andExpect(status().is2xxSuccessful());
-   }
+        mvc.perform(post("/example")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(exampleCreateRequest)))
+                .andExpect(jsonPath("id")
+                        .exists())
+                .andExpect(jsonPath("name")
+                        .value(is(name)))
+                .andExpect(status().is2xxSuccessful());
+    }
 }
