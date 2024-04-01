@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -35,15 +36,15 @@ public class UserService implements UserDetailsService {
     }
 
     // Create a new user
-    // Method to create a new user with password policy enforcement
-    public UserRecord createUser(User user) {
-        // Check if the provided password meets the specified policy
-        if (!isValidPassword(user.getPasswordHash())) {
-            throw new IllegalArgumentException("Password does not meet requirements.");
+    public UserRecord createUser(User userDto) {
+        UserRecord userRecord = convertFromDto(userDto);
+
+        // Check if userId is not provided and generate a new one
+        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
+            userRecord.setUserId(UUID.randomUUID().toString());
         }
 
-        // Hash the password
-        String hashedPassword = passwordEncoder.encode(user.getPasswordHash());
+        userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         // Convert the User DTO to a UserRecord entity
         UserRecord userRecord = convertFromDto(user);
@@ -70,7 +71,7 @@ public class UserService implements UserDetailsService {
         UserRecord userRecord = new UserRecord();
         userRecord.setUserId(userDto.getUserId());
         userRecord.setUsername(userDto.getUsername());
-        userRecord.setPassword(userDto.getPasswordHash());
+        userRecord.setPassword(userDto.getPassword());
         userRecord.setEmail(userDto.getEmail());
         userRecord.setHouseholdName(userDto.getHouseholdName());
         return userRecord;

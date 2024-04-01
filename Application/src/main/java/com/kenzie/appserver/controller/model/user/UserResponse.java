@@ -11,8 +11,8 @@ public class UserResponse {
     private  String username;
     @JsonProperty("email")
     private  String email;
-    @JsonProperty("passwordHash")
-    private String passwordHash;
+    @JsonProperty("password")
+    private String password;
     @JsonProperty("householdName")
     private  String householdName;
 
@@ -40,12 +40,12 @@ public class UserResponse {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getHouseholdName() {

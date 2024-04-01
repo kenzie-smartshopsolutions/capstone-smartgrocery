@@ -53,7 +53,7 @@ public class UserDao {
         return new UserData(userRecord.getUserId(),
                 userRecord.getUsername(),
                 userRecord.getEmail(),
-                userRecord.getPasswordHash(),
+                userRecord.getPassword(),
                 userRecord.getHouseholdName());
     }
 
@@ -61,7 +61,7 @@ public class UserDao {
         return new UserRecord(userData.getUserId(),
                 userData.getUsername(),
                 userData.getEmail(),
-                userData.getPasswordHash(),
+                userData.getPassword(),
                 userData.getHouseholdName());
     }
 }

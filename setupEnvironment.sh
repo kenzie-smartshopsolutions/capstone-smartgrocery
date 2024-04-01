@@ -19,7 +19,7 @@ export GITHUB_GROUP_NAME=smartshopsolutions
 # For Windows
 # Copy and paste ALL of the properties below into your .bashrc file in your home directory
 export JAVA_HOME=c/Users/12146/.jdks/corretto-16.0.2
-export GITHUB_TOKEN=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
+#export GITHUB_TOKEN=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
 # In IntelliJ Terminal
 # Type source ./setupEnvironment.sh
 

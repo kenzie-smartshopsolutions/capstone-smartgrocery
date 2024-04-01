@@ -3,29 +3,29 @@ package com.kenzie.capstone.service.model;
 public class UserData {
     private String userId;
     private String username;
-    private String passwordHash;
+    private String password;
 
     private String email;
     private String householdName;
     private boolean accountNonLocked;
     private int failedLoginAttempts;
 
-    public UserData(String userId, String username, String passwordHash, String email, String householdName) {
+    public UserData(String userId, String username, String password, String email, String householdName) {
         this.userId = userId;
         this.username = username;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.email = email;
         this.householdName = householdName;
         this.accountNonLocked = true;
         this.failedLoginAttempts = 0;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public UserData() {
