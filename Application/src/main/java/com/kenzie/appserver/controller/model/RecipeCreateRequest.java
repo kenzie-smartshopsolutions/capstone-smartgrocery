@@ -1,4 +1,4 @@
-package com.kenzie.appserver.controller.model;
-
-public class RecipeCreateRequest {
-}
+//package com.kenzie.appserver.controller.model;
+//
+//public class RecipeCreateRequest {
+//}

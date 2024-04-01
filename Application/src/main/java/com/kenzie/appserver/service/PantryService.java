@@ -2,11 +2,21 @@ package com.kenzie.appserver.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.kenzie.appserver.repositories.PantryRepository;
+
+//import com.kenzie.appserver.repositories.RecipeRepository;
+
 import com.kenzie.appserver.repositories.model.FoodCategoryConverter;
+
 import com.kenzie.appserver.repositories.model.PantryRecord;
+//import com.kenzie.appserver.repositories.model.RecipeRecord;
+//import com.kenzie.appserver.service.model.Ingredient;
+//import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -16,15 +26,20 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import java.util.Optional;
+
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 @Service
 public class PantryService {
 
-    @Autowired
+   // @Autowired
     private PantryRepository pantryRepository;
+    private LambdaServiceClient lambdaServiceClient;
 
     private Map<String, String> foodCategories;
 
@@ -76,6 +91,24 @@ public class PantryService {
      * @param userId The ID of the user whose pantry items are being retrieved.
      * @return A list of pantry items belonging to the specified user.
      */
+
+//    @PostConstruct // Execute after Bean initialization
+//    public void loadFoodCategories() {
+//        File file = new File("/food_category.csv"); // Replace with the correct path
+//        try {
+//            foodCategories = FoodCategoryConverter.convertCsvToCategoryMap();
+//        } catch (IOException e) {
+//            // Handle error, maybe log a message
+//            e.printStackTrace();
+//        }
+//    }
+
+
+    public Optional<PantryRecord> getPantry(String userId) {
+        return pantryRepository.findById(userId);
+    }
+
+ //    Retrieve pantry items for a user or household
     public List<PantryRecord> getPantryItems(String userId) {
         // return pantryRepository.findByUserId(userId);
 
@@ -85,7 +118,7 @@ public class PantryService {
         //Map category  to descriptions
         for (PantryRecord item : items) {
             String description = foodCategories.get(item.getCategory());
-            if(description != null){
+            if (description != null) {
                 item.setCategory(description);
             }
 
@@ -94,7 +127,7 @@ public class PantryService {
 
         }
         return items;
-    }
+   }
 
 /*
 
@@ -158,6 +191,7 @@ public class PantryService {
      * @param pantryItemId The ID of the pantry item to be deleted.
      */
 
+   //  Delete a pantry item by ID
     public void deletePantryItem(String pantryItemId) {
         // Check if the pantry item exists before deleting
         if (pantryRepository.existsById(pantryItemId)) {
@@ -183,6 +217,7 @@ public class PantryService {
      * @param expiryDateStr The expiry date string to be parsed.
      * @return true if the item has expired, otherwise false.
      */
+
     private boolean isItemExpired(String expiryDateStr) {
         // Implement expiry date checking logic
         // Date format for parsing expiry date string
