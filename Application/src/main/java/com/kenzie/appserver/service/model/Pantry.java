@@ -10,6 +10,17 @@ import java.util.Date;
 
 @DynamoDBTable(tableName = "Pantry")
 public class Pantry {
+
+  /*pantryItemId (String)
+itemName (String)
+quantity (int)
+expiryDate (String)
+datePurchased (Date/time)
+isExpired (boolean
+dateUsed(Date/time)
+category(String)
+*/
+
     @Id
     @NotNull
     @DynamoDBHashKey(attributeName = "pantryItemId")
@@ -27,16 +38,20 @@ public class Pantry {
     @DynamoDBAttribute(attributeName = "catagoryId")
     private final int catagoryId;
 
+    public final String category;
+
+   // private final Date dateUsed;
 
 
-    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, int catagoryId) {
+    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, Date dateUsed) {
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
-        this.catagoryId = catagoryId;
+        this.category = category;
+       // this.dateUsed = dateUsed;
     }
 
     public String getPantryItemId() {
@@ -63,7 +78,11 @@ public class Pantry {
         return datePurchased;
     }
 
-    public int getCatagoryId() {
-        return catagoryId;
-    }
+   // public String getCategory() {
+     //   return category;
+   // }
+
+   // public Date getDateUsed() {
+     //   return dateUsed;
+    //}
 }

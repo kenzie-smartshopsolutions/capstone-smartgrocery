@@ -33,7 +33,6 @@ public class FoodCategoryConverter {
         }
         return foodCategories;
     }
-
     /**
      * This method should return a map of category id to category description.
      * The map should be populated from the food_category.csv file.
@@ -45,5 +44,4 @@ public class FoodCategoryConverter {
         // Method implementation that loads categories from CSV or other source
         return null;
     }
-
 }

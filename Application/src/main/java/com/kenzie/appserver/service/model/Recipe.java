@@ -8,15 +8,18 @@ public class Recipe {
     /*recipeId (String)
 title (String)
 ingredients (List<Ingredient>)
+
+
+blocker: List<String> ingredients; or List<PantryRecord> ingredients; ?????
+***no longer using ingredient table instead-> ingredients as a list of string****
 instructions (String)
 */
     private final String recipeId;
     private final String title;
-    private final List<PantryRecord> ingredients;
+    private final List<String> ingredients;
     private final String instructions;
 
-
-    public Recipe(String recipeId, String title, List<PantryRecord> ingredients, String instructions) {
+    public Recipe(String recipeId, String title, List<String> ingredients, String instructions) {
         this.recipeId = recipeId;
         this.title = title;
         this.ingredients = ingredients;
@@ -32,7 +35,7 @@ instructions (String)
         return title;
     }
 
-    public List<PantryRecord> getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 

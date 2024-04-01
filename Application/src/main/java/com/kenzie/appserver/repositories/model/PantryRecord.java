@@ -18,12 +18,12 @@ public class PantryRecord {
 
     @DynamoDBAttribute(attributeName = "Category")
     public String category;
-
-
     private  String expiryDate;
     private  int quantity;
     private  boolean isExpired;
     private  Date datePurchased;
+
+   // private Date dateUsed;
 
     public PantryRecord() {
         this.userId = userId;
@@ -34,7 +34,7 @@ public class PantryRecord {
         this.expiryDate = expiryDate;
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
-
+      //  this.dateUsed= dateUsed;
     }
     public String getUserId() {
         return userId;
@@ -91,6 +91,7 @@ public class PantryRecord {
         this.datePurchased = datePurchased;
     }
 
+    @DynamoDBAttribute(attributeName = "Category")
     public String getCategory() {
         return category;
     }
@@ -98,6 +99,14 @@ public class PantryRecord {
     public void setCategory(String category) {
         this.category = category;
     }
+
+   // @DynamoDBAttribute(attributeName = "DateUsed")
+  //  public Date getDateUsed() {
+      //  return dateUsed;
+   // }
+  //  public void setDateUsed(Date dateUsed) {
+       // this.dateUsed = dateUsed;
+  //  }
 
     @Override
     public boolean equals(Object o) {
