@@ -54,7 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                         /** Allows unauthenticated access to Swagger UI
                          FOR TESTING ONLY - PLEASE COMMENT OUT WHEN LIVE **/
-                        .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .antMatchers("/v1/api/get-token",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**").permitAll()
 
                     .antMatchers("/User/login", "/User/register").permitAll()
                     .anyRequest().authenticated();
