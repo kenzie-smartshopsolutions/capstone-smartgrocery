@@ -32,9 +32,6 @@ public class UserService implements UserDetailsService {
     public UserRecord getUserById(String userId) {
         // User getting data from the lambda
         //UserData dataFromLambda = lambdaServiceClient.getUserData(userId);
-
-
-
         return userRepository.findById(userId).orElse(null);
     }
 
@@ -49,12 +46,23 @@ public class UserService implements UserDetailsService {
 
         userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        UserRecord savedUser = userRepository.save(userRecord);
+        // Convert the User DTO to a UserRecord entity
+        UserRecord userRecord = convertFromDto(user);
 
-        //// check this shit -need to fix "data"
-        lambdaServiceClient.setUserData(String.valueOf(savedUser));
+        // Set the hashed password
+        userRecord.setPassword(hashedPassword);
 
-        return savedUser;
+        // Save the user record
+        return userRepository.save(userRecord);
+    }
+
+
+    // Method to validate password against password policies
+    private boolean isValidPassword(String password) {
+        // Implement your password policy
+        // Example policy: At least 8 characters, one uppercase, one lowercase, one digit, one special character
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        return password.matches(passwordRegex);
     }
 
     /** Helper methods to convert DTOs **/
@@ -71,13 +79,12 @@ public class UserService implements UserDetailsService {
 
     // Convert UserRecord (Entity) to DTO
     public User convertToDto(UserRecord userRecord) {
-        User userDto = new User(
+        return new User(
                 userRecord.getUserId(),
                 userRecord.getUsername(),
                 userRecord.getEmail(),
                 userRecord.getPassword(),
                 userRecord.getHouseholdName());
-        return userDto;
     }
 
     // Update an existing user
@@ -95,13 +102,20 @@ public class UserService implements UserDetailsService {
     public UserRecord loginUser(String email, String password) {
         // ? validate the password and generate authentication
         // Return the user record if login is successful, otherwise return null
+
+
+        // Retrieve the user record by email from the repository
         UserRecord userRecord = userRepository.findByEmail(email);
+
+        // Check if the user exists and the provided password matches the stored hashed password
         if (userRecord != null && passwordEncoder.matches(password, userRecord.getPassword())) {
             return userRecord;
         } else {
             return null;
         }
     }
+
+    // Increment failed login attempts for a user
     public void incrementFailedLoginAttempts(String username) {
         UserRecord user = userRepository.findByUsername(username);
         if (user != null) {
@@ -113,6 +127,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    // Reset failed login attempts for a user
     public void resetFailedLoginAttempts(String username) {
         UserRecord user = userRepository.findByUsername(username);
         if (user != null && user.isAccountNonLocked()) {
@@ -121,6 +136,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    // Unlock an account for a user
     public void unlockAccount(String username) {
         UserRecord user = userRepository.findByUsername(username);
         if (user != null) {
@@ -129,12 +145,15 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
         }
     }
+
+    // // Load user details by username for Spring Security
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserRecord user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
+        //Return UserDetails object required by Spring Security for authentication
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),

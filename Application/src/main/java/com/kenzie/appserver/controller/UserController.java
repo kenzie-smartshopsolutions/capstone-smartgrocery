@@ -20,14 +20,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("User")
 public class UserController {
 
-    @Autowired
+
     private UserService userService;
 
-    @Autowired
+
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+  
+    public UserController(UserService userService, AuthenticationManager authenticationManager) {
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+    }
 
     // Get user by ID
     @GetMapping("/register/{userId}")
@@ -36,9 +41,9 @@ public class UserController {
 
         if (userRecord != null) {
             User userDto = userService.convertToDto(userRecord);
-            return new ResponseEntity<>(userDto, HttpStatus.OK);
+            return ResponseEntity.ok(userDto); // Simplified response entity creation
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -47,7 +52,8 @@ public class UserController {
     public ResponseEntity<User> registerUser(@RequestBody User userDTO) {
         UserRecord createdUser = userService.createUser(userDTO);
         User responseDTO = userService.convertToDto(createdUser);
-        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+       // return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO); // Simplified response entity creation
     }
 
     // Update an existing user
@@ -58,9 +64,11 @@ public class UserController {
             userRecord.setUserId(userId);
             UserRecord updatedUser = userService.updateUser(userRecord);
             User responseDTO = userService.convertToDto(updatedUser);
-            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+            //return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+            return ResponseEntity.ok(responseDTO); // Simplified response entity creation
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+           // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build(); // Using ResponseEntity's convenience methods
         }
     }
 
@@ -69,12 +77,16 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
         if (userService.getUserById(userId) != null) {
             userService.deleteUser(userId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            //return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build(); // Using ResponseEntity's convenience methods
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+           // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build(); // Using ResponseEntity's convenience methods
         }
     }
 
+    //for appropriate authentication and security measures
+    //handles the process of validating user credentials and managing account lockout due to multiple failed login attempts
     // Log in a user
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {

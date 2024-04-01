@@ -8,10 +8,12 @@ import org.springframework.data.annotation.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
+
 @DynamoDBTable(tableName = "Pantry")
 public class PantryRecord {
     private String userId;
     private  String pantryItemId;
+  
     @NotNull(message = "Item name cannot be null")
     private  String itemName;
 
@@ -23,6 +25,9 @@ public class PantryRecord {
     private  Date datePurchased;
 
     public PantryRecord(String userId, String pantryItemId, String itemName, String category, int quantity, String expiryDate, boolean isExpired, Date datePurchased) {
+   // private Date dateUsed;
+
+    public PantryRecord() {
         this.userId = userId;
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
@@ -31,22 +36,28 @@ public class PantryRecord {
         this.expiryDate = expiryDate;
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
+      //  this.dateUsed= dateUsed;
     }
+      
     public PantryRecord() {}
     public String getUserId() {
         return userId;
     }
+      
     public void setUserId(String userId) {
         this.userId = userId;
     }
+      
     @Id
     @DynamoDBHashKey(attributeName = "pantryItemId")
     public String getPantryItemId() {
         return pantryItemId;
     }
+      
     public void setPantryItemId(String pantryItemId) {
         this.pantryItemId = pantryItemId;
     }
+      
     @DynamoDBAttribute(attributeName = "itemName")
     public String getItemName() {
         return itemName;
@@ -63,6 +74,7 @@ public class PantryRecord {
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
+      
     @DynamoDBAttribute(attributeName = "quantity")
     public int getQuantity() {
         return quantity;
@@ -79,6 +91,7 @@ public class PantryRecord {
     public void setExpired(boolean expired) {
         isExpired = expired;
     }
+      
     @DynamoDBAttribute(attributeName = "datePurchased")
     public Date getDatePurchased() {
         return datePurchased;
@@ -88,6 +101,7 @@ public class PantryRecord {
         this.datePurchased = datePurchased;
     }
 
+    @DynamoDBAttribute(attributeName = "Category")
     public String getCategory() {
         return category;
     }
@@ -95,6 +109,14 @@ public class PantryRecord {
     public void setCategory(String category) {
         this.category = category;
     }
+
+   // @DynamoDBAttribute(attributeName = "DateUsed")
+  //  public Date getDateUsed() {
+      //  return dateUsed;
+   // }
+  //  public void setDateUsed(Date dateUsed) {
+       // this.dateUsed = dateUsed;
+  //  }
 
     @Override
     public boolean equals(Object o) {
