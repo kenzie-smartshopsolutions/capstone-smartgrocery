@@ -61,7 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 "/swagger-resources/**",
                                 "/webjars/**").permitAll()
 
-                    .antMatchers("/User/login", "/User/register").permitAll()
+                    .antMatchers("/User/login",
+                            "/User/register").permitAll()
+                    .antMatchers("/example/**").permitAll()
                     .anyRequest().authenticated();
 
         // Add JWT token filter
