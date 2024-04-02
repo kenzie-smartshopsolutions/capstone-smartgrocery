@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,10 +34,12 @@ class ExampleControllerTest {
 
     @Test
     public void getById_Exists() throws Exception {
+        // Mocking ExampleService behavior
+        String name = "testName";
+        Example persistedExample = new Example("exampleId", name);
+        when(exampleService.addNewExample(anyString())).thenReturn(persistedExample);
 
-        String name = mockNeat.strings().valStr();
-
-        Example persistedExample = exampleService.addNewExample(name);
+        // Performing the request and verifying the response
         mvc.perform(get("/example/{id}", persistedExample.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")
