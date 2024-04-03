@@ -54,4 +54,87 @@ Resources:
           Properties:
             Path: /example/
             Method: post
+  GetUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.appserver.controller.UserController::getUserById
+      Runtime: java11
+      Description: Fetch user details
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBReadOnlyAccess
+      Tracing: Active
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            Path: /userId/{userId}
+            Method: get
+
+  CreateUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.appserver.controller.UserController::createUser
+      Runtime: java11
+      Description: Create a new user
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /User/register
+            Method: post
+
+  GetPantryItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.appserver.controller.PantryController::getPantryItems
+      Runtime: java11
+      Description: Fetch pantry items for a user
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBReadOnlyAccess
+      Tracing: Active
+      Events:
+        GetPantryItems:
+          Type: Api
+          Properties:
+            Path: /pantry/{userId}
+            Method: get
+
+  CreateRecipeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.appserver.controller.RecipeController::createRecipe
+      Runtime: java11
+      Description: Create a new recipe
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        CreateRecipe:
+          Type: Api
+          Properties:
+            Path: /recipe
+            Method: post
 

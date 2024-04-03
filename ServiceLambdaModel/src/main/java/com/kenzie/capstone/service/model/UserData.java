@@ -19,6 +19,10 @@ public class UserData {
         this.accountNonLocked = true;
         this.failedLoginAttempts = 0;
     }
+    public UserData() {
+        this.accountNonLocked = true;
+        this.failedLoginAttempts = 0;
+    }
 
     public String getPassword() {
         return password;
@@ -26,11 +30,6 @@ public class UserData {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UserData() {
-        this.accountNonLocked = true;
-        this.failedLoginAttempts = 0;
     }
 
     public String getUserId() {
