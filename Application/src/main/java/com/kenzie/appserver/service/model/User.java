@@ -9,7 +9,7 @@ passwordHash (String)
 dateCreated**
 householdName (String) - [in case of multiple household members sharing same pantry]**
 */
-    private final String userId;
+    private String userId;
     private final String username;
     private final String email;
     private final String password;
@@ -61,5 +61,9 @@ householdName (String) - [in case of multiple household members sharing same pan
 
     public void setFailedLoginAttempts(int failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
