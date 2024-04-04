@@ -72,7 +72,7 @@ Resources:
         GetUser:
           Type: Api
           Properties:
-            Path: /userId/{userId}
+            Path: /User/userId/{userId}
             Method: get
 
   CreateUserFunction:
