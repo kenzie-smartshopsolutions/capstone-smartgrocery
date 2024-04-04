@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @EnableScan
 public interface UserRepository extends CrudRepository<UserRecord, String> {
+    UserRecord findByUserId(String userId);
     UserRecord findByEmail(String email);
     UserRecord findByUsername(String username);
-    UserRecord findByUserId(String userId);
 }
