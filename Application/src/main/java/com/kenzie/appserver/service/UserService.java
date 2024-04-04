@@ -4,6 +4,7 @@ import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import com.kenzie.capstone.service.model.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +39,11 @@ public class UserService implements UserDetailsService {
 
     // Create a new user
     public UserRecord createUser(User userDto) {
+//        // Validate the password
+//        if (!isValidPassword(userDto.getPassword())) {
+//            throw new IllegalArgumentException("Password does not meet security requirements.");
+//        }
+
         UserRecord userRecord = convertFromDto(userDto);
 
         // Check if userId is not provided and generate a new one
@@ -47,13 +53,11 @@ public class UserService implements UserDetailsService {
 
         userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
-            throw new IllegalArgumentException("userId cannot be null or empty");
-        }
         UserRecord savedUser = userRepository.save(userRecord);
 
-        //// check this shit -need to fix "data"
-        lambdaServiceClient.setUserData(String.valueOf(savedUser));
+        // Convert UserRecord to UserData and "setUserData"
+        UserData userData = convertToUserData(savedUser);
+        lambdaServiceClient.setUserData(userData);
 
         return savedUser;
     }
@@ -86,6 +90,22 @@ public class UserService implements UserDetailsService {
                 userRecord.getEmail(),
                 userRecord.getPassword(),
                 userRecord.getHouseholdName());
+    }
+    // Convert UserRecord to UserData
+    public UserData convertToUserData(UserRecord userRecord) {
+        if (userRecord == null) {
+            return null;
+        }
+        UserData userData = new UserData();
+        userData.setUserId(userRecord.getUserId());
+        userData.setUsername(userRecord.getUsername());
+        userData.setPassword(userRecord.getPassword()); // Note: Consider security implications
+        userData.setEmail(userRecord.getEmail());
+        userData.setHouseholdName(userRecord.getHouseholdName());
+
+        // Future development - Map additional fields
+
+        return userData;
     }
 
     // Update an existing user
