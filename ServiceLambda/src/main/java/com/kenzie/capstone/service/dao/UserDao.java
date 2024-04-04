@@ -3,6 +3,7 @@ package com.kenzie.capstone.service.dao;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
@@ -25,10 +26,9 @@ public class UserDao {
             mapper.save(userData, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
                             "userId",
-//                            new ExpectedAttributeValue()
-//                                    .withValue(new AttributeValue().withS(userRecord.getUserId()))
-//                                    .withExists(false)
-                            new ExpectedAttributeValue().withExists(false)
+                            new ExpectedAttributeValue()
+                                    .withValue(new AttributeValue().withS(userData.getUserId()))
+                                    .withExists(false)
                     )));
         } catch (ConditionalCheckFailedException e) {
             throw new IllegalArgumentException("Account already exists for this userId: " + userData.getUserId());
