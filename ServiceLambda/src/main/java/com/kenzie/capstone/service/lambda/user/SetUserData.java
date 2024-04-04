@@ -37,7 +37,7 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         if (userData == null || userData.getUsername() == null || userData.getUsername().isEmpty()) {
             return response.withStatusCode(400).withBody("User data is invalid");
         }
-
+        log.info("User data: {}", userData);
         try {
             UserData savedUserData = userLambdaService.setUserData(userData);
             String output = gson.toJson(savedUserData);
