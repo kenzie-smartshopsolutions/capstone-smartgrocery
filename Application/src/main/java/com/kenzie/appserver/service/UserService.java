@@ -37,15 +37,35 @@ public class UserService implements UserDetailsService {
     }
 
     // Create a new user
+//    public UserRecord createUser(User userDto) {
+//        UserRecord userRecord = convertFromDto(userDto);
+//
+//        // Check if userId is not provided and generate a new one
+//        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
+//            userRecord.setUserId(UUID.randomUUID().toString());
+//        }
+//
+//        userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//
+//        UserRecord savedUser = userRepository.save(userRecord);
+//
+//        //// check this shit -need to fix "data"
+//        lambdaServiceClient.setUserData(String.valueOf(savedUser));
+//
+//        return savedUser;
+//    }
     public UserRecord createUser(User userDto) {
-        UserRecord userRecord = convertFromDto(userDto);
-
-        // Check if userId is not provided and generate a new one
-        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
-            userRecord.setUserId(UUID.randomUUID().toString());
+        // Check if userId is not provided in the DTO and generate a new one
+        if (userDto.getUserId() == null || userDto.getUserId().trim().isEmpty()) {
+            String generatedUserId = UUID.randomUUID().toString();
+            System.out.println("Generated userId: " + generatedUserId); // Logging for debugging
+            userDto.setUserId(generatedUserId);
         }
 
-        userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        UserRecord userRecord = convertFromDto(userDto);
+
+        userRecord.setPassword(passwordEncoder
+                .encode(userDto.getPassword()));
 
         UserRecord savedUser = userRepository.save(userRecord);
 
@@ -54,7 +74,6 @@ public class UserService implements UserDetailsService {
 
         return savedUser;
     }
-
 
     // Method to validate password against password policies
     private boolean isValidPassword(String password) {
