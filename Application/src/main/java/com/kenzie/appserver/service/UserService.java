@@ -37,36 +37,19 @@ public class UserService implements UserDetailsService {
     }
 
     // Create a new user
-//    public UserRecord createUser(User userDto) {
-//        UserRecord userRecord = convertFromDto(userDto);
-//
-//        // Check if userId is not provided and generate a new one
-//        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
-//            userRecord.setUserId(UUID.randomUUID().toString());
-//        }
-//
-//        userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
-//
-//        UserRecord savedUser = userRepository.save(userRecord);
-//
-//        //// check this shit -need to fix "data"
-//        lambdaServiceClient.setUserData(String.valueOf(savedUser));
-//
-//        return savedUser;
-//    }
     public UserRecord createUser(User userDto) {
-        // Check if userId is not provided in the DTO and generate a new one
-        if (userDto.getUserId() == null || userDto.getUserId().trim().isEmpty()) {
-            String generatedUserId = UUID.randomUUID().toString();
-            System.out.println("Generated userId: " + generatedUserId); // Logging for debugging
-            userDto.setUserId(generatedUserId);
-        }
-
         UserRecord userRecord = convertFromDto(userDto);
 
-        userRecord.setPassword(passwordEncoder
-                .encode(userDto.getPassword()));
+        // Check if userId is not provided and generate a new one
+        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
+            userRecord.setUserId(UUID.randomUUID().toString());
+        }
 
+        userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
+            throw new IllegalArgumentException("userId cannot be null or empty");
+        }
         UserRecord savedUser = userRepository.save(userRecord);
 
         //// check this shit -need to fix "data"
