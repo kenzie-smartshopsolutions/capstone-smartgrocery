@@ -1,8 +1,8 @@
 package com.kenzie.capstone.service.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
@@ -20,30 +20,42 @@ public class UserDao {
         this.mapper = mapper;
     }
 
-    public UserRecord storeUserRecord(UserRecord userRecord) {
+    public UserData storeUserData(UserData userData) {
         try {
-            mapper.save(userRecord, new DynamoDBSaveExpression()
+            mapper.save(userData, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
                             "userId",
-                            new ExpectedAttributeValue()
-                                    .withValue(new AttributeValue().withS(userRecord.getUserId()))
-                                    .withExists(false))));
+//                            new ExpectedAttributeValue()
+//                                    .withValue(new AttributeValue().withS(userRecord.getUserId()))
+//                                    .withExists(false)
+                            new ExpectedAttributeValue().withExists(false)
+                    )));
         } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("Account already exists for this userId: " + userRecord.getUserId());
+            throw new IllegalArgumentException("Account already exists for this userId: " + userData.getUserId());
         }
-        return userRecord;
+        return userData;
     }
 
-    public UserRecord getUserRecord(String userId) {
-        UserRecord userRecord = mapper.load(UserRecord.class, userId);
-        return userRecord;
+    public UserRecord getUserData(String userId) {
+        UserRecord userRecord = new UserRecord();
+        userRecord.setUserId(userId);
+
+        DynamoDBQueryExpression<UserRecord> queryExpression = new DynamoDBQueryExpression<UserRecord>()
+                .withHashKeyValues(userRecord)
+                .withConsistentRead(false);
+        return mapper.query(UserRecord.class, queryExpression).get(0);
     }
 
-    public UserRecord updateUserRecord(UserRecord userRecord) {
-        if (userRecord.getUserId() == null || userRecord.getUserId().isEmpty() || userRecord.getUserId().isBlank()) {
+    public UserRecord setUserData (String userId, UserData userData) {
+        UserRecord userRecord = new UserRecord();
+        if (userId == null || userId.isEmpty() || userId.isBlank()) {
             throw new IllegalArgumentException("UserId cannot be null or empty");
+        } else {
+            userRecord.setUserId(userId);
         }
-        mapper.save(userRecord);
+        UserRecord tempData = convertToUserRecord(userData);
+
+        mapper.save(tempData);
         return userRecord;
     }
 
