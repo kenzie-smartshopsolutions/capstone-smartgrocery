@@ -5,7 +5,6 @@ import com.kenzie.capstone.service.model.UserData;
 import com.kenzie.capstone.service.model.UserRecord;
 
 import javax.inject.Inject;
-import java.util.UUID;
 
 public class UserLambdaService {
     private UserDao userDao;
@@ -21,7 +20,7 @@ public class UserLambdaService {
     }
 
     public UserData setUserData(UserData userData) {
-        String userId = UUID.randomUUID().toString();
+        String userId = userData.getUserId();
         UserRecord userRecord = userDao.setUserData(userId, userData);
 
         return userDao.convertToUserData(userRecord);

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -43,13 +44,13 @@ public class UserService implements UserDetailsService {
 //            throw new IllegalArgumentException("Password does not meet security requirements.");
 //        }
 
-//        // Generate userId only for new user creation
-//        if (userDto.getUserId() == null || userDto.getUserId().trim().isEmpty()) {
-//            String uniqueUserId = UUID.randomUUID().toString();
-//
-//            // Set the generated userId on the DTO
-//            userDto.setUserId(uniqueUserId);
-//        }
+        // Generate userId only for new user creation
+        if (userDto.getUserId() == null || userDto.getUserId().trim().isEmpty()) {
+            String uniqueUserId = UUID.randomUUID().toString();
+
+            // Set the generated userId on the DTO
+            userDto.setUserId(uniqueUserId);
+        }
 
         UserRecord userRecord = convertFromDto(userDto);
 
