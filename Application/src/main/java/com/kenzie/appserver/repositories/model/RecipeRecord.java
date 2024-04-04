@@ -59,4 +59,3 @@ public class RecipeRecord {
         return Objects.hash(recipeId);
     }
 }
-

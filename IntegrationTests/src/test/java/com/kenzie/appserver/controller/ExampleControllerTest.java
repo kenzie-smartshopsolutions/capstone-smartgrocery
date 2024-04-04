@@ -1,12 +1,11 @@
 package com.kenzie.appserver.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.ExampleCreateRequest;
 import com.kenzie.appserver.service.ExampleService;
 import com.kenzie.appserver.service.model.Example;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @IntegrationTest
 class ExampleControllerTest {
@@ -34,10 +34,12 @@ class ExampleControllerTest {
 
     @Test
     public void getById_Exists() throws Exception {
+        // Mocking ExampleService behavior
+        String name = "testName";
+        Example persistedExample = new Example("exampleId", name);
+        when(exampleService.addNewExample(anyString())).thenReturn(persistedExample);
 
-        String name = mockNeat.strings().valStr();
-
-        Example persistedExample = exampleService.addNewExample(name);
+        // Performing the request and verifying the response
         mvc.perform(get("/example/{id}", persistedExample.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")
