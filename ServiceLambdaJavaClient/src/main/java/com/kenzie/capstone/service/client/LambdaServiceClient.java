@@ -64,13 +64,6 @@ public class LambdaServiceClient {
     }
 
     public UserData setUserData(UserData data) {
-//        String jsonData;
-//        try {
-//            jsonData = mapper.writeValueAsString(data);
-//        } catch (JsonProcessingException e) {
-//            throw new ApiGatewayException("Failed to serialize user data: " + e.getMessage());
-//        }
-
         EndpointUtility endpointUtility = new EndpointUtility();
         try {
             // Convert UserData object to JSON string

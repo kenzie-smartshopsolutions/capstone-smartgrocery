@@ -44,13 +44,17 @@ public class UserService implements UserDetailsService {
 //            throw new IllegalArgumentException("Password does not meet security requirements.");
 //        }
 
-        UserRecord userRecord = convertFromDto(userDto);
+        // Generate userId only for new user creation
+        if (userDto.getUserId() == null || userDto.getUserId().trim().isEmpty()) {
+            String uniqueUserId = UUID.randomUUID().toString();
 
-        // Check if userId is not provided and generate a new one
-        if (userRecord.getUserId() == null || userRecord.getUserId().trim().isEmpty()) {
-            userRecord.setUserId(UUID.randomUUID().toString());
+            // Set the generated userId on the DTO
+            userDto.setUserId(uniqueUserId);
         }
 
+        UserRecord userRecord = convertFromDto(userDto);
+
+        // encode password
         userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         UserRecord savedUser = userRepository.save(userRecord);
@@ -62,10 +66,13 @@ public class UserService implements UserDetailsService {
         return savedUser;
     }
 
-    // Method to validate password against password policies
+    /** Method to validate password against password policies
+     * Password policy:
+     * At least 8 characters,
+     * one uppercase, one lowercase,
+     * one digit, one special character
+    **/
     private boolean isValidPassword(String password) {
-        // Implement your password policy
-        // Example policy: At least 8 characters, one uppercase, one lowercase, one digit, one special character
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         return password.matches(passwordRegex);
     }
