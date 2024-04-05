@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -29,13 +28,6 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.lambdaServiceClient = lambdaServiceClient;
-    }
-
-    // Retrieve a user by their ID
-    public UserRecord getUserById(String userId) {
-        // User getting data from the lambda
-        //UserData dataFromLambda = lambdaServiceClient.getUserData(userId);
-        return userRepository.findById(userId).orElse(null);
     }
 
     // Create a new user
@@ -64,34 +56,55 @@ public class UserService implements UserDetailsService {
         return savedUser;
     }
 
-    /** Method to validate password against password policies
-     * Password policy:
-     * At least 8 characters,
-     * one uppercase, one lowercase,
-     * one digit, one special character
-    **/
-    private boolean isValidPassword(String password) {
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-        return password.matches(passwordRegex);
+    // Retrieve a user by their ID
+    public UserRecord getUserById(String userId) {
+        // Retrieve the UserRecord from the database
+        UserRecord userRecord = userRepository.findByUserId(userId);
+
+        // Retrieve UserData from the lambda function
+        UserData lambdaUserData = lambdaServiceClient.getUserData(userId);
+
+        // Convert UserData to User
+        User lambdaUser = new User(lambdaUserData.getUserId(),
+                lambdaUserData.getUsername(),
+                lambdaUserData.getEmail(),
+                lambdaUserData.getPassword(),
+                lambdaUserData.getHouseholdName());
+
+        // Convert User to UserRecord
+        UserRecord lambdaUserRecord = convertFromDto(lambdaUser);
+
+        if (userRecord == null && lambdaUserRecord == null) {
+            throw new IllegalArgumentException("User not found in both the database and lambda function.");
+        } else if (userRecord == null) {
+            // Only the DB user record is null
+            throw new IllegalArgumentException("User not found in the database.");
+        } else if (lambdaUserRecord == null) {
+            // Only the Lambda user record is null
+            throw new IllegalArgumentException("User not found in the lambda function.");
+        } else {
+            // if both found, merge/save
+            userRecord.setUsername(lambdaUserRecord.getUsername());
+            userRecord.setEmail(lambdaUserRecord.getEmail());
+            userRecord.setPassword(lambdaUserRecord.getPassword());
+            userRecord.setHouseholdName(lambdaUserRecord.getHouseholdName());
+
+            return userRecord;
+        }
     }
 
-    // helper method that performs validation checks for registration
-    private void validateUserDetails(User userDto) {
-        // Check if username exists
-        if (userRepository.findByUsername(userDto.getUsername()) != null) {
-            throw new IllegalArgumentException("Username already exists.");
-        }
-        // Check if email exists
-        if (userRepository.findByEmail(userDto.getEmail()) != null) {
-            throw new IllegalArgumentException("Email already exists.");
-        }
-        // Validate the password
-        if (!isValidPassword(userDto.getPassword())) {
-            throw new IllegalArgumentException("Password does not meet security requirements.");
-        }
+    // Update an existing user
+    public UserRecord updateUser(UserRecord userRecord) {
+        return userRepository.save(userRecord);
     }
 
-    /** Helper methods to convert DTOs **/
+    // Delete a user by their ID
+    public void deleteUser(String userId) {
+        userRepository.deleteById(userId);
+    }
+
+    /** Helper methods for conversions **/
+
     // Convert DTO to UserRecord (Entity)
     public UserRecord convertFromDto(User userDto) {
         UserRecord userRecord = new UserRecord();
@@ -131,21 +144,11 @@ public class UserService implements UserDetailsService {
         UserResponse userResponse = new UserResponse();
         userResponse.setUserId(userRecord.getUserId());
         userResponse.setUsername(userRecord.getUsername());
-        // Note: Password is not set due to security reasons
+        // Password is not set due to security reasons
         userResponse.setEmail(userRecord.getEmail());
         userResponse.setHouseholdName(userRecord.getHouseholdName());
         userResponse.setFailedLoginAttempts(userRecord.getFailedLoginAttempts());
         return userResponse;
-    }
-    // Update an existing user
-    public UserRecord updateUser(UserRecord userRecord) {
-        return userRepository.save(userRecord);
-    }
-
-
-    // Delete a user by their ID
-    public void deleteUser(String userId) {
-        userRepository.deleteById(userId);
     }
 
     // Validate user credentials and perform login
@@ -170,24 +173,15 @@ public class UserService implements UserDetailsService {
         UserRecord user = userRepository.findByUsername(username);
         if (user != null) {
             user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
-            if (user.getFailedLoginAttempts() >= 5) {
+            if (user.getFailedLoginAttempts() > 5) {
                 user.setAccountNonLocked(false);
             }
             userRepository.save(user);
         }
     }
 
-    // Reset failed login attempts for a user
-    public void resetFailedLoginAttempts(String username) {
-        UserRecord user = userRepository.findByUsername(username);
-        if (user != null && user.isAccountNonLocked()) {
-            user.setFailedLoginAttempts(0);
-            userRepository.save(user);
-        }
-    }
-
     // Unlock an account for a user
-    public void unlockAccount(String username) {
+    public void resetAndUnlockAccount(String username) {
         UserRecord user = userRepository.findByUsername(username);
         if (user != null) {
             user.setFailedLoginAttempts(0);
@@ -203,15 +197,43 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        //Return UserDetails object required by Spring Security for authentication
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                // This parameter determines if the account is nonLocked
-                user.isAccountNonLocked(),
-                true,
-                true,
-                true,
-                Collections.emptyList());
+        return user;
+//        //Return UserDetails object required by Spring Security for authentication
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getUsername(),
+//                user.getPassword(),
+//                // This parameter determines if the account is nonLocked
+//                user.isAccountNonLocked(),
+//                true,
+//                true,
+//                true,
+//                Collections.emptyList());
+    }
+
+    /** Method to validate password against password policies
+     * Password policy:
+     * At least 8 characters,
+     * one uppercase, one lowercase,
+     * one digit, one special character
+     **/
+    private boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        return password.matches(passwordRegex);
+    }
+
+    // helper method that performs validation checks for registration
+    private void validateUserDetails(User userDto) {
+        // Check if username exists
+        if (userRepository.findByUsername(userDto.getUsername()) != null) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
+        // Check if email exists
+        if (userRepository.findByEmail(userDto.getEmail()) != null) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+        // Validate the password
+        if (!isValidPassword(userDto.getPassword())) {
+            throw new IllegalArgumentException("Password does not meet security requirements.");
+        }
     }
 }
