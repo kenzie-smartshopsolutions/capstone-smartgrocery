@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 @Component
 public class JwtTokenProvider {
@@ -16,6 +17,7 @@ public class JwtTokenProvider {
 
     @Value("${jwt.expiration}")
     private int jwtExpirationInMs;
+    private static final Logger LOGGER = Logger.getLogger(JwtTokenProvider.class.getName());
 
     public String generateToken(Authentication authentication) {
         UserRecord userPrincipal = (UserRecord) authentication.getPrincipal();
@@ -44,15 +46,15 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
-            // log signature exception
+            LOGGER.severe("Signature exception encountered: " + ex.getMessage());
         } catch (MalformedJwtException ex) {
-            // log malformed JWT exception
+            LOGGER.severe("Malformed JWT exception encountered: " + ex.getMessage());
         } catch (ExpiredJwtException ex) {
-            // log expired JWT exception
+            LOGGER.severe("Expired JWT exception encountered: " + ex.getMessage());
         } catch (UnsupportedJwtException ex) {
-            // log unsupported JWT exception
+            LOGGER.severe("Unsupported JWT exception encountered: " + ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            // log illegal argument exception
+            LOGGER.severe("Illegal argument exception encountered: " + ex.getMessage());
         }
         return false;
     }
