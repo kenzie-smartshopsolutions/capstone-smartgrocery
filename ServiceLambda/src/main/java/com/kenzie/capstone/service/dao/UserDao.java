@@ -14,8 +14,10 @@ import java.util.UUID;
 
 public class UserDao {
     private DynamoDBMapper mapper;
+
     /**
      * Allows access to and manipulation of Match objects from the data store.
+     *
      * @param mapper Access to DynamoDB
      */
 
@@ -51,7 +53,7 @@ public class UserDao {
         return mapper.query(UserRecord.class, queryExpression).get(0);
     }
 
-    public UserRecord setUserData (String userId, UserData userData) {
+    public UserRecord setUserData(String userId, UserData userData) {
         UserRecord userRecord = new UserRecord();
         if (userId == null || userId.isEmpty() || userId.isBlank()) {
             String uniqueUserId = UUID.randomUUID().toString();
@@ -61,6 +63,25 @@ public class UserDao {
 
         mapper.save(tempData);
         return userRecord;
+    }
+
+    public void updateUserData(UserData userData) {
+        UserRecord userRecordToUpdate = mapper.load(UserRecord.class, userData.getUserId());
+        if (userRecordToUpdate != null) {
+            UserRecord updatedRecord = convertToUserRecord(userData);
+            mapper.save(updatedRecord);
+        } else {
+            throw new RuntimeException("User not found with ID: " + userData.getUserId());
+        }
+    }
+
+    public void deleteUserRecord(String userId) {
+        UserRecord userRecord = mapper.load(UserRecord.class, userId);
+        if (userRecord != null) {
+            mapper.delete(userRecord);
+        } else {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
     }
 
     // Convert between UserRecord (Entity) and UserData (DTO)
