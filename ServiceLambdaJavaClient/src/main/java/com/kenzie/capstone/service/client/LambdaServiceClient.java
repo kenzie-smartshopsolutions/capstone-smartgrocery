@@ -64,12 +64,16 @@ public class LambdaServiceClient {
         return userData;
     }
 
-    public UserData setUserData(String data) {
+    public UserData setUserData(UserData data) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.postEndpoint(SET_USER_ENDPOINT, data);
-        UserData userData;
         try {
-            userData = mapper.readValue(response, UserData.class);
+            // Convert UserData object to JSON string
+            String jsonData = mapper.writeValueAsString(data);
+
+            // Send JSON data to Lambda endpoint
+            String response = endpointUtility.postEndpoint(SET_USER_ENDPOINT, jsonData);
+
+            return mapper.readValue(response, UserData.class);
         } catch (JsonProcessingException e) {
         // If there is an issue with deserializing the response, handle it appropriately
             throw new ApiGatewayException("Unable to deserialize JSON response: " + e.getMessage());
@@ -80,7 +84,6 @@ public class LambdaServiceClient {
         // For other exceptions, handle them and wrap them in an ApiGatewayException
             throw new ApiGatewayException("An error occurred while processing the response: " + e.getMessage());
         }
-        return userData;
     }
 
     //pantryId??

@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
@@ -9,10 +10,14 @@ import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.UserData;
 import com.kenzie.capstone.service.model.UserRecord;
 
+import java.util.UUID;
+
 public class UserDao {
     private DynamoDBMapper mapper;
+
     /**
      * Allows access to and manipulation of Match objects from the data store.
+     *
      * @param mapper Access to DynamoDB
      */
 
@@ -20,31 +25,64 @@ public class UserDao {
         this.mapper = mapper;
     }
 
-    public UserRecord storeUserRecord(UserRecord userRecord) {
+    public UserData storeUserData(UserData userData) {
         try {
-            mapper.save(userRecord, new DynamoDBSaveExpression()
+            mapper.save(userData, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
                             "userId",
                             new ExpectedAttributeValue()
-                                    .withValue(new AttributeValue().withS(userRecord.getUserId()))
-                                    .withExists(false))));
+                                    .withValue(new AttributeValue().withS(userData.getUserId()))
+                                    .withExists(false)
+                    )));
         } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("Account already exists for this userId: " + userRecord.getUserId());
+            throw new IllegalArgumentException("Account already exists for this userId: " + userData.getUserId());
         }
-        return userRecord;
+        return userData;
     }
 
-    public UserRecord getUserRecord(String userId) {
-        UserRecord userRecord = mapper.load(UserRecord.class, userId);
-        return userRecord;
-    }
-
-    public UserRecord updateUserRecord(UserRecord userRecord) {
-        if (userRecord.getUserId() == null || userRecord.getUserId().isEmpty() || userRecord.getUserId().isBlank()) {
+    public UserRecord getUserData(String userId) {
+        UserRecord userRecord = new UserRecord();
+        if (userId == null || userId.isEmpty() || userId.isBlank()) {
             throw new IllegalArgumentException("UserId cannot be null or empty");
+        } else {
+            userRecord.setUserId(userId);
         }
-        mapper.save(userRecord);
+        DynamoDBQueryExpression<UserRecord> queryExpression = new DynamoDBQueryExpression<UserRecord>()
+                .withHashKeyValues(userRecord)
+                .withConsistentRead(false);
+        return mapper.query(UserRecord.class, queryExpression).get(0);
+    }
+
+    public UserRecord setUserData(String userId, UserData userData) {
+        UserRecord userRecord = new UserRecord();
+        if (userId == null || userId.isEmpty() || userId.isBlank()) {
+            String uniqueUserId = UUID.randomUUID().toString();
+            userRecord.setUserId(uniqueUserId);
+        }
+        UserRecord tempData = convertToUserRecord(userData);
+
+        mapper.save(tempData);
         return userRecord;
+    }
+
+    public UserData updateUserData(UserData userData) {
+        UserRecord userRecordToUpdate = mapper.load(UserRecord.class, userData.getUserId());
+        if (userRecordToUpdate != null) {
+            UserRecord updatedRecord = convertToUserRecord(userData);
+            mapper.save(updatedRecord);
+        } else {
+            throw new RuntimeException("User not found with ID: " + userData.getUserId());
+        }
+        return userData;
+    }
+
+    public void deleteUserRecord(String userId) {
+        UserRecord userRecord = mapper.load(UserRecord.class, userId);
+        if (userRecord != null) {
+            mapper.delete(userRecord);
+        } else {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
     }
 
     // Convert between UserRecord (Entity) and UserData (DTO)

@@ -48,13 +48,24 @@ public class UserRecord {
         return username;
     }
 
+    @DynamoDBAttribute(attributeName = "password")
+    public String getPassword() {
+        return password;
+    }
+
     @DynamoDBAttribute(attributeName = "householdName")
     public String getHouseholdName() {
         return householdName;
     }
 
-    public String getPassword() {
-        return password;
+    @DynamoDBAttribute(attributeName = "accountNonLocked")
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    @DynamoDBAttribute(attributeName = "failedLoginAttempts")
+    public int getFailedLoginAttempts() {
+        return failedLoginAttempts;
     }
 
     public void setPassword(String password) {

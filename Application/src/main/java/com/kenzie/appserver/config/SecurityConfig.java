@@ -61,10 +61,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 "/swagger-resources/**",
                                 "/webjars/**").permitAll()
 
-                    .antMatchers("/User/login",
-                            "/User/register").permitAll()
+                // bypass authentication for API testing - comment out if/when applicable
+                    .antMatchers("/User/login/**",
+                            "/User/register/**").permitAll()
                     .antMatchers("/example/**").permitAll()
-                    .anyRequest().authenticated();
+                    .antMatchers("/pantry/**").permitAll()
+                    .antMatchers("/recipes/**").permitAll()
+                .anyRequest().authenticated();
 
         // Add JWT token filter
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
