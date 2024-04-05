@@ -7,6 +7,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.LambdaService;
+import com.kenzie.capstone.service.PantryLambdaService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.model.ExampleData;
@@ -30,31 +31,23 @@ public class SetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        LambdaService lambdaService = serviceComponent.provideLambdaService();
+        PantryLambdaService pantryLambdaService = serviceComponent.providePantryLambdaService();
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-//        String data = input.getBody();
-//
-//        if (data == null || data.length() == 0) {
-//            return response
-//                    .withStatusCode(400)
-//                    .withBody("data is invalid");
-//        }
 
-        //do I use pantryData.getPantryItemId ???
         PantryData pantryData = gson.fromJson(input.getBody(), PantryData.class);
         if (pantryData == null || pantryData.getUserId()== null || pantryData.getUserId().isEmpty()) {
             return response.withStatusCode(400).withBody("Pantry does not exist");
         }
 
         try {
-            ExampleData exampleData = lambdaService.setExampleData(pantryData.getUserId());
-            String output = gson.toJson(exampleData);
-
+            PantryData savedPantryData = pantryLambdaService.setPantryData(pantryData);
+            String output = gson.toJson(savedPantryData);
             return response
                     .withStatusCode(200)
                     .withBody(output);
