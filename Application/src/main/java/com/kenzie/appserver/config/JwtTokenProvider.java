@@ -1,6 +1,6 @@
 package com.kenzie.appserver.config;
 
-import com.kenzie.appserver.service.model.User;
+import com.kenzie.appserver.repositories.model.UserRecord;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,7 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication) {
-        User userPrincipal = (User) authentication.getPrincipal();
+        UserRecord userPrincipal = (UserRecord) authentication.getPrincipal();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
