@@ -35,13 +35,13 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
 
         UserData userData = gson.fromJson(input.getBody(), UserData.class);
         if (userData == null || userData.getUsername() == null || userData.getUsername().isEmpty()) {
-            return response.withStatusCode(400).withBody("User data is invalid");
+            return response.withStatusCode(400).withBody("User information is invalid");
         }
         log.info("User data: {}", userData);
         try {
             UserData savedUserData = userLambdaService.setUserData(userData);
             String output = gson.toJson(savedUserData);
-            return response.withStatusCode(200).withBody(output);
+            return response.withStatusCode(201).withBody(output);
         } catch (Exception e) {
             log.error("Error saving user data: ", e);
             return response.withStatusCode(500).withBody(gson.toJson(e.getMessage()));

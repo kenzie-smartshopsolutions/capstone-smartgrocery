@@ -22,7 +22,15 @@ public class UserLambdaService {
     public UserData setUserData(UserData userData) {
         String userId = userData.getUserId();
         UserRecord userRecord = userDao.setUserData(userId, userData);
-
         return userDao.convertToUserData(userRecord);
+    }
+
+    public void deleteUserData(String userId) {
+        userDao.deleteUserRecord(userId);
+    }
+
+    public UserData updateUserData(UserData userData) {
+        userDao.updateUserData(userData);
+        return userData;
     }
 }
