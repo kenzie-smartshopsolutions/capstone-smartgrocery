@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.UserData;
 import com.kenzie.capstone.service.model.UserRecord;
 
+import java.util.UUID;
+
 public class UserDao {
     private DynamoDBMapper mapper;
     /**
@@ -38,8 +40,11 @@ public class UserDao {
 
     public UserRecord getUserData(String userId) {
         UserRecord userRecord = new UserRecord();
-        userRecord.setUserId(userId);
-
+        if (userId == null || userId.isEmpty() || userId.isBlank()) {
+            throw new IllegalArgumentException("UserId cannot be null or empty");
+        } else {
+            userRecord.setUserId(userId);
+        }
         DynamoDBQueryExpression<UserRecord> queryExpression = new DynamoDBQueryExpression<UserRecord>()
                 .withHashKeyValues(userRecord)
                 .withConsistentRead(false);
@@ -49,9 +54,8 @@ public class UserDao {
     public UserRecord setUserData (String userId, UserData userData) {
         UserRecord userRecord = new UserRecord();
         if (userId == null || userId.isEmpty() || userId.isBlank()) {
-            throw new IllegalArgumentException("UserId cannot be null or empty");
-        } else {
-            userRecord.setUserId(userId);
+            String uniqueUserId = UUID.randomUUID().toString();
+            userRecord.setUserId(uniqueUserId);
         }
         UserRecord tempData = convertToUserRecord(userData);
 
