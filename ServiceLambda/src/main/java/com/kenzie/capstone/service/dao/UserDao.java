@@ -65,7 +65,7 @@ public class UserDao {
         return userRecord;
     }
 
-    public void updateUserData(UserData userData) {
+    public UserData updateUserData(UserData userData) {
         UserRecord userRecordToUpdate = mapper.load(UserRecord.class, userData.getUserId());
         if (userRecordToUpdate != null) {
             UserRecord updatedRecord = convertToUserRecord(userData);
@@ -73,6 +73,7 @@ public class UserDao {
         } else {
             throw new RuntimeException("User not found with ID: " + userData.getUserId());
         }
+        return userData;
     }
 
     public void deleteUserRecord(String userId) {
