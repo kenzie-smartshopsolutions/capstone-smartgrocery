@@ -158,26 +158,48 @@ Resources:
               Path: /User/login
               Method: post
 
-#  GetPantryItemsFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-#      Handler: com.kenzie.appserver.controller.PantryController::getPantryItems
-#      Runtime: java11
-#      Description: Fetch pantry items for a user
-#      MemorySize: 512
-#      Timeout: 240
-#      Policies:
-#        - AWSLambdaBasicExecutionRole
-#        - AWSLambda_ReadOnlyAccess
-#        - AmazonDynamoDBReadOnlyAccess
-#      Tracing: Active
-#      Events:
-#        GetPantryItems:
-#          Type: Api
-#          Properties:
-#            Path: /pantry/{userId}
-#            Method: get
+  GetPantryItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.lambda.pantry.GetPantryData
+      Runtime: java11
+      Description: Fetch pantry items for a user
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBReadOnlyAccess
+      Tracing: Active
+      Events:
+        GetPantryItems:
+          Type: Api
+          Properties:
+            Path: /pantry/{userId}
+            Method: get
+  SetPantryDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.lambda.pantry.SetPantryData
+      Runtime: java11
+      Description: Set pantry items for a user
+      MemorySize: 512
+      Timeout: 240
+      # Function's execution role
+      Policies:
+              - AWSLambdaBasicExecutionRole
+              - AWSLambda_ReadOnlyAccess
+              - AmazonDynamoDBReadOnlyAccess
+      Tracing: Active
+      Events:
+        UpdateResource:
+          Type: Api
+          Properties:
+            Path: /pantry/{userId}
+            Method: post
+
 #
 #  CreateRecipeFunction:
 #    Type: AWS::Serverless::Function
