@@ -7,9 +7,11 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.LambdaService;
+import com.kenzie.capstone.service.PantryLambdaService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.PantryData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +30,8 @@ public class GetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        LambdaService lambdaService = serviceComponent.provideLambdaService();
+        PantryLambdaService pantryLambdaService = serviceComponent.providePantryLambdaService();
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
@@ -51,8 +54,8 @@ public class GetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
         }
 
         try {
-            ExampleData exampleData = lambdaService.getExampleData(userId);
-            String output = gson.toJson(exampleData);
+            PantryData pantryData = pantryLambdaService.getPantryData(userId);
+            String output = gson.toJson(pantryData);
 
             return response
                     .withStatusCode(200)
