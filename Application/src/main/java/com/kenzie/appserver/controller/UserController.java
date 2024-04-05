@@ -2,6 +2,7 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.config.JwtTokenProvider;
 import com.kenzie.appserver.controller.model.user.UserRequest;
+import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.User;
@@ -20,12 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("User")
 public class UserController {
 
-
     private UserService userService;
-
-
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private JwtTokenProvider tokenProvider;
   
@@ -41,7 +38,7 @@ public class UserController {
 
         if (userRecord != null) {
             User userDto = userService.convertToDto(userRecord);
-            return ResponseEntity.ok(userDto); // Simplified response entity creation
+            return ResponseEntity.ok(userDto);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -49,23 +46,22 @@ public class UserController {
 
     // Register a new user
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User userDTO) {
+    public ResponseEntity<UserResponse> registerUser(@RequestBody User userDTO) {
         UserRecord createdUser = userService.createUser(userDTO);
-        User responseDTO = userService.convertToDto(createdUser);
-       // return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO); // Simplified response entity creation
+        UserResponse responseDTO = userService.convertToUserResponse(createdUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     // Update an existing user
     @PutMapping("/register/userId/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody User userDto) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable String userId, @RequestBody User userDto) {
         if (userService.getUserById(userId) != null) {
             UserRecord userRecord = userService.convertFromDto(userDto);
             userRecord.setUserId(userId);
             UserRecord updatedUser = userService.updateUser(userRecord);
-            User responseDTO = userService.convertToDto(updatedUser);
+            UserResponse responseDTO = userService.convertToUserResponse(updatedUser);
             //return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-            return ResponseEntity.ok(responseDTO); // Simplified response entity creation
+            return ResponseEntity.ok(responseDTO);
         } else {
            // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return ResponseEntity.notFound().build(); // Using ResponseEntity's convenience methods
@@ -85,11 +81,10 @@ public class UserController {
         }
     }
 
-    //for appropriate authentication and security measures
-    //handles the process of validating user credentials and managing account lockout due to multiple failed login attempts
-    // Log in a user
+    // Login a user
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+        // Handles the process of validating user credentials
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -102,10 +97,13 @@ public class UserController {
             // Generates JWT token & responses
             String jwt = tokenProvider.generateToken(authentication);
             return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
+
+        // Manages account lockout due to multiple failed login attempts
         } catch (LockedException e) {
             return ResponseEntity
                     .status(HttpStatus.LOCKED)
-                    .body("Your account has been locked due to multiple failed login attempts. Please contact support to unlock your account.");
+                    .body("Your account has been locked due to multiple failed login attempts. " +
+                            "Please contact support to unlock your account.");
         } catch (BadCredentialsException e) {
             userService.incrementFailedLoginAttempts(userRequest.getUsername());
             return ResponseEntity

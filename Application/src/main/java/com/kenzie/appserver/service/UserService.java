@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.User;
@@ -39,10 +40,8 @@ public class UserService implements UserDetailsService {
 
     // Create a new user
     public UserRecord createUser(User userDto) {
-//        // Validate the password
-//        if (!isValidPassword(userDto.getPassword())) {
-//            throw new IllegalArgumentException("Password does not meet security requirements.");
-//        }
+        // Validate user details
+        validateUserDetails(userDto);
 
         // Generate userId only for new user creation
         if (userDto.getUserId() == null || userDto.getUserId().trim().isEmpty()) {
@@ -54,9 +53,8 @@ public class UserService implements UserDetailsService {
 
         UserRecord userRecord = convertFromDto(userDto);
 
-        // encode password
+        // encode & save password
         userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
         UserRecord savedUser = userRepository.save(userRecord);
 
         // Convert UserRecord to UserData and "setUserData"
@@ -75,6 +73,22 @@ public class UserService implements UserDetailsService {
     private boolean isValidPassword(String password) {
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         return password.matches(passwordRegex);
+    }
+
+    // helper method that performs validation checks for registration
+    private void validateUserDetails(User userDto) {
+        // Check if username exists
+        if (userRepository.findByUsername(userDto.getUsername()) != null) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
+        // Check if email exists
+        if (userRepository.findByEmail(userDto.getEmail()) != null) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+        // Validate the password
+        if (!isValidPassword(userDto.getPassword())) {
+            throw new IllegalArgumentException("Password does not meet security requirements.");
+        }
     }
 
     /** Helper methods to convert DTOs **/
@@ -98,6 +112,7 @@ public class UserService implements UserDetailsService {
                 userRecord.getPassword(),
                 userRecord.getHouseholdName());
     }
+
     // Convert UserRecord to UserData
     public UserData convertToUserData(UserRecord userRecord) {
         if (userRecord == null) {
@@ -110,11 +125,18 @@ public class UserService implements UserDetailsService {
         userData.setEmail(userRecord.getEmail());
         userData.setHouseholdName(userRecord.getHouseholdName());
 
-        // Future development - Map additional fields
-
         return userData;
     }
-
+    public UserResponse convertToUserResponse(UserRecord userRecord) {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUserId(userRecord.getUserId());
+        userResponse.setUsername(userRecord.getUsername());
+        // Note: Password is not set due to security reasons
+        userResponse.setEmail(userRecord.getEmail());
+        userResponse.setHouseholdName(userRecord.getHouseholdName());
+        userResponse.setFailedLoginAttempts(userRecord.getFailedLoginAttempts());
+        return userResponse;
+    }
     // Update an existing user
     public UserRecord updateUser(UserRecord userRecord) {
         return userRepository.save(userRecord);
@@ -185,7 +207,11 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
+                // This parameter determines if the account is nonLocked
+                user.isAccountNonLocked(),
+                true,
+                true,
+                true,
                 Collections.emptyList());
     }
 }
-
