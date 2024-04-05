@@ -3,6 +3,7 @@ package com.kenzie.capstone.service.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.PantryData;
 import com.kenzie.capstone.service.model.UserData;
 
 
@@ -80,6 +81,30 @@ public class LambdaServiceClient {
             throw new ApiGatewayException("An error occurred while processing the response: " + e.getMessage());
         }
         return userData;
+    }
+
+    //pantryId??
+    public PantryData getPantryData(String userId) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.getEndpoint(GET_EXAMPLE_ENDPOINT.replace("{userId}", userId));
+        PantryData pantryData;
+        try {
+            pantryData = mapper.readValue(response, PantryData.class);
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return pantryData;
+    }
+    public PantryData setPantryData(String data) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.postEndpoint(SET_EXAMPLE_ENDPOINT, data);
+        PantryData pantryData;
+        try {
+            pantryData = mapper.readValue(response, PantryData.class);
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return pantryData;
     }
 
 }
