@@ -434,10 +434,10 @@ img.avatar {
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 12% auto 8% auto;
   border: 1px solid #888;
   border-radius: 5px;
-  width: 70%; /* Could be more or less, depending on screen size */
+  width: 70%;
 }
 
 /* The Close Button (x) */
@@ -565,7 +565,7 @@ tr:hover {
     }
 
     .modal-content {
-      margin: 5% auto 5% auto;
+      margin: 6% auto 6% auto;
       width: 30%;
     }
 }
