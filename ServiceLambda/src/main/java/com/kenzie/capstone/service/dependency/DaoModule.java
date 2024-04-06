@@ -45,7 +45,7 @@ public class DaoModule {
     @Provides
     @Named("PantryDao")
     @Inject
-    public PantryDao providePantryDao(DynamoDBMapper mapper) {
+    public PantryDao providePantryDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
         return new PantryDao(mapper);
     }
 }
