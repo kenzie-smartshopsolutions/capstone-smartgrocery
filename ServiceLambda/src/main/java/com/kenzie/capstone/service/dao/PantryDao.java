@@ -75,7 +75,5 @@ public class PantryDao {
                 pantryData.isExpired(),
                 pantryData.getDatePurchased());
     }
-
-
     }
 
