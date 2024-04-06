@@ -1,12 +1,22 @@
 package com.kenzie.appserver.service;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.kenzie.appserver.controller.model.PantryRequest;
+import com.kenzie.appserver.controller.model.PantryResponse;
 import com.kenzie.appserver.repositories.PantryRepository;
 import com.kenzie.appserver.repositories.model.PantryRecord;
+import com.kenzie.appserver.repositories.model.UserRecord;
+import com.kenzie.appserver.service.model.Pantry;
+import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import com.kenzie.capstone.service.model.PantryData;
+import com.kenzie.capstone.service.model.UserData;
+import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -92,56 +102,143 @@ public class PantryService {
 
  //    Retrieve pantry items for a user or household
     public List<PantryRecord> getPantryItems(String userId) {
-        // return pantryRepository.findByUserId(userId);
+        List<PantryRecord> pantryRecord = pantryRepository.findByUserId(userId);
 
-        // Fetch pantry items from the repository for the given user ID
-        List<PantryRecord> items = pantryRepository.findByUserId(userId);
+        // Retrieve UserData from the lambda function
+        PantryData lambdaPantryData = lambdaServiceClient.getPantryData(userId);
 
-        //Map category  to descriptions
-        for (PantryRecord item : items) {
-            String description = foodCategories.get(item.getCategory());
-            if (description != null) {
-                item.setCategory(description);
+        Pantry lambdaPantry = new Pantry(
+                lambdaPantryData.getPantryItemId(),
+                lambdaPantryData.getItemName(),
+                lambdaPantryData.getExpiryDate(),
+                lambdaPantryData.getQuantity(),
+                lambdaPantryData.isExpired(),
+                lambdaPantryData.getDatePurchased(),
+                lambdaPantryData.getCategory(),
+                lambdaPantryData.getUserId());
+
+
+        PantryRecord lambdaPantryRecord = convertFromDto(lambdaPantry);
+
+        if (pantryRecord == null && lambdaPantryRecord == null) {
+            throw new IllegalArgumentException("Pantry not found in both the database and lambda function.");
+        } else if (pantryRecord == null) {
+            // Only the DB user record is null
+            throw new IllegalArgumentException("Pantry not found in the database.");
+        } else if (lambdaPantryRecord == null) {
+            // Only the Lambda user record is null
+            throw new IllegalArgumentException("Pantry not found in the lambda function.");
+        } else {
+            // if both found, merge/save
+            pantryRecord.add(lambdaPantryRecord);
+
+                return pantryRecord;
             }
 
-            // if the item is expired based on expiry date
-            item.setExpired(isItemExpired(item.getExpiryDate()));
-
+//        // return pantryRepository.findByUserId(userId);
+//
+//        // Fetch pantry items from the repository for the given user ID
+//        List<PantryRecord> items = pantryRepository.findByUserId(userId);
+//
+//        //Map category  to descriptions
+//        for (PantryRecord item : items) {
+//            String description = foodCategories.get(item.getCategory());
+//            if (description != null) {
+//                item.setCategory(description);
+//            }
+//
+//            // if the item is expired based on expiry date
+//            item.setExpired(isItemExpired(item.getExpiryDate()));
+//
+//        }
+//        return items;
         }
-        return items;
-   }
+public PantryRecord getByItemId(String pantryItemId) {
+        PantryRecord pantryRecord = pantryRepository.findItemByItemID(pantryItemId);
 
-/*
+    // Retrieve UserData from the lambda function
+        PantryData lambdaPantryData = lambdaServiceClient.getPantryData(pantryRecord.getUserId());
+
+
+    Pantry lambdaPantry = new Pantry(
+            lambdaPantryData.getPantryItemId(),
+            lambdaPantryData.getItemName(),
+            lambdaPantryData.getExpiryDate(),
+            lambdaPantryData.getQuantity(),
+            lambdaPantryData.isExpired(),
+            lambdaPantryData.getDatePurchased(),
+            lambdaPantryData.getCategory(),
+            lambdaPantryData.getUserId());
+
+
+    PantryRecord lambdaPantryRecord = convertFromDto(lambdaPantry);
+
+    if (pantryRecord == null && lambdaPantryRecord == null) {
+        throw new IllegalArgumentException("Pantry not found in both the database and lambda function.");
+    } else if (pantryRecord == null) {
+        // Only the DB user record is null
+        throw new IllegalArgumentException("Pantry not found in the database.");
+    } else if (lambdaPantryRecord == null) {
+        // Only the Lambda user record is null
+        throw new IllegalArgumentException("Pantry not found in the lambda function.");
+    } else {
+        // if both found, merge/save
+        pantryRecord.setDatePurchased(lambdaPantryRecord.getDatePurchased());
+        pantryRecord.setPantryItemId(lambdaPantryRecord.getPantryItemId());
+        pantryRecord.setItemName(lambdaPantryRecord.getItemName());
+        pantryRecord.setExpired(lambdaPantryRecord.isExpired());
+        pantryRecord.setQuantity(lambdaPantryRecord.getQuantity());
+        pantryRecord.setCategory(lambdaPantryRecord.getCategory());
+        pantryRecord.setUserId(lambdaPantryRecord.getUserId());
+        pantryRecord.setExpiryDate(lambdaPantryData.getExpiryDate());
+
+        return pantryRecord;
+    }
+}
+
+
 
     // Add a new pantry item
-    public PantryRecord addPantryItem(String userId, String pantryItemId, String itemName, String category,
-                                      String expiryDate, int quantity, boolean isExpired, Date datePurchased) {
-        // Create a new pantry record object
-        PantryRecord pantryRecord = new PantryRecord();
+//    public PantryRecord addPantryItem(String userId, String pantryItemId, String itemName, String category,
+//                                      String expiryDate, int quantity, boolean isExpired, Date datePurchased) {
+//        // Create a new pantry record object
+//        PantryRecord pantryRecord = new PantryRecord();
+//
+//        // Set the properties of the pantry item
+//        pantryRecord.setUserId(userId);
+//        pantryRecord.setPantryItemId(pantryItemId);
+//        pantryRecord.setItemName(itemName);
+//        pantryRecord.setCategory(category);
+//        pantryRecord.setExpiryDate(expiryDate);
+//        pantryRecord.setQuantity(quantity);
+//        pantryRecord.setExpired(isExpired);
+//        pantryRecord.setDatePurchased(datePurchased);
+//
+//        // Save the pantry item to the repository
+//        return pantryRepository.save(pantryRecord);
+//    }
 
-        // Set the properties of the pantry item
-        pantryRecord.setUserId(userId);
-        pantryRecord.setPantryItemId(pantryItemId);
-        pantryRecord.setItemName(itemName);
-        pantryRecord.setCategory(category);
-        pantryRecord.setExpiryDate(expiryDate);
-        pantryRecord.setQuantity(quantity);
-        pantryRecord.setExpired(isExpired);
-        pantryRecord.setDatePurchased(datePurchased);
 
-        // Save the pantry item to the repository
-        return pantryRepository.save(pantryRecord);
-    }
-
- */
     /**
-     * Adds a new pantry item to the repository.
-     *
-     * @param pantryRecord The pantry item to be added.
-     * @return The added pantry item.
+//     * Adds a new pantry item to the repository.
+//     *
+//     * @param pantryRecord The pantry item to be added.
+//     * @return The added pantry item.
      */
-    public PantryRecord addPantryItem(PantryRecord pantryRecord) {
+    public PantryRecord addPantryItem(PantryRequest request) {
         //??Perform validation before adding the pantry item
+        PantryRecord pantryRecord = new PantryRecord();
+        pantryRecord.setDatePurchased(request.getDatePurchased());
+        pantryRecord.setExpired(request.isExpired());
+        pantryRecord.setPantryItemId(request.getPantryItemId());
+        pantryRecord.setCategory(request.getCatagory());
+        pantryRecord.setUserId(request.getUserId());
+        pantryRecord.setExpiryDate(request.getExpiryDate());
+        pantryRecord.setQuantity(request.getQuantity());
+
+        PantryData pantryData = convertToData(pantryRecord);
+        lambdaServiceClient.setPantryData(pantryData);
+
         return pantryRepository.save(pantryRecord);
     }
       /*
@@ -218,4 +315,54 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
             return false;
         }
     }
+    public PantryRecord convertFromDto(Pantry pantry) {
+        PantryRecord pantryRecord = new PantryRecord();
+        pantryRecord.setUserId(pantry.getUserId());
+        pantryRecord.setPantryItemId(pantryRecord.getPantryItemId());
+        pantryRecord.setItemName(pantry.getItemName());
+        pantryRecord.setCategory(pantryRecord.getCategory());
+        pantryRecord.setExpiryDate(pantry.getExpiryDate());
+        pantryRecord.setQuantity(pantryRecord.getQuantity());
+        pantryRecord.setExpired(pantry.isExpired());
+        pantryRecord.setDatePurchased(pantry.getDatePurchased());
+        return pantryRecord;
+    }
+    public Pantry convertRecordToDto(PantryRecord pantryRecord) {
+        Pantry pantry = new Pantry(
+                pantryRecord.getPantryItemId(),
+                pantryRecord.getItemName(),
+                pantryRecord.getExpiryDate(),
+                pantryRecord.getQuantity(),
+                pantryRecord.isExpired(),
+                pantryRecord.getDatePurchased(),
+                pantryRecord.getCategory(),
+                pantryRecord.getUserId()
+        );
+        return pantry;
+    }
+//    private PantryResponse createPantryResponse(PantryRecord pantry) {
+//        PantryResponse pantryResponse = new PantryResponse();
+//        pantryResponse.setPantryItemId(pantry.getPantryItemId());
+//        pantryResponse.setUserId(pantry.getUserId());
+//        pantryResponse.setDatePurchased(pantry.getDatePurchased());
+//        pantryResponse.setExpired(pantry.isExpired());
+//        pantryResponse.setExpiryDate(pantry.getExpiryDate());
+//        pantryResponse.setItemName(pantry.getItemName());
+//        return pantryResponse;
+//    }
+
+    private PantryData convertToData(PantryRecord pantryRecord) {
+        PantryData pantryData = new PantryData(
+                pantryRecord.getPantryItemId(),
+                pantryRecord.getItemName(),
+                pantryRecord.getExpiryDate(),
+                pantryRecord.getQuantity(),
+                pantryRecord.isExpired(),
+                pantryRecord.getDatePurchased(),
+                pantryRecord.getCategory(),
+                pantryRecord.getUserId()
+        );
+        return pantryData;
+    }
+
 }

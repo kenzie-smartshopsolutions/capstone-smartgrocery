@@ -61,7 +61,8 @@ public class PantryDao {
                 pantryRecord.getQuantity(),
                 pantryRecord.isExpired(),
                 pantryRecord.getDatePurchased(),
-                pantryRecord.getCategory());
+                pantryRecord.getCategory(),
+                pantryRecord.getUserId());
     }
 
     //constructor issue

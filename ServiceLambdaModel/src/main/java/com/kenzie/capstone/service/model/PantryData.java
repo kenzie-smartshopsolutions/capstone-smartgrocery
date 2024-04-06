@@ -23,7 +23,7 @@ public class PantryData {
     // private final Date dateUsed;
 
 
-    public PantryData(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category) {
+    public PantryData(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, String userId) {
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
@@ -31,6 +31,7 @@ public class PantryData {
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
+        this.userId = userId;
         // this.dateUsed = dateUsed;
     }
 
