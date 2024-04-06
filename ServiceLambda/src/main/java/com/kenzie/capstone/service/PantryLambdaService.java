@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
-import static com.google.common.util.concurrent.SerializingExecutor.log;
+//import static com.google.common.util.concurrent.SerializingExecutor.log;
 
 public class PantryLambdaService {
     private PantryDao pantryDao;
