@@ -54,7 +54,7 @@ main {
 }
 
 .analytics {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/analytics.webp");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -72,7 +72,7 @@ main {
 }
 
 .profile {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/.webp");
+    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("../img/home.webp");
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;

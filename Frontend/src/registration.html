@@ -25,7 +25,7 @@
     <script type="text/javascript" src="navbar.js"></script>
 </head>
 <body>
-<header class="register">
+<header class="hero-image">
     <h1 class="hero-text">Registration</h1>
     <div class="nav-menu" id="nav">
         <img src="img/shopping-cart.png" alt="logo">
@@ -48,6 +48,11 @@
                     <input type="email" id="email" name="email" required placeholder="email">
                     <input type="text" id="username" name="username" required placeholder="username">
                     <input type="password" id="password" name="password" required placeholder="password">
+
+                    <input type="hidden" id="userId" name="userId" value=null>
+                    <input type="hidden" id="householdname" name="householdname" value="myHousehold">
+                    <input type="hidden" id="accountNonLocked" name="accountNonLocked" value="true">
+                    <input type="hidden" id="failedLoginAttempts" name="failedLogin" value="0">
                 </p>
 
                 <!-- <button type="submit">Register</button> -->
