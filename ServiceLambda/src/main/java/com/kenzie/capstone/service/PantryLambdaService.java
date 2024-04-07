@@ -1,9 +1,8 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.dao.ExampleDao;
 import com.kenzie.capstone.service.dao.PantryDao;
-import com.kenzie.capstone.service.dao.UserDao;
-import com.kenzie.capstone.service.model.*;
+import com.kenzie.capstone.service.model.PantryData;
+import com.kenzie.capstone.service.model.PantryRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
