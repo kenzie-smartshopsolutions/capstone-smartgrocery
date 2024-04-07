@@ -58,39 +58,33 @@ public class UserService implements UserDetailsService {
 
     // Retrieve a user by their ID
     public UserRecord getUserById(String userId) {
-        // Retrieve the UserRecord from the database
-        UserRecord userRecord = userRepository.findByUserId(userId);
+        UserRecord userRecord = null;
 
-        // Retrieve UserData from the lambda function
-        UserData lambdaUserData = lambdaServiceClient.getUserData(userId);
+        try {
+            // Retrieve UserData from the lambda function
+            UserData lambdaUserData = lambdaServiceClient.getUserData(userId);
 
-        // Convert UserData to User
-        User lambdaUser = new User(lambdaUserData.getUserId(),
-                lambdaUserData.getUsername(),
-                lambdaUserData.getEmail(),
-                lambdaUserData.getPassword(),
-                lambdaUserData.getHouseholdName());
+            // Convert UserData to User
+            User lambdaUser = new User(lambdaUserData.getUserId(),
+                    lambdaUserData.getUsername(),
+                    lambdaUserData.getEmail(),
+                    lambdaUserData.getPassword(),
+                    lambdaUserData.getHouseholdName());
 
-        // Convert User to UserRecord
-        UserRecord lambdaUserRecord = convertFromDto(lambdaUser);
+            // Convert User to UserRecord
+            userRecord = convertFromDto(lambdaUser);
+        } catch (Exception e) {
+            // Handle exceptions that occurred when retrieving from the Lambda function
+            System.err.println("Unable to retrieve data from the Lambda function: " + e.getMessage());
 
-        if (userRecord == null && lambdaUserRecord == null) {
-            throw new IllegalArgumentException("User not found in both the database and lambda function.");
-        } else if (userRecord == null) {
-            // Only the DB user record is null
-            throw new IllegalArgumentException("User not found in the database.");
-        } else if (lambdaUserRecord == null) {
-            // Only the Lambda user record is null
-            throw new IllegalArgumentException("User not found in the lambda function.");
-        } else {
-            // if both found, merge/save
-            userRecord.setUsername(lambdaUserRecord.getUsername());
-            userRecord.setEmail(lambdaUserRecord.getEmail());
-            userRecord.setPassword(lambdaUserRecord.getPassword());
-            userRecord.setHouseholdName(lambdaUserRecord.getHouseholdName());
+            // Retrieve UserRecord from the local database as contingency
+            userRecord = userRepository.findByUserId(userId);
 
-            return userRecord;
+            if (userRecord == null) {
+                throw new IllegalArgumentException("User not found in databases.");
+            }
         }
+        return userRecord;
     }
 
     // Update an existing user

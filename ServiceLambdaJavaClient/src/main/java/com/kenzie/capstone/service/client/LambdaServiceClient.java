@@ -17,6 +17,9 @@ public class LambdaServiceClient {
     private static final String GET_PANTRY_ENDPOINT = "Pantry/{userId}";
     private static final String SET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
 
+    private static final String GET_PANTRY_ENDPOINT = "pantry/{userId}";
+    private static final String SET_PANTRY_ENDPOINT = "pantry/{pantryItemId}";
+
     private ObjectMapper mapper;
 
     public LambdaServiceClient() {
@@ -109,7 +112,8 @@ public class LambdaServiceClient {
     }
     public PantryData setPantryData(PantryData data) {
         EndpointUtility endpointUtility = new EndpointUtility();
-
+        String response = endpointUtility.postEndpoint(SET_PANTRY_ENDPOINT, data);
+        PantryData pantryData;
         try {
             String jsonData = mapper.writeValueAsString(data);
             String response = endpointUtility.postEndpoint(SET_PANTRY_ENDPOINT, jsonData);
