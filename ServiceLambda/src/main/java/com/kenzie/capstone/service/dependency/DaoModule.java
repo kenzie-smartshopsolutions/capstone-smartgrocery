@@ -57,5 +57,4 @@ public class DaoModule {
     public RecipeDao provideRecipeDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
         return new RecipeDao(mapper);
     }
-
 }

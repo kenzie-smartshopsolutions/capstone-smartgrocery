@@ -45,10 +45,13 @@ public class UpdateRecipeData implements RequestHandler<APIGatewayProxyRequestEv
         }
 
         try {
-            RecipeData recipeData = gson.fromJson(body, RecipeData.class);
-            recipeLambdaService.updateRecipeData(recipeData);
+            RecipeData recipeData = gson.fromJson(body, RecipeData.class); // Deserialize request body into RecipeData
+            RecipeData updatedRecipeData = recipeLambdaService.updateRecipeData(recipeData);
+            String output = gson.toJson(updatedRecipeData);
+
             return response
-                    .withStatusCode(204); // No content
+                    .withStatusCode(200)
+                    .withBody(output);
         } catch (Exception e) {
             return response
                     .withStatusCode(400)
