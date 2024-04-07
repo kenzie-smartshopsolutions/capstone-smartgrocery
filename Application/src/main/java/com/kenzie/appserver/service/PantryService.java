@@ -1,28 +1,18 @@
 package com.kenzie.appserver.service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.kenzie.appserver.controller.model.PantryRequest;
-import com.kenzie.appserver.controller.model.PantryResponse;
 import com.kenzie.appserver.repositories.PantryRepository;
 import com.kenzie.appserver.repositories.model.PantryRecord;
-import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.Pantry;
-import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.PantryData;
-import com.kenzie.capstone.service.model.UserData;
-import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -230,7 +220,15 @@ public PantryRecord getByItemId(String pantryItemId) {
         PantryRecord pantryRecord = new PantryRecord();
         pantryRecord.setDatePurchased(request.getDatePurchased());
         pantryRecord.setExpired(request.isExpired());
-        pantryRecord.setPantryItemId(request.getPantryItemId());
+
+
+        // Set the generated itemId of the pantry item if null or empty
+        String itemId = request.getPantryItemId();
+        if (itemId == null || itemId.trim().isEmpty()) {
+            itemId = generatePantryItemId();
+        }
+        pantryRecord.setPantryItemId(itemId);
+
         pantryRecord.setCategory(request.getCatagory());
         pantryRecord.setUserId(request.getUserId());
         pantryRecord.setExpiryDate(request.getExpiryDate());
@@ -364,5 +362,7 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
         );
         return pantryData;
     }
-
+    private String generatePantryItemId() {
+        return UUID.randomUUID().toString();
+    }
 }

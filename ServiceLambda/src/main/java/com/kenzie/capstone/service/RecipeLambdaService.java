@@ -3,6 +3,7 @@ package com.kenzie.capstone.service;
 import com.kenzie.capstone.service.dao.RecipeDao;
 import com.kenzie.capstone.service.model.RecipeData;
 import com.kenzie.capstone.service.model.RecipeRecord;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +63,7 @@ public class RecipeLambdaService {
             log.error("Error setting recipe data: {}", e.getMessage(), e);
             throw new RuntimeException("Error setting recipe data", e);
         }
+
     }
 
     /**

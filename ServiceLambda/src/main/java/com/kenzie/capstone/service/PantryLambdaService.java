@@ -3,6 +3,8 @@ package com.kenzie.capstone.service;
 import com.kenzie.capstone.service.dao.PantryDao;
 import com.kenzie.capstone.service.model.PantryData;
 import com.kenzie.capstone.service.model.PantryRecord;
+import com.kenzie.capstone.service.model.UserData;
+import com.kenzie.capstone.service.model.UserRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,14 +24,14 @@ public class PantryLambdaService {
     }
 
 
-    public PantryData getPantryData(String userId) {
-        PantryRecord pantryRecord = pantryDao.getPantryRecord(userId);
+    public PantryData getPantryData(String pantryItemId) {
+        PantryRecord pantryRecord = pantryDao.getPantryRecord(pantryItemId);
         return pantryDao.convertToPantryData(pantryRecord);
     }
 
         public PantryData setPantryData(PantryData pantryData) {
-        PantryRecord pantryRecord = pantryDao.convertToPantryRecord(pantryData);
-        pantryRecord = pantryDao.storePantryRecord(pantryRecord);
+        String pantryItemId = pantryData.getPantryItemId();
+        PantryRecord pantryRecord = pantryDao.setPantryData(pantryItemId, pantryData);
         return pantryDao.convertToPantryData(pantryRecord);
     }
 }
