@@ -23,7 +23,7 @@ dependencies {
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2'
     testImplementation("org.springframework.data:spring-data-commons:2.6.2")
     testImplementation("org.springframework:spring-tx:5.3.16")
-
+    testImplementation 'org.testng:testng:7.1.0'
 
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
