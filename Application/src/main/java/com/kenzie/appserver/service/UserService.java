@@ -7,13 +7,13 @@ import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -145,22 +145,6 @@ public class UserService implements UserDetailsService {
         return userResponse;
     }
 
-    // Validate user credentials and perform login
-    public UserRecord loginUser(String email, String password) {
-        // ? validate the password and generate authentication
-        // Return the user record if login is successful, otherwise return null
-
-
-        // Retrieve the user record by email from the repository
-        UserRecord userRecord = userRepository.findByEmail(email);
-
-        // Check if the user exists and the provided password matches the stored hashed password
-        if (userRecord != null && passwordEncoder.matches(password, userRecord.getPassword())) {
-            return userRecord;
-        } else {
-            throw new BadCredentialsException("Invalid email or password");
-        }
-    }
 
     // Increment failed login attempts for a user
     public void incrementFailedLoginAttempts(String username) {
@@ -191,17 +175,17 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return user;
+//        return user;
 //        //Return UserDetails object required by Spring Security for authentication
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getUsername(),
-//                user.getPassword(),
-//                // This parameter determines if the account is nonLocked
-//                user.isAccountNonLocked(),
-//                true,
-//                true,
-//                true,
-//                Collections.emptyList());
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                // This parameter determines if the account is nonLocked
+                user.isAccountNonLocked(),
+                true,
+                true,
+                true,
+                Collections.emptyList());
     }
 
     /** Method to validate password against password policies
