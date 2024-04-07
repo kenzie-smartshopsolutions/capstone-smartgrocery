@@ -3,7 +3,6 @@ package com.kenzie.appserver.repositories;
 import com.kenzie.appserver.repositories.model.PantryRecord;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
 @EnableScan
 public interface PantryRepository extends CrudRepository<PantryRecord, String> {
     List<PantryRecord> findByUserId(String userId);
-    PantryRecord findItemByItemID(String pantryItemId);
+    PantryRecord findItemByPantryItemId(String pantryItemId);
     //PantryRecord findById(String userId);
 
 }
