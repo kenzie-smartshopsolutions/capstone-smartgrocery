@@ -13,6 +13,8 @@ public class UserRequest {
     private String password;
     @JsonProperty("householdName")
     private String householdName;
+    @JsonProperty("accountNonLocked")
+    private boolean accountNonLocked;
     @JsonProperty("failedLoginAttempts")
     private int failedLoginAttempts;
 
@@ -62,5 +64,13 @@ public class UserRequest {
 
     public void setFailedLoginAttempts(int failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
 }
