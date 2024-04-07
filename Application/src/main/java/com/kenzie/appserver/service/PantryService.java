@@ -144,7 +144,7 @@ public class PantryService {
 //        return items;
         }
 public PantryRecord getByItemId(String pantryItemId) {
-        PantryRecord pantryRecord = pantryRepository.findItemByItemID(pantryItemId);
+        PantryRecord pantryRecord = pantryRepository.findItemByPantryItemId(pantryItemId);
 
     // Retrieve UserData from the lambda function
         PantryData lambdaPantryData = lambdaServiceClient.getPantryData(pantryRecord.getUserId());
