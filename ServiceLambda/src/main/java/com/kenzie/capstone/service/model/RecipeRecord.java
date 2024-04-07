@@ -53,11 +53,12 @@ public class RecipeRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeRecord that = (RecipeRecord) o;
-        return Objects.equals(recipeId, that.recipeId);
+        return Objects.equals(recipeId, that.recipeId) && Objects.equals(title, that.title) && Objects.equals(ingredients, that.ingredients) && Objects.equals(instructions, that.instructions);
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(recipeId);
+        return Objects.hash(recipeId, title, ingredients, instructions);
     }
 }
 
