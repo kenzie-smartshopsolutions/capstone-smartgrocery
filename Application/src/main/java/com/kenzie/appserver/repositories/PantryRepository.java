@@ -11,6 +11,7 @@ import java.util.List;
 @EnableScan
 public interface PantryRepository extends CrudRepository<PantryRecord, String> {
     List<PantryRecord> findByUserId(String userId);
+    PantryRecord findItemByItemID(String pantryItemId);
     //PantryRecord findById(String userId);
 
 }

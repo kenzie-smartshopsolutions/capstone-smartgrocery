@@ -18,3 +18,8 @@ aws cloudformation wait stack-delete-complete --stack-name $CAPSTONE_SERVICE_STA
 
 aws cloudformation package --template-file $TEMPLATE --s3-bucket $CAPSTONE_ARTIFACT_BUCKET --output-template-file lambda-service-development.yml
 aws cloudformation deploy --template-file lambda-service-development.yml --stack-name $CAPSTONE_SERVICE_STACK_DEV --capabilities CAPABILITY_NAMED_IAM
+
+# Added to wait if the stack creation is completed.
+aws cloudformation wait stack-create-complete --stack-name $CAPSTONE_SERVICE_STACK_DEV
+
+echo "Application $CAPSTONE_SERVICE_STACK_DEV deployed successfully!"

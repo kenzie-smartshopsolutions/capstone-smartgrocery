@@ -23,6 +23,8 @@ public class PantryResponse {
         private Date datePurchased;
         @JsonProperty("catagoryId")
         private int catagoryId;
+        @JsonProperty("userId")
+        private String userId;
 
         public void setPantryItemId(String pantryItemId) {
                 this.pantryItemId = pantryItemId;
@@ -50,5 +52,39 @@ public class PantryResponse {
 
         public void setCatagoryId(int catagoryId) {
                 this.catagoryId = catagoryId;
+        }
+
+        public void setUserId(String userId) { this.userId = userId; }
+
+        public String getPantryItemId() {
+                return pantryItemId;
+        }
+
+        public String getItemName() {
+                return itemName;
+        }
+
+        public String getExpiryDate() {
+                return expiryDate;
+        }
+
+        public int getQuantity() {
+                return quantity;
+        }
+
+        public boolean isExpired() {
+                return isExpired;
+        }
+
+        public Date getDatePurchased() {
+                return datePurchased;
+        }
+
+        public int getCatagoryId() {
+                return catagoryId;
+        }
+
+        public String getUserId() {
+                return userId;
         }
 }
