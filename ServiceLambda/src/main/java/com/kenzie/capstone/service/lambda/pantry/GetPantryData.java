@@ -46,15 +46,15 @@ public class GetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
 //                    .withBody("Id is invalid");
 //        }
         //userId to get pantry list
-        String userId = input.getPathParameters().get("userId");
-        if (userId == null || userId.length() == 0) {
+        String pantryItemId = input.getPathParameters().get("pantryItemId");
+        if (pantryItemId == null || pantryItemId.length() == 0) {
             return response
                     .withStatusCode(400)
-                    .withBody("User is invalid");
+                    .withBody("Pantry item is invalid");
         }
 
         try {
-            PantryData pantryData = pantryLambdaService.getPantryData(userId);
+            PantryData pantryData = pantryLambdaService.getPantryData(pantryItemId);
             String output = gson.toJson(pantryData);
 
             return response
