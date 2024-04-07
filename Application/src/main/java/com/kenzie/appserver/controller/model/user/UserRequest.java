@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserRequest {
@@ -10,12 +9,11 @@ public class UserRequest {
     private String username;
     @JsonProperty("email")
     private String email;
-    @JsonIgnore
     @JsonProperty("password")
     private String password;
     @JsonProperty("householdName")
     private String householdName;
-
+    @JsonProperty("failedLoginAttempts")
     private int failedLoginAttempts;
 
     public String getUserId() {
