@@ -2,7 +2,6 @@ package com.kenzie.capstone.service;
 
 import com.kenzie.capstone.service.dao.RecipeDao;
 import com.kenzie.capstone.service.model.RecipeData;
-import com.kenzie.capstone.service.model.RecipeRecord;
 
 import javax.inject.Inject;
 
@@ -18,11 +17,11 @@ public class RecipeLambdaService {
 
 
     //needs modification
-    public RecipeData getRecipeData(String recipeId) {
+    public static RecipeData getRecipeData(String recipeId) {
         return null;
     }
 
-    public RecipeData setRecipeData(RecipeData recipeData) {
+    public static RecipeData setRecipeData(RecipeData recipeData) {
         return recipeData;
     }
 
