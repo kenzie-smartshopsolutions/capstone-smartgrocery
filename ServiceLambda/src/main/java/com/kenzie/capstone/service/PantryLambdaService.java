@@ -7,6 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.UUID;
+
+//import static com.google.common.util.concurrent.SerializingExecutor.log;
 
 public class PantryLambdaService {
     private PantryDao pantryDao;
@@ -28,7 +32,4 @@ public class PantryLambdaService {
         pantryRecord = pantryDao.storePantryRecord(pantryRecord);
         return pantryDao.convertToPantryData(pantryRecord);
     }
-
-
-
 }

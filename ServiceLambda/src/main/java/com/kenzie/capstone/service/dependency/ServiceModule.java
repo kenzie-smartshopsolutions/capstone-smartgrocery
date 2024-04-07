@@ -2,9 +2,11 @@ package com.kenzie.capstone.service.dependency;
 
 import com.kenzie.capstone.service.LambdaService;
 import com.kenzie.capstone.service.PantryLambdaService;
+import com.kenzie.capstone.service.RecipeLambdaService;
 import com.kenzie.capstone.service.UserLambdaService;
 import com.kenzie.capstone.service.dao.ExampleDao;
 import com.kenzie.capstone.service.dao.PantryDao;
+import com.kenzie.capstone.service.dao.RecipeDao;
 import com.kenzie.capstone.service.dao.UserDao;
 import dagger.Module;
 import dagger.Provides;
@@ -37,6 +39,13 @@ public class ServiceModule {
     @Inject
     public PantryLambdaService providePantryLambdaService(@Named("PantryDao") PantryDao pantryDao) {
         return new PantryLambdaService(pantryDao);
+    }
+
+    @Singleton
+    @Provides
+    @Inject
+    public RecipeLambdaService provideRecipeLambdaService(@Named("RecipeDao") RecipeDao recipeDao) {
+        return new RecipeLambdaService(recipeDao);
     }
 }
 

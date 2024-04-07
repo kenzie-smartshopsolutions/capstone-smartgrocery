@@ -3,6 +3,7 @@ package com.kenzie.capstone.service.dependency;
 import com.kenzie.capstone.service.LambdaService;
 
 import com.kenzie.capstone.service.PantryLambdaService;
+import com.kenzie.capstone.service.RecipeLambdaService;
 import com.kenzie.capstone.service.UserLambdaService;
 import dagger.Component;
 
@@ -17,5 +18,5 @@ public interface ServiceComponent {
     LambdaService provideLambdaService();
     UserLambdaService provideUserLambdaService();
     PantryLambdaService providePantryLambdaService();
-
+    RecipeLambdaService provideRecipeLambdaService();
 }
