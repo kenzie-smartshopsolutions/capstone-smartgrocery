@@ -42,8 +42,8 @@ public class SetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
 
         PantryData pantryData = gson.fromJson(input.getBody(), PantryData.class);
 
-        if (pantryData == null || pantryData.getUserId()== null || pantryData.getUserId().isEmpty()) {
-            return response.withStatusCode(400).withBody("Pantry does not exist");
+        if (pantryData == null || pantryData.getPantryItemId()== null || pantryData.getPantryItemId().isEmpty()) {
+            return response.withStatusCode(400).withBody("Pantry item does not exist");
         }
 
         try {
