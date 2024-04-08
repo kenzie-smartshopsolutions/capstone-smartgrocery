@@ -21,7 +21,7 @@ public class PantryController {
     private PantryService pantryService;
 
     // Get pantry items for a user
-    @GetMapping("/{userId}")
+    @GetMapping("/userId/{userId}")
     public ResponseEntity<List<PantryRecord>> getPantryItems(@PathVariable String userId) {
 //        // Need to verify the logged-in user matches the userId:
 //        if (!authentication.getName().equals(userId)) {
@@ -31,7 +31,7 @@ public class PantryController {
         return new ResponseEntity<>(pantryItems, HttpStatus.OK);
 
     }
-    @GetMapping("/{pantryItemId}")
+    @GetMapping("/pantryItemId/{pantryItemId}")
     public ResponseEntity<PantryRecord> getPantryItem(@PathVariable String pantryItemId) {
 //        // Need to verify the logged-in user matches the userId:
 //        if (!authentication.getName().equals(userId)) {
@@ -45,13 +45,21 @@ public class PantryController {
     // Add a new pantry item
     @PostMapping
     public ResponseEntity<PantryResponse> addPantryItem(@RequestBody PantryRequest pantry) {
-        PantryRecord addedItem = pantryService.addPantryItem(pantry);
-        PantryResponse response = createPantryResponse(addedItem);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        try {
+            PantryRecord addedItem = pantryService.addPantryItem(pantry);
+
+            PantryResponse response = createPantryResponse(addedItem);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+            // added logging statement
+        } catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
     }
 
     // Update an existing pantry item
-    @PutMapping("/{pantryItemId}")
+    @PutMapping("/pantryItemId/{pantryItemId}")
     public ResponseEntity<PantryResponse> updatePantryItem(
             @PathVariable String pantryItemId, @RequestBody Pantry pantry) {
         if (pantryService.getPantryItems(pantryItemId) != null) {
@@ -66,7 +74,7 @@ public class PantryController {
     }
 
     // Delete a pantry item by ID
-    @DeleteMapping("/{pantryItemId}")
+    @DeleteMapping("/pantryItemId/{pantryItemId}")
     public ResponseEntity<Void> deleteItem(@PathVariable("pantryItemId") String pantryItemId) {
         pantryService.deletePantryItem(pantryItemId);
         return ResponseEntity.status(204).build();

@@ -51,22 +51,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-
-                        /** Allows unauthenticated access to Swagger UI
-                         FOR TESTING ONLY - PLEASE COMMENT OUT WHEN LIVE **/
-                        .antMatchers("/v1/api/get-token",
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/webjars/**").permitAll()
-
-                // bypass authentication for API testing - comment out if/when applicable
                     .antMatchers("/User/login/**",
                             "/User/register/**").permitAll()
-                    .antMatchers("/example/**").permitAll()
+
+                // bypass authentication for API testing - comment out if/when applicable
+                .antMatchers("/example/**").permitAll()
                     .antMatchers("/pantry/**").permitAll()
                     .antMatchers("/recipes/**").permitAll()
+                /** Allows unauthenticated access to Swagger UI
+                 FOR TESTING ONLY - PLEASE COMMENT OUT WHEN LIVE **/
+                .antMatchers("/v1/api/get-token",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-resources/**",
+                        "/webjars/**").permitAll()
+
+                // any other requests must be authenticated
                 .anyRequest().authenticated();
 
         // Add JWT token filter
