@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -92,99 +93,66 @@ public class PantryService {
 
  //    Retrieve pantry items for a user or household
     public List<PantryRecord> getPantryItems(String userId) {
-        List<PantryRecord> pantryRecord = pantryRepository.findByUserId(userId);
+        List<PantryData> lambdaPantryData = lambdaServiceClient.getPantryData(userId);
 
-        // Retrieve UserData from the lambda function
-        PantryData lambdaPantryData = lambdaServiceClient.getPantryData(userId);
-
-        Pantry lambdaPantry = new Pantry(
-                lambdaPantryData.getPantryItemId(),
-                lambdaPantryData.getItemName(),
-                lambdaPantryData.getExpiryDate(),
-                lambdaPantryData.getQuantity(),
-                lambdaPantryData.isExpired(),
-                lambdaPantryData.getDatePurchased(),
-                lambdaPantryData.getCategory(),
-                lambdaPantryData.getUserId());
-
-
-        PantryRecord lambdaPantryRecord = convertFromDto(lambdaPantry);
-
-        if (pantryRecord == null && lambdaPantryRecord == null) {
-            throw new IllegalArgumentException("Pantry not found in both the database and lambda function.");
-        } else if (pantryRecord == null) {
-            // Only the DB user record is null
-            throw new IllegalArgumentException("Pantry not found in the database.");
-        } else if (lambdaPantryRecord == null) {
-            // Only the Lambda user record is null
-            throw new IllegalArgumentException("Pantry not found in the lambda function.");
-        } else {
-            // if both found, merge/save
-            pantryRecord.add(lambdaPantryRecord);
-
-                return pantryRecord;
-            }
-
-//        // return pantryRepository.findByUserId(userId);
-//
-//        // Fetch pantry items from the repository for the given user ID
-//        List<PantryRecord> items = pantryRepository.findByUserId(userId);
-//
-//        //Map category  to descriptions
-//        for (PantryRecord item : items) {
-//            String description = foodCategories.get(item.getCategory());
-//            if (description != null) {
-//                item.setCategory(description);
-//            }
-//
-//            // if the item is expired based on expiry date
-//            item.setExpired(isItemExpired(item.getExpiryDate()));
-//
-//        }
-//        return items;
-        }
-public PantryRecord getByItemId(String pantryItemId) {
-        PantryRecord pantryRecord = pantryRepository.findItemByPantryItemId(pantryItemId);
-
-    // Retrieve UserData from the lambda function
-        PantryData lambdaPantryData = lambdaServiceClient.getPantryData(pantryRecord.getUserId());
-
-
-    Pantry lambdaPantry = new Pantry(
-            lambdaPantryData.getPantryItemId(),
-            lambdaPantryData.getItemName(),
-            lambdaPantryData.getExpiryDate(),
-            lambdaPantryData.getQuantity(),
-            lambdaPantryData.isExpired(),
-            lambdaPantryData.getDatePurchased(),
-            lambdaPantryData.getCategory(),
-            lambdaPantryData.getUserId());
-
-
-    PantryRecord lambdaPantryRecord = convertFromDto(lambdaPantry);
-
-    if (pantryRecord == null && lambdaPantryRecord == null) {
-        throw new IllegalArgumentException("Pantry not found in both the database and lambda function.");
-    } else if (pantryRecord == null) {
-        // Only the DB user record is null
-        throw new IllegalArgumentException("Pantry not found in the database.");
-    } else if (lambdaPantryRecord == null) {
-        // Only the Lambda user record is null
-        throw new IllegalArgumentException("Pantry not found in the lambda function.");
-    } else {
-        // if both found, merge/save
-        pantryRecord.setDatePurchased(lambdaPantryRecord.getDatePurchased());
-        pantryRecord.setPantryItemId(lambdaPantryRecord.getPantryItemId());
-        pantryRecord.setItemName(lambdaPantryRecord.getItemName());
-        pantryRecord.setExpired(lambdaPantryRecord.isExpired());
-        pantryRecord.setQuantity(lambdaPantryRecord.getQuantity());
-        pantryRecord.setCategory(lambdaPantryRecord.getCategory());
-        pantryRecord.setUserId(lambdaPantryRecord.getUserId());
-        pantryRecord.setExpiryDate(lambdaPantryData.getExpiryDate());
+        List<PantryRecord> pantryRecord = lambdaPantryData.stream()
+                .map(data -> new PantryRecord(
+                        data.getUserId(),
+                        data.getPantryItemId(),
+                        data.getItemName(),
+                        data.getCategory(),
+                        data.getQuantity(),
+                        data.getExpiryDate(),
+                        data.isExpired(),
+                        data.getDatePurchased()
+                ))
+                .collect(Collectors.toList());
 
         return pantryRecord;
-    }
-}
+
+        }
+//public PantryRecord getByItemId(String pantryItemId) {
+//        PantryRecord pantryRecord = pantryRepository.findItemByPantryItemId(pantryItemId);
+//
+//    // Retrieve UserData from the lambda function
+//        PantryData lambdaPantryData = lambdaServiceClient.getPantryData(pantryRecord.getUserId());
+//
+//
+//    Pantry lambdaPantry = new Pantry(
+//            lambdaPantryData.getPantryItemId(),
+//            lambdaPantryData.getItemName(),
+//            lambdaPantryData.getExpiryDate(),
+//            lambdaPantryData.getQuantity(),
+//            lambdaPantryData.isExpired(),
+//            lambdaPantryData.getDatePurchased(),
+//            lambdaPantryData.getCategory(),
+//            lambdaPantryData.getUserId());
+//
+//
+//    PantryRecord lambdaPantryRecord = convertFromDto(lambdaPantry);
+//
+//    if (pantryRecord == null && lambdaPantryRecord == null) {
+//        throw new IllegalArgumentException("Pantry not found in both the database and lambda function.");
+//    } else if (pantryRecord == null) {
+//        // Only the DB user record is null
+//        throw new IllegalArgumentException("Pantry not found in the database.");
+//    } else if (lambdaPantryRecord == null) {
+//        // Only the Lambda user record is null
+//        throw new IllegalArgumentException("Pantry not found in the lambda function.");
+//    } else {
+//        // if both found, merge/save
+//        pantryRecord.setDatePurchased(lambdaPantryRecord.getDatePurchased());
+//        pantryRecord.setPantryItemId(lambdaPantryRecord.getPantryItemId());
+//        pantryRecord.setItemName(lambdaPantryRecord.getItemName());
+//        pantryRecord.setExpired(lambdaPantryRecord.isExpired());
+//        pantryRecord.setQuantity(lambdaPantryRecord.getQuantity());
+//        pantryRecord.setCategory(lambdaPantryRecord.getCategory());
+//        pantryRecord.setUserId(lambdaPantryRecord.getUserId());
+//        pantryRecord.setExpiryDate(lambdaPantryData.getExpiryDate());
+//
+//        return pantryRecord;
+//    }
+//}
 
 
 
