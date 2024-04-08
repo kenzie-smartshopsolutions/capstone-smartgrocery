@@ -1,4 +1,4 @@
-package com.kenzie.capstone.service.lambda.Recipe;
+package com.kenzie.capstone.service.lambda.recipe;
 
 import com.kenzie.capstone.service.RecipeLambdaService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
