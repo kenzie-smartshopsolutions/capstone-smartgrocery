@@ -47,12 +47,12 @@ public class SetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent
         try {
             //???
             RecipeData recipeData = gson.fromJson(body, RecipeData.class);
-            RecipeData savedRecipeData = RecipeLambdaService.setRecipeData(recipeData);
-            String output = gson.toJson(savedRecipeData);
+           // RecipeData savedRecipeData = RecipeLambdaService.setRecipeData(recipeData);
+            //String output = gson.toJson(savedRecipeData);
 
             return response
-                    .withStatusCode(200)
-                    .withBody(output);
+                    .withStatusCode(200);
+                  //  .withBody(output);
 
         } catch (Exception e) {
             return response
