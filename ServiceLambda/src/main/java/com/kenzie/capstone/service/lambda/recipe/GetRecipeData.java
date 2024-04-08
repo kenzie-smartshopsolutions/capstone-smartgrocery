@@ -1,5 +1,6 @@
-package com.kenzie.capstone.service.lambda.recipe;
+package com.kenzie.capstone.service.lambda.Recipe;
 
+import com.kenzie.capstone.service.LambdaService;
 import com.kenzie.capstone.service.RecipeLambdaService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.model.RecipeData;
@@ -47,7 +48,7 @@ public class GetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent
 
         try {
             //???
-            RecipeData recipeData = recipeLambdaService.getRecipeData(recipeId);
+            RecipeData recipeData = RecipeLambdaService.getRecipeData(recipeId);
             String output = gson.toJson(recipeData);
 
             return response
