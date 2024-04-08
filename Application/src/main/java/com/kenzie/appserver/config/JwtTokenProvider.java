@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 @Component
@@ -23,6 +25,9 @@ public class JwtTokenProvider {
 
     @Value("${jwt.expiration}")
     private int jwtExpirationInMs;
+
+    private Set<String> blacklistedTokens = ConcurrentHashMap.newKeySet();
+
     private static final Logger LOGGER = Logger.getLogger(JwtTokenProvider.class.getName());
 
     public String generateToken(Authentication authentication) {
@@ -53,6 +58,11 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
+            // Check blacklist
+            if (blacklistedTokens.contains(authToken)) {
+                return false;
+            }
+
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
@@ -68,6 +78,12 @@ public class JwtTokenProvider {
         }
         return false;
     }
+
+    public void blacklistToken(String token) {
+        blacklistedTokens.add(token);
+    }
+
+
 }
 
 
