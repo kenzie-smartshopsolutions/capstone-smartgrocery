@@ -1,4 +1,4 @@
-package com.kenzie.capstone.service.lambda.Recipe;
+package com.kenzie.capstone.service.lambda.recipe;
 
 import com.kenzie.capstone.service.RecipeLambdaService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateRecipeData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class SetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -45,13 +45,14 @@ public class UpdateRecipeData implements RequestHandler<APIGatewayProxyRequestEv
         }
 
         try {
-            RecipeData recipeData = gson.fromJson(body, RecipeData.class); // Deserialize request body into RecipeData
-            RecipeData updatedRecipeData = recipeLambdaService.updateRecipeData(recipeData);
-            String output = gson.toJson(updatedRecipeData);
+            RecipeData recipeData = gson.fromJson(body, RecipeData.class);
+            RecipeData savedRecipeData = recipeLambdaService.setRecipeData(recipeData);
+            String output = gson.toJson(savedRecipeData);
 
             return response
                     .withStatusCode(200)
                     .withBody(output);
+
         } catch (Exception e) {
             return response
                     .withStatusCode(400)
