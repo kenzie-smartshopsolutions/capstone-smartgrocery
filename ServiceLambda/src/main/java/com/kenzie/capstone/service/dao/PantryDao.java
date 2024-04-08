@@ -12,6 +12,7 @@ import com.kenzie.capstone.service.model.PantryData;
 import com.kenzie.capstone.service.model.PantryRecord;
 
 import java.util.List;
+import java.util.UUID;
 
 public class PantryDao {
     private DynamoDBMapper mapper;
@@ -61,7 +62,8 @@ public class PantryDao {
                 pantryRecord.getQuantity(),
                 pantryRecord.isExpired(),
                 pantryRecord.getDatePurchased(),
-                pantryRecord.getCategory());
+                pantryRecord.getCategory(),
+                pantryRecord.getUserId());
     }
 
     //constructor issue
@@ -75,7 +77,16 @@ public class PantryDao {
                 pantryData.isExpired(),
                 pantryData.getDatePurchased());
     }
+    public PantryRecord setPantryData(String pantryItemId, PantryData pantryData) {
+        PantryRecord pantryRecord = new PantryRecord();
+        if (pantryItemId == null || pantryItemId.isEmpty() || pantryItemId.isBlank()) {
+            String uniquePantryId = UUID.randomUUID().toString();
+            pantryRecord.setPantryItemId(uniquePantryId);
+        }
+        PantryRecord tempData = convertToPantryRecord(pantryData);
 
-
+        mapper.save(tempData);
+        return pantryRecord;
+    }
     }
 

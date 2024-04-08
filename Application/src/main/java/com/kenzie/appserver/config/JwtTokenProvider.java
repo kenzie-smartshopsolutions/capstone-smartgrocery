@@ -1,9 +1,12 @@
 package com.kenzie.appserver.config;
 
+import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -15,12 +18,19 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Value("${jwt.expiration}")
     private int jwtExpirationInMs;
     private static final Logger LOGGER = Logger.getLogger(JwtTokenProvider.class.getName());
 
     public String generateToken(Authentication authentication) {
-        UserRecord userPrincipal = (UserRecord) authentication.getPrincipal();
+//        UserRecord userPrincipal = (UserRecord) authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        UserRecord userPrincipal = userRepository.findByUsername(username);
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 

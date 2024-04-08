@@ -7,13 +7,13 @@ import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -58,39 +58,33 @@ public class UserService implements UserDetailsService {
 
     // Retrieve a user by their ID
     public UserRecord getUserById(String userId) {
-        // Retrieve the UserRecord from the database
-        UserRecord userRecord = userRepository.findByUserId(userId);
+        UserRecord userRecord = null;
 
-        // Retrieve UserData from the lambda function
-        UserData lambdaUserData = lambdaServiceClient.getUserData(userId);
+        try {
+            // Retrieve UserData from the lambda function
+            UserData lambdaUserData = lambdaServiceClient.getUserData(userId);
 
-        // Convert UserData to User
-        User lambdaUser = new User(lambdaUserData.getUserId(),
-                lambdaUserData.getUsername(),
-                lambdaUserData.getEmail(),
-                lambdaUserData.getPassword(),
-                lambdaUserData.getHouseholdName());
+            // Convert UserData to User
+            User lambdaUser = new User(lambdaUserData.getUserId(),
+                    lambdaUserData.getUsername(),
+                    lambdaUserData.getEmail(),
+                    lambdaUserData.getPassword(),
+                    lambdaUserData.getHouseholdName());
 
-        // Convert User to UserRecord
-        UserRecord lambdaUserRecord = convertFromDto(lambdaUser);
+            // Convert User to UserRecord
+            userRecord = convertFromDto(lambdaUser);
+        } catch (Exception e) {
+            // Handle exceptions that occurred when retrieving from the Lambda function
+            System.err.println("Unable to retrieve data from the Lambda function: " + e.getMessage());
 
-        if (userRecord == null && lambdaUserRecord == null) {
-            throw new IllegalArgumentException("User not found in both the database and lambda function.");
-        } else if (userRecord == null) {
-            // Only the DB user record is null
-            throw new IllegalArgumentException("User not found in the database.");
-        } else if (lambdaUserRecord == null) {
-            // Only the Lambda user record is null
-            throw new IllegalArgumentException("User not found in the lambda function.");
-        } else {
-            // if both found, merge/save
-            userRecord.setUsername(lambdaUserRecord.getUsername());
-            userRecord.setEmail(lambdaUserRecord.getEmail());
-            userRecord.setPassword(lambdaUserRecord.getPassword());
-            userRecord.setHouseholdName(lambdaUserRecord.getHouseholdName());
+            // Retrieve UserRecord from the local database as contingency
+            userRecord = userRepository.findByUserId(userId);
 
-            return userRecord;
+            if (userRecord == null) {
+                throw new IllegalArgumentException("User not found in databases.");
+            }
         }
+        return userRecord;
     }
 
     // Update an existing user
@@ -151,22 +145,6 @@ public class UserService implements UserDetailsService {
         return userResponse;
     }
 
-    // Validate user credentials and perform login
-    public UserRecord loginUser(String email, String password) {
-        // ? validate the password and generate authentication
-        // Return the user record if login is successful, otherwise return null
-
-
-        // Retrieve the user record by email from the repository
-        UserRecord userRecord = userRepository.findByEmail(email);
-
-        // Check if the user exists and the provided password matches the stored hashed password
-        if (userRecord != null && passwordEncoder.matches(password, userRecord.getPassword())) {
-            return userRecord;
-        } else {
-            throw new BadCredentialsException("Invalid email or password");
-        }
-    }
 
     // Increment failed login attempts for a user
     public void incrementFailedLoginAttempts(String username) {
@@ -197,17 +175,17 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return user;
+//        return user;
 //        //Return UserDetails object required by Spring Security for authentication
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getUsername(),
-//                user.getPassword(),
-//                // This parameter determines if the account is nonLocked
-//                user.isAccountNonLocked(),
-//                true,
-//                true,
-//                true,
-//                Collections.emptyList());
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                // This parameter determines if the account is nonLocked
+                user.isAccountNonLocked(),
+                true,
+                true,
+                true,
+                Collections.emptyList());
     }
 
     /** Method to validate password against password policies

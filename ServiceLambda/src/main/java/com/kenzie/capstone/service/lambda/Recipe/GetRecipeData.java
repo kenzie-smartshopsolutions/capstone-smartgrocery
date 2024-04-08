@@ -1,4 +1,10 @@
-package com.kenzie.capstone.service.lambda.pantry;
+package com.kenzie.capstone.service.lambda.Recipe;
+
+import com.kenzie.capstone.service.LambdaService;
+import com.kenzie.capstone.service.RecipeLambdaService;
+import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.model.RecipeData;
+import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -6,20 +12,13 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kenzie.capstone.service.LambdaService;
-import com.kenzie.capstone.service.PantryLambdaService;
-import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
-import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.model.PantryData;
-import com.kenzie.capstone.service.model.UserData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetPantryData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -31,7 +30,7 @@ public class SetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        PantryLambdaService pantryLambdaService = serviceComponent.providePantryLambdaService();
+        RecipeLambdaService recipeLambdaService = serviceComponent.provideRecipeLambdaService();
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -39,16 +38,19 @@ public class SetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
+        String recipeId = input.getPathParameters().get("recipeId");
 
-        PantryData pantryData = gson.fromJson(input.getBody(), PantryData.class);
-
-        if (pantryData == null || pantryData.getPantryItemId()== null || pantryData.getPantryItemId().isEmpty()) {
-            return response.withStatusCode(400).withBody("Pantry item does not exist");
+        if (recipeId == null || recipeId.isEmpty()) {
+            return response
+                    .withStatusCode(400)
+                    .withBody("Recipe ID is invalid");
         }
 
         try {
-            PantryData savedPantryData = pantryLambdaService.setPantryData(pantryData);
-            String output = gson.toJson(savedPantryData);
+            //???
+            RecipeData recipeData = recipeLambdaService.getRecipeData(recipeId);
+            String output = gson.toJson(recipeData);
+
             return response
                     .withStatusCode(200)
                     .withBody(output);
