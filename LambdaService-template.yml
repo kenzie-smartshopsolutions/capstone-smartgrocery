@@ -197,7 +197,7 @@ Resources:
         GetPantryItems:
           Type: Api
           Properties:
-            Path: /pantry/{userId}
+            Path: /pantry/{pantryItemId}
             Method: get
   SetPantryDataFunction:
     Type: AWS::Serverless::Function
@@ -205,7 +205,7 @@ Resources:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
       Handler: com.kenzie.capstone.service.lambda.pantry.SetPantryData
       Runtime: java11
-      Description: Set pantry items for a user
+      Description: Set pantry item for a user
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -218,7 +218,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /pantry/{userId}
+            Path: /pantry/{pantryItemId}
             Method: post
   GetRecipeDataFunction:
     Type: AWS::Serverless::Function
