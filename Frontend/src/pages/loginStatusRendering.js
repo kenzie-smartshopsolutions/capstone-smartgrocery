@@ -1,10 +1,28 @@
+let isLoggedIn = false;
 
 function loggedIn() {
-
+    isLoggedIn = true;
+    updateRendering();
 }
 
 function loggedOut() {
+    isLoggedIn = false;
+    logout();
+    updateRendering();
+}
 
+function logout() {
+    // Fetch API to send a POST request to the server
+    fetch('/User/logout', {
+        method: 'POST',
+        // Include the JWT in the Authorization header
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+        }
+    })
+    .then(response => {
+        localStorage.removeItem('jwt');
+    });
 }
 
 function updateRendering() {
