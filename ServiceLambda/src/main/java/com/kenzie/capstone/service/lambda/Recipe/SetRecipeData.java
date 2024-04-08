@@ -45,10 +45,13 @@ public class SetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent
         }
 
         try {
-            //???
             RecipeData recipeData = gson.fromJson(body, RecipeData.class);
+
            // RecipeData savedRecipeData = RecipeLambdaService.setRecipeData(recipeData);
             //String output = gson.toJson(savedRecipeData);
+
+            RecipeData savedRecipeData = recipeLambdaService.setRecipeData(recipeData);
+            String output = gson.toJson(savedRecipeData);
 
             return response
                     .withStatusCode(200);

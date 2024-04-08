@@ -15,10 +15,8 @@ public class LambdaServiceClient {
     private static final String GET_USER_ENDPOINT = "User/register/userId/{userId}";
     private static final String SET_USER_ENDPOINT = "User/register";
 
-  private static final String GET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
+    private static final String GET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
     private static final String SET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
-
-
 
     private ObjectMapper mapper;
 
@@ -110,6 +108,7 @@ public class LambdaServiceClient {
         }
         return pantryData;
     }
+
     public PantryData setPantryData(PantryData data) {
         EndpointUtility endpointUtility = new EndpointUtility();
 

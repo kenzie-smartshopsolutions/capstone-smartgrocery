@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserRequest {
@@ -10,12 +9,13 @@ public class UserRequest {
     private String username;
     @JsonProperty("email")
     private String email;
-    @JsonIgnore
     @JsonProperty("password")
     private String password;
     @JsonProperty("householdName")
     private String householdName;
-
+    @JsonProperty("accountNonLocked")
+    private boolean accountNonLocked;
+    @JsonProperty("failedLoginAttempts")
     private int failedLoginAttempts;
 
     public String getUserId() {
@@ -64,5 +64,13 @@ public class UserRequest {
 
     public void setFailedLoginAttempts(int failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
 }

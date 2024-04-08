@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RecipeData {
     private String recipeId;
@@ -12,7 +13,6 @@ public class RecipeData {
      * Default constructor.
      */
     public RecipeData() {
-        // Default constructor required by DynamoDBMapper
     }
 
     /**
@@ -61,5 +61,19 @@ public class RecipeData {
 
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeData that = (RecipeData) o;
+        return Objects.equals(recipeId, that.recipeId) && Objects.equals(recipeName, that.recipeName) && Objects.equals(instruction, that.instruction) && Objects.equals(ingredients, that.ingredients);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipeId, recipeName, instruction, ingredients);
     }
 }

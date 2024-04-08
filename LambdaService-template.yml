@@ -158,6 +158,27 @@ Resources:
               Path: /User/login
               Method: post
 
+    LogOutUserFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.lambda.user.GetUserData
+      Runtime: java11
+      Description: Login existing User
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        LoginUser:
+          Type: Api
+          Properties:
+            Path: /User/logout
+            Method: post
+
   GetPantryItemsFunction:
     Type: AWS::Serverless::Function
     Properties:
