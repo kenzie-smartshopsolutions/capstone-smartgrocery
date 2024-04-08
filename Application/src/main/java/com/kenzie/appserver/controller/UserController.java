@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("User")
 public class UserController {
@@ -110,5 +112,18 @@ public class UserController {
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password.");
         }
+    }
+
+    // Logout a user
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7);
+
+            // Add JWT Token to blacklist
+            tokenProvider.blacklistToken(token);
+        }
+        return ResponseEntity.ok().build();
     }
 }
