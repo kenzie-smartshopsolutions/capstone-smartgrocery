@@ -1,5 +1,4 @@
-
-package com.kenzie.capstone.service.lambda.Recipe;
+package com.kenzie.capstone.service.lambda.recipe;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
