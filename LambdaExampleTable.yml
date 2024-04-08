@@ -36,3 +36,14 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+  RecipeTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "Recipe"
+      AttributeDefinitions:
+        - AttributeName: "recipeId"
+          AttributeType: "S"
+      "KeySchema":
+        - "AttributeName": "id"
+          "KeyType": "HASH"
+      BillingMode: PAY_PER_REQUEST

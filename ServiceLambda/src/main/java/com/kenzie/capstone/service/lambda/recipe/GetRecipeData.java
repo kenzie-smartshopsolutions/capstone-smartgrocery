@@ -1,4 +1,4 @@
-package com.kenzie.capstone.service.lambda.Recipe;
+package com.kenzie.capstone.service.lambda.recipe;
 
 import com.kenzie.capstone.service.RecipeLambdaService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -30,24 +30,25 @@ public class SetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
         RecipeLambdaService recipeLambdaService = serviceComponent.provideRecipeLambdaService();
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String body = input.getBody();
+        String recipeId = input.getPathParameters().get("recipeId");
 
-        if (body == null || body.isEmpty()) {
+        if (recipeId == null || recipeId.isEmpty()) {
             return response
                     .withStatusCode(400)
-                    .withBody("Request body is empty");
+                    .withBody("Recipe ID is invalid");
         }
 
         try {
-            RecipeData recipeData = gson.fromJson(body, RecipeData.class);
-            RecipeData savedRecipeData = recipeLambdaService.setRecipeData(recipeData);
-            String output = gson.toJson(savedRecipeData);
+            //???
+            RecipeData recipeData = recipeLambdaService.getRecipeData(recipeId);
+            String output = gson.toJson(recipeData);
 
             return response
                     .withStatusCode(200)

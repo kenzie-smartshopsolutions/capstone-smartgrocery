@@ -14,8 +14,6 @@ import java.util.Optional;
 public class RecipeService {
     private final RecipeRepository recipeRepository;
 
-
-
     @Autowired
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
