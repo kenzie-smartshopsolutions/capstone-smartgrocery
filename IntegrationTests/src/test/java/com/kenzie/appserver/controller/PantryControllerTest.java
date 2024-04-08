@@ -39,8 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         private MockMvc mvc;
         @Autowired
         private PantryService pantryService;
-
-
         private MockNeat mockNeat;
         private ObjectMapper mapper;
 
@@ -178,6 +176,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //                    .andExpect(jsonPath("catagory").value(is(catagory)))
 //                    .andExpect(jsonPath("itemName").value(is(itemName)));
         }
+
+        @Test
+        public void testSearchPantryByItemId_InvalidId() throws Exception {
+            // GIVEN
+            String invalidId = "invalidId";
+
+            mvc.perform(get("/pantry/{pantryItemId}", invalidId)
+                            .accept(MediaType.APPLICATION_JSON))
+                    // THEN
+                    .andExpect(status().isNotFound());
+
+
+        }
+        @Test
+        public void testGetPantryDetailsByUserId_NonexistentUser() throws Exception {
+            // GIVEN
+            String id = UUID.randomUUID().toString();
+            //WHEN
+            mvc.perform(get("/pantry{userId}", id)
+                            .accept(MediaType.APPLICATION_JSON))
+                    // THEN
+                    .andExpect(status().isNotFound());
+
+
+        }
+
 
 
 }
