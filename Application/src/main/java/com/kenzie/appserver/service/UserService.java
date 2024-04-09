@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -89,6 +90,12 @@ public class UserService implements UserDetailsService {
 
     // Update an existing user
     public UserRecord updateUser(UserRecord userRecord) {
+        // Check if the user exists
+        Optional<UserRecord> existingUserRecord = userRepository.findById(userRecord.getUserId());
+        if (!existingUserRecord.isPresent()) {
+            throw new IllegalArgumentException("User not found with ID: " + userRecord.getUserId());
+        }
+
         return userRepository.save(userRecord);
     }
 
