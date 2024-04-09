@@ -12,7 +12,7 @@ import javax.inject.Inject;
 //needs modification
 public class RecipeLambdaService {
 
-    private RecipeDao recipeDao;
+    private static RecipeDao recipeDao;
     private static final Logger log = LoggerFactory.getLogger(RecipeLambdaService.class);
     @Inject
     public RecipeLambdaService(RecipeDao recipeDao) {
