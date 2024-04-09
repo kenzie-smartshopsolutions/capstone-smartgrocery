@@ -7,10 +7,10 @@ public class UserResponse {
     private String userId;
     @JsonProperty("username")
     private String username;
-    @JsonProperty("email")
-    private String email;
     @JsonProperty("password")
     private String password;
+    @JsonProperty("email")
+    private String email;
     @JsonProperty("householdName")
     private String householdName;
     @JsonProperty("accountNonLocked")

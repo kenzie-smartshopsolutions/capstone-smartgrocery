@@ -48,7 +48,7 @@ import java.util.Objects;
         }
 
         //@Id
-        @DynamoDBHashKey(attributeName = "Id")
+        @DynamoDBHashKey(attributeName = "pantryItemId")
         public String getPantryItemId() {return pantryItemId;}
 
         public void setPantryItemId(String pantryItemId) {

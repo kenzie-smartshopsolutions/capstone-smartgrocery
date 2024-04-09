@@ -18,7 +18,7 @@ public class PantryRecord {
     @NotNull(message = "Item name cannot be null")
     private  String itemName;
 
-    @DynamoDBAttribute(attributeName = "Category")
+    @DynamoDBAttribute(attributeName = "category")
     public String category;
     private  String expiryDate;
     private  int quantity;
@@ -41,8 +41,8 @@ public class PantryRecord {
       
     public PantryRecord() {}
 
-    @DynamoDBHashKey(attributeName = "userId")
-   // @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
+    @DynamoDBAttribute(attributeName = "userId")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
     public String getUserId() {
         return userId;
     }
