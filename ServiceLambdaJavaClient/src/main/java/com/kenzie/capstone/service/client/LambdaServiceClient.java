@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.PantryData;
+import com.kenzie.capstone.service.model.RecipeData;
 import com.kenzie.capstone.service.model.UserData;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class LambdaServiceClient {
 
     private static final String GET_PANTRY_ENDPOINT = "Pantry/userId/{userId}";
     private static final String SET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
+
+    private static final String GET_RECIPE_ENDPOINT = "recipe/{recipeId}";
+    private static final String SET_RECIPE_ENDPOINT = "recipe";
 
     private ObjectMapper mapper;
 
@@ -133,5 +137,26 @@ public class LambdaServiceClient {
             throw new ApiGatewayException("An error occurred while processing the response: " + e.getMessage());
         }
     }
+    public RecipeData getRecipe(String recipeId) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.getEndpoint(GET_RECIPE_ENDPOINT.replace("{recipeId}", recipeId));
+        RecipeData recipeData;
+        try {
+            recipeData = mapper.readValue(response, RecipeData.class);
+        } catch (JsonProcessingException e) {
+            throw new ApiGatewayException("Unable to deserialize JSON response: " + e.getMessage());
+        }
+        return recipeData;
+    }
 
+    public RecipeData createRecipe(RecipeData recipeData) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        try {
+            String jsonData = mapper.writeValueAsString(recipeData);
+            String response = endpointUtility.postEndpoint(SET_RECIPE_ENDPOINT, jsonData);
+            return mapper.readValue(response, RecipeData.class);
+        } catch (JsonProcessingException e) {
+            throw new ApiGatewayException("Unable to serialize recipe data to JSON: " + e.getMessage());
+        }
+    }
 }
