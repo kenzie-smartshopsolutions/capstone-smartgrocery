@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // bypass authentication for API testing - comment out if/when applicable
                 .antMatchers("/example/**").permitAll()
-                    .antMatchers("/pantry/**").permitAll()
+                    .antMatchers("/Pantry/**").permitAll()
                     .antMatchers("/recipes/**").permitAll()
                 /** Allows unauthenticated access to Swagger UI
                  FOR TESTING ONLY - PLEASE COMMENT OUT WHEN LIVE **/
