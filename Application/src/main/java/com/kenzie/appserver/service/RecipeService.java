@@ -2,21 +2,24 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
+import com.kenzie.capstone.service.client.LambdaServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 //import org.springframework.stereotype.Service;
 //
 @Service
 public class RecipeService {
-    private final RecipeRepository recipeRepository;
+    private RecipeRepository recipeRepository;
+    private LambdaServiceClient lambdaServiceClient;
 
-    @Autowired
-    public RecipeService(RecipeRepository recipeRepository) {
+    public RecipeService(RecipeRepository recipeRepository, LambdaServiceClient lambdaServiceClient) {
         this.recipeRepository = recipeRepository;
+        this.lambdaServiceClient = lambdaServiceClient;
     }
 
     public List<RecipeRecord> getAllRecipes() {
@@ -28,6 +31,17 @@ public class RecipeService {
     }
 
     public RecipeRecord createRecipe(RecipeRecord recipeRecord) {
+    // Check if the provided recipeRecord contains a recipeId
+        String recipeId = recipeRecord.getRecipeId();
+
+        // Generate a new recipeId if it's not provided or not found
+        if (recipeId == null || recipeId.trim().isEmpty() || !recipeRepository.existsById(recipeId)) {
+            recipeId = UUID.randomUUID().toString();
+            recipeRecord.setRecipeId(recipeId);
+        } else {
+            // Throw an exception if the provided recipeId already exists
+            throw new IllegalArgumentException("Recipe with ID " + recipeId + " already exists.");
+        }
         return recipeRepository.save(recipeRecord);
     }
 
