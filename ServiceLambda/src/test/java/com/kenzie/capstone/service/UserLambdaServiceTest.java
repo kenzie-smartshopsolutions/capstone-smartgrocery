@@ -3,60 +3,79 @@ package com.kenzie.capstone.service;
 import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.UserData;
 import com.kenzie.capstone.service.model.UserRecord;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentCaptor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserLambdaServiceTest {
 
     private UserDao userDao;
     private UserLambdaService userLambdaService;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    void setup() {
         this.userDao = mock(UserDao.class);
-        userLambdaService = new UserLambdaService(userDao);
-    }
-
-    @Test
-    void getUserDataTest() {
-        // Given
-        String userId = "testUserId";
-        UserRecord userRecord = new UserRecord();
-        userRecord.setUserId(userId);
-        userRecord.setUsername("testUsername");
-        when(userDao.getUserData(userId)).thenReturn(userRecord);
-
-        // When
-        UserData result = userLambdaService.getUserData(userId);
-
-        // Then
-        verify(userDao).getUserData(userId);
-        assertEquals(userId, result.getUserId());
-        assertEquals("testUsername", result.getUsername());
+        this.userLambdaService = new UserLambdaService(userDao);
     }
 
     @Test
     void setUserDataTest() {
-        // Given
-        UserData userData = new UserData();
-        userData.setUserId("testUserId");
-        userData.setUsername("testUsername");
+        ArgumentCaptor<String> userIdCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<UserData> userDataCaptor = ArgumentCaptor.forClass(UserData.class);
-        when(userDao.setUserData(anyString(), any(UserData.class))).thenReturn(new UserRecord());
 
-        // When
-        userLambdaService.setUserData(userData);
+        // GIVEN
+        UserData userData = new UserData();
+        userData.setUserId("someUserId");
+        userData.setUsername("someUsername");
+        UserRecord userRecord = new UserRecord();
+        userRecord.setUserId(userData.getUserId());
+        userRecord.setUsername(userData.getUsername());
+        when(userDao.setUserData(anyString(), any(UserData.class))).thenReturn(userRecord);
 
-        // Then
-        verify(userDao).setUserData(eq(userData.getUserId()), userDataCaptor.capture());
-        UserData capturedUserData = userDataCaptor.getValue();
-        assertEquals("testUserId", capturedUserData.getUserId());
-        assertEquals("testUsername", capturedUserData.getUsername());
+        // WHEN
+        UserData response = userLambdaService.setUserData(userData);
+
+        // THEN
+        verify(userDao, times(1)).setUserData(userIdCaptor.capture(), userDataCaptor.capture());
+
+        assertNotNull(userIdCaptor.getValue(), "An ID is captured");
+        assertEquals(userData.getUsername(), userDataCaptor.getValue().getUsername(), "The username is saved");
+
+        assertNotNull(response, "A response is returned");
+        assertEquals(userIdCaptor.getValue(), response.getUserId(), "The response ID should match");
+        assertEquals(userData.getUsername(), response.getUsername(), "The response username should match");
     }
 
-    // Additional tests for deleteUserData and updateUserData can be added here
+    @Test
+    void getUserDataTest() {
+        ArgumentCaptor<String> userIdCaptor = ArgumentCaptor.forClass(String.class);
+
+        // GIVEN
+        String userId = "fakeUserId";
+        UserRecord userRecord = new UserRecord();
+        userRecord.setUserId(userId);
+        userRecord.setUsername("someUsername");
+        when(userDao.getUserData(userId)).thenReturn(userRecord);
+
+        // WHEN
+        UserData response = userLambdaService.getUserData(userId);
+
+        // THEN
+        verify(userDao, times(1)).getUserData(userIdCaptor.capture());
+
+        assertEquals(userId, userIdCaptor.getValue(), "The correct ID is used");
+
+        assertNotNull(response, "A response is returned");
+        assertEquals(userId, response.getUserId(), "The response ID should match");
+        assertEquals(userRecord.getUsername(), response.getUsername(), "The response username should match");
+    }
+
+    // TODO Add test methods for deleteUserData and updateUserData
 }
+
