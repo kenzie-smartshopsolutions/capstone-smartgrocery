@@ -11,10 +11,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,25 +40,26 @@ class UserServiceTest {
     }
 
     @Test
-    public void createUser_Success() {
-        // Arrange
-        User input = new User("1", "someguy", "someguy@email.com","p@ssword","household");
-        UserRecord output = new UserRecord("1", "someguy", "someguy@email.com","encodedPassword","household");
+    void createUser_Success() {
+        // GIVEN
+        User inputUser = new User("1", "someguy", "P@ssw0rd", "someguy@email.com", "household");
+        UserRecord expectedUserRecord = new UserRecord("1", "someguy", passwordEncoder.encode("P@ssw0rd"), "someguy@email.com", "household");
+        when(userRepository.save(any(UserRecord.class))).thenReturn(expectedUserRecord);
+        when(passwordEncoder.encode(anyString())).thenReturn("EncodedP@ssw0rd");
 
-        when(userRepository.save(any(UserRecord.class))).thenReturn(output);
+        // WHEN
+        UserRecord result = userService.createUser(inputUser);
 
-        // Act
-        UserRecord savedUser = userService.createUser(input);
-
-        // Assert
-        assertEquals(savedUser.getUsername(), output.getUsername());
-        assertEquals(savedUser.getEmail(), output.getEmail());
+        // THEN
+        verify(userRepository).save(refEq(expectedUserRecord, "password")); // Ignore password field in refEq for simplicity
+        assertEquals("someguy", result.getUsername());
     }
+
 
     @Test
         // Test for exception when user already exists
-    void testCreateUser_AlreadyExists() {
-        // Arrange
+    void createUser_AlreadyExists() {
+        // WHEN
         User userDto = new User(
                 null,
                 "someguy",
@@ -68,7 +70,7 @@ class UserServiceTest {
 
         when(userRepository.findByUsername("someguy")).thenReturn(new UserRecord());
 
-        // Act and Assert
+        // THEN
         assertThrows(IllegalArgumentException.class, () -> {
             userService.createUser(userDto);
         });
@@ -99,14 +101,16 @@ class UserServiceTest {
         verify(userRepository).save(userRecord);
     }
 
-
     @Test
     void getUserByIdNotFoundTest() {
+        // GIVEN
         String id = UUID.randomUUID().toString();
-        when(userRepository.findById(id)).thenReturn(java.util.Optional.empty());
+        when(userRepository.findById(id)).thenReturn(Optional.empty());
 
+        // WHEN
         UserRecord result = userService.getUserById(id);
 
+        // THEN
         assertNull(result);
         verify(userRepository).findById(id);
     }
