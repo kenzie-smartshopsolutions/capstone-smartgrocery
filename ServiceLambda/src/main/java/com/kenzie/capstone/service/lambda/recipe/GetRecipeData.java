@@ -1,5 +1,9 @@
+//ServiceLambda/src/main/java/com/kenzie/capstone/service/lambda/Recipe/GetRecipeData.java
 
-package com.kenzie.capstone.service.lambda.Recipe;
+package com.kenzie.capstone.service.lambda.recipe;
+//main:ServiceLambda/src/main/java/com/kenzie/capstone/service/lambda/recipe/GetRecipeData.java
+
+
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;

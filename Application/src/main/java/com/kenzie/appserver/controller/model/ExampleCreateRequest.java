@@ -1,9 +1,11 @@
 package com.kenzie.appserver.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 
 import javax.validation.constraints.NotEmpty;
 
+@ExcludeFromJacocoGeneratedReport
 public class ExampleCreateRequest {
 
     @NotEmpty

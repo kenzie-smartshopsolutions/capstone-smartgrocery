@@ -2,8 +2,12 @@ package com.kenzie.capstone.service.dependency;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.kenzie.capstone.service.LambdaService;
+import com.kenzie.capstone.service.PantryLambdaService;
+import com.kenzie.capstone.service.RecipeLambdaService;
 import com.kenzie.capstone.service.UserLambdaService;
 import com.kenzie.capstone.service.dao.ExampleDao;
+import com.kenzie.capstone.service.dao.PantryDao;
+import com.kenzie.capstone.service.dao.RecipeDao;
 import com.kenzie.capstone.service.dao.UserDao;
 import dagger.internal.DoubleCheck;
 import dagger.internal.Preconditions;
@@ -29,6 +33,14 @@ public final class DaggerServiceComponent implements ServiceComponent {
 
   private Provider<UserLambdaService> provideUserLambdaServiceProvider;
 
+  private Provider<PantryDao> providePantryDaoProvider;
+
+  private Provider<PantryLambdaService> providePantryLambdaServiceProvider;
+
+  private Provider<RecipeDao> provideRecipeDaoProvider;
+
+  private Provider<RecipeLambdaService> provideRecipeLambdaServiceProvider;
+
   private DaggerServiceComponent(DaoModule daoModuleParam, ServiceModule serviceModuleParam) {
 
     initialize(daoModuleParam, serviceModuleParam);
@@ -49,6 +61,10 @@ public final class DaggerServiceComponent implements ServiceComponent {
     this.provideLambdaServiceProvider = DoubleCheck.provider(ServiceModule_ProvideLambdaServiceFactory.create(serviceModuleParam, provideExampleDaoProvider));
     this.provideUserDaoProvider = DoubleCheck.provider(DaoModule_ProvideUserDaoFactory.create(daoModuleParam, provideDynamoDBMapperProvider));
     this.provideUserLambdaServiceProvider = DoubleCheck.provider(ServiceModule_ProvideUserLambdaServiceFactory.create(serviceModuleParam, provideUserDaoProvider));
+    this.providePantryDaoProvider = DoubleCheck.provider(DaoModule_ProvidePantryDaoFactory.create(daoModuleParam, provideDynamoDBMapperProvider));
+    this.providePantryLambdaServiceProvider = DoubleCheck.provider(ServiceModule_ProvidePantryLambdaServiceFactory.create(serviceModuleParam, providePantryDaoProvider));
+    this.provideRecipeDaoProvider = DoubleCheck.provider(DaoModule_ProvideRecipeDaoFactory.create(daoModuleParam, provideDynamoDBMapperProvider));
+    this.provideRecipeLambdaServiceProvider = DoubleCheck.provider(ServiceModule_ProvideRecipeLambdaServiceFactory.create(serviceModuleParam, provideRecipeDaoProvider));
   }
 
   @Override
@@ -59,6 +75,16 @@ public final class DaggerServiceComponent implements ServiceComponent {
   @Override
   public UserLambdaService provideUserLambdaService() {
     return provideUserLambdaServiceProvider.get();
+  }
+
+  @Override
+  public PantryLambdaService providePantryLambdaService() {
+    return providePantryLambdaServiceProvider.get();
+  }
+
+  @Override
+  public RecipeLambdaService provideRecipeLambdaService() {
+    return provideRecipeLambdaServiceProvider.get();
   }
 
   public static final class Builder {

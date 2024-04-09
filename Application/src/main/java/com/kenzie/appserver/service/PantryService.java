@@ -87,6 +87,7 @@ public class PantryService {
 
         return pantryRecord;
 
+
         }
 //public PantryRecord getByItemId(String pantryItemId) {
 //        PantryRecord pantryRecord = pantryRepository.findItemByPantryItemId(pantryItemId);
@@ -173,14 +174,6 @@ public class PantryService {
 
     // Update an existing pantry item
 
-//    public PantryRecord updatePantryItem(String pantryItemId, PantryRecord updatedPantryRecord) {
-//        // Check if the pantry item exists before updating
-//        if (pantryRepository.existsById(pantryItemId)) {
-//            updatedPantryRecord.setPantryItemId(pantryItemId);
-//            return pantryRepository.save(updatedPantryRecord);
-//        }
-//        return null; // Return null if item not found
-//    }
 public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
     return pantryRepository.save(pantryRecord);
 }

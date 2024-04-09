@@ -63,4 +63,9 @@ wflowToTestsMap.forEach { wflowName, testList ->
             }
         }
     }
+    allprojects {
+        tasks.withType(JavaCompile) {
+            options.deprecation = true
+        }
+    }
 }

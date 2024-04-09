@@ -19,10 +19,10 @@ public class UserRecord implements UserDetails {
     private  String userId;
     @DynamoDBAttribute(attributeName = "username")
     private  String username;
-    @DynamoDBAttribute(attributeName = "email")
-    private  String email;
     @DynamoDBAttribute(attributeName = "password")
     private String password;
+    @DynamoDBAttribute(attributeName = "email")
+    private  String email;
     @DynamoDBAttribute(attributeName = "householdName")
     private  String householdName;
     @DynamoDBAttribute(attributeName = "accountNonLocked")
@@ -55,6 +55,7 @@ public class UserRecord implements UserDetails {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
     public String getUsername() {
         return username;
     }
@@ -62,6 +63,7 @@ public class UserRecord implements UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getEmail() {
         return email;
     }
@@ -77,6 +79,7 @@ public class UserRecord implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getHouseholdName() {
         return householdName;
     }

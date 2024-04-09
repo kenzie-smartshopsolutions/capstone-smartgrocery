@@ -3,6 +3,7 @@ package com.kenzie.appserver.repositories.model;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@ExcludeFromJacocoGeneratedReport
 @Service
 public class FoodCategoryConverter {
     public static Map<String, String> convertCsvToCategoryMap() throws IOException {

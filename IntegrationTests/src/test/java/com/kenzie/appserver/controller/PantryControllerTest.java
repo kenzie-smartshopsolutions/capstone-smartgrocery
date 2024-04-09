@@ -7,7 +7,6 @@ import com.kenzie.appserver.controller.model.PantryRequest;
 import com.kenzie.appserver.repositories.model.PantryRecord;
 import com.kenzie.appserver.service.PantryService;
 import net.andreinc.mockneat.MockNeat;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static org.apache.http.client.methods.RequestBuilder.post;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -178,6 +173,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         }
 
         @Test
+
         public void testSearchPantryByItemId_InvalidId() throws Exception {
             // GIVEN
             String invalidId = "invalidId";
@@ -190,11 +186,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         }
         @Test
+
         public void testGetPantryDetailsByUserId_NonexistentUser() throws Exception {
             // GIVEN
             String id = UUID.randomUUID().toString();
             //WHEN
-            mvc.perform(get("/pantry{userId}", id)
+
+            mvc.perform(get("/pantry/{userId}", id)
+
                             .accept(MediaType.APPLICATION_JSON))
                     // THEN
                     .andExpect(status().isNotFound());

@@ -10,10 +10,9 @@ import java.util.Objects;
 public class UserRecord {
 
     private String userId;
-    private String email;
     private String username;
     private String password;
-
+    private String email;
     private String householdName;
     private boolean accountNonLocked;
     private int failedLoginAttempts;
