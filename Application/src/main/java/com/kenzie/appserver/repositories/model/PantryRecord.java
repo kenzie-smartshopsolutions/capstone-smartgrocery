@@ -26,7 +26,6 @@ public class PantryRecord {
     private  Date datePurchased;
 
     public PantryRecord(String userId, String pantryItemId, String itemName, String category, int quantity, String expiryDate, boolean isExpired, Date datePurchased) {
-   // private Date dateUsed;
 
         this.userId = userId;
         this.pantryItemId = pantryItemId;
@@ -36,12 +35,11 @@ public class PantryRecord {
         this.expiryDate = expiryDate;
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
-      //  this.dateUsed= dateUsed;
     }
       
     public PantryRecord() {}
 
-    @DynamoDBHashKey(attributeName = "userId")
+    @DynamoDBAttribute(attributeName = "userId")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
     public String getUserId() {
         return userId;
@@ -113,13 +111,7 @@ public class PantryRecord {
         this.category = category;
     }
 
-   // @DynamoDBAttribute(attributeName = "DateUsed")
-  //  public Date getDateUsed() {
-      //  return dateUsed;
-   // }
-  //  public void setDateUsed(Date dateUsed) {
-       // this.dateUsed = dateUsed;
-  //  }
+
 
     @Override
     public boolean equals(Object o) {
@@ -132,6 +124,5 @@ public class PantryRecord {
     @Override
     public int hashCode() {
         return Objects.hash(pantryItemId);
-
     }
 }
