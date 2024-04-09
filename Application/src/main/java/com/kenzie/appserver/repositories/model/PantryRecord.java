@@ -42,7 +42,7 @@ public class PantryRecord {
     public PantryRecord() {}
 
     @DynamoDBHashKey(attributeName = "userId")
-   // @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
     public String getUserId() {
         return userId;
     }
