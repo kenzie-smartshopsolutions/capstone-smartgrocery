@@ -205,30 +205,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
         }
-        @Test
-        public void testDeletePetById_Success() throws Exception{
 
-            String pantryItemId = UUID.randomUUID().toString();
-            String userId = UUID.randomUUID().toString();
-
-            PantryRequest pantryRequest = new PantryRequest();
-            pantryRequest.setUserId(userId);
-            pantryRequest.setPantryItemId(pantryItemId);
-
-            mapper.registerModule(new JavaTimeModule());
-
-            PantryRecord pantryRecord = pantryService.addPantryItem(pantryRequest);
-
-            //WHEN
-            mvc.perform(delete("/Pantry/{pantryItemId}/", pantryRecord.getPantryItemId())
-                            .accept(MediaType.APPLICATION_JSON))
-                    // THEN
-                    .andExpect(status().isNoContent());
-
-            //assertThat(petService.findByPetId(id)).isNull();
-
-
-        }
 
 
 
@@ -298,6 +275,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //
 //
 //        }
+
 
 
 

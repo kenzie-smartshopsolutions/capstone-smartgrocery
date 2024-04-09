@@ -2,7 +2,9 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
+import com.kenzie.appserver.service.model.Example;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import com.kenzie.capstone.service.model.ExampleData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 //import org.springframework.stereotype.Service;
-//
+
 @Service
 public class RecipeService {
     private RecipeRepository recipeRepository;
@@ -25,7 +27,6 @@ public class RecipeService {
     public List<RecipeRecord> getAllRecipes() {
         return (List<RecipeRecord>) recipeRepository.findAll();
     }
-
     public Optional<RecipeRecord> getRecipeById(String id) {
         return recipeRepository.findById(id);
     }
