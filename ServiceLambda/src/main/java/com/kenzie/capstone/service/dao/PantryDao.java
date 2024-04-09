@@ -7,7 +7,6 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
-import com.kenzie.capstone.service.model.*;
 import com.kenzie.capstone.service.model.PantryData;
 import com.kenzie.capstone.service.model.PantryRecord;
 
@@ -40,8 +39,8 @@ public class PantryDao {
         return pantryRecord;
     }
 
-    public PantryRecord getPantryRecord(String Id) {
-        PantryRecord pantryRecord = mapper.load(PantryRecord.class, Id);
+    public PantryRecord getPantryRecord(String pantryItemId) {
+        PantryRecord pantryRecord = mapper.load(PantryRecord.class, pantryItemId);
         return pantryRecord;
     }
     public List<PantryRecord> getPantryRecordsByUserId(String userId) {
