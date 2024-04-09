@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GetPantryData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -46,15 +47,15 @@ public class GetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
 //                    .withBody("Id is invalid");
 //        }
         //userId to get pantry list
-        String pantryItemId = input.getPathParameters().get("pantryItemId");
-        if (pantryItemId == null || pantryItemId.length() == 0) {
+        String userId = input.getPathParameters().get("userId");
+        if (userId == null || userId.length() == 0) {
             return response
                     .withStatusCode(400)
-                    .withBody("Pantry item is invalid");
+                    .withBody("Pantry is invalid");
         }
 
         try {
-            PantryData pantryData = pantryLambdaService.getPantryData(pantryItemId);
+            List<PantryData> pantryData = pantryLambdaService.getPantryDataByUserId(userId);
             String output = gson.toJson(pantryData);
 
             return response

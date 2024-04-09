@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/pantry")
+@RequestMapping("Pantry")
 public class PantryController {
 
     @Autowired
@@ -31,16 +31,16 @@ public class PantryController {
         return new ResponseEntity<>(pantryItems, HttpStatus.OK);
 
     }
-    @GetMapping("/pantryItemId/{pantryItemId}")
-    public ResponseEntity<PantryRecord> getPantryItem(@PathVariable String pantryItemId) {
-//        // Need to verify the logged-in user matches the userId:
-//        if (!authentication.getName().equals(userId)) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-//        }
-        PantryRecord pantryItem = pantryService.getByItemId(pantryItemId);
-        return new ResponseEntity<>(pantryItem, HttpStatus.OK);
+//    @GetMapping("/pantryItemId/{pantryItemId}")
+//    public ResponseEntity<PantryRecord> getPantryItem(@PathVariable String pantryItemId) {
+////        // Need to verify the logged-in user matches the userId:
+////        if (!authentication.getName().equals(userId)) {
+////            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+////        }
+//        PantryRecord pantryItem = pantryService.getByItemId(pantryItemId);
+//        return new ResponseEntity<>(pantryItem, HttpStatus.OK);
 
-    }
+
 
     // Add a new pantry item
     @PostMapping

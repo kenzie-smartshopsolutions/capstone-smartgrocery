@@ -30,10 +30,10 @@ Resources:
     Properties:
       TableName: "Pantry"
       AttributeDefinitions:
-        - AttributeName: "pantryId"
+        - AttributeName: "pantryItemId"
           AttributeType: "S"
       KeySchema:
-        - AttributeName: "pantryId"
+        - AttributeName: "pantryItemId"
           KeyType: "HASH"
       ProvisionedThroughput:
         ReadCapacityUnits: 5

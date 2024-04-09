@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 //import static com.google.common.util.concurrent.SerializingExecutor.log;
 
@@ -24,8 +25,8 @@ public class PantryLambdaService {
     }
 
 
-    public PantryData getPantryData(String pantryItemId) {
-        PantryRecord pantryRecord = pantryDao.getPantryRecord(pantryItemId);
+    public PantryData getPantryData(String userId) {
+        PantryRecord pantryRecord = pantryDao.getPantryRecord(userId);
         return pantryDao.convertToPantryData(pantryRecord);
     }
 
@@ -33,5 +34,11 @@ public class PantryLambdaService {
         String pantryItemId = pantryData.getPantryItemId();
         PantryRecord pantryRecord = pantryDao.setPantryData(pantryItemId, pantryData);
         return pantryDao.convertToPantryData(pantryRecord);
+    }
+    public List<PantryData> getPantryDataByUserId(String userId) {
+        List<PantryRecord> pantryRecords = pantryDao.getPantryRecordsByUserId(userId);
+        return pantryRecords.stream()
+                .map(record -> pantryDao.convertToPantryData(record))
+                .collect(Collectors.toList());
     }
 }

@@ -1,10 +1,13 @@
 package com.kenzie.capstone.service.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.PantryData;
 import com.kenzie.capstone.service.model.UserData;
+
+import java.util.List;
 
 
 public class LambdaServiceClient {
@@ -15,7 +18,7 @@ public class LambdaServiceClient {
     private static final String GET_USER_ENDPOINT = "User/register/userId/{userId}";
     private static final String SET_USER_ENDPOINT = "User/register";
 
-    private static final String GET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
+    private static final String GET_PANTRY_ENDPOINT = "Pantry/userId/{userId}";
     private static final String SET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
 
     private ObjectMapper mapper;
@@ -90,12 +93,12 @@ public class LambdaServiceClient {
     }
 
     //pantryId??
-    public PantryData getPantryData(String pantryItemId) {
+    public List<PantryData> getPantryData(String userId) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(GET_PANTRY_ENDPOINT.replace("{pantryItemId}", pantryItemId));
-        PantryData pantryData;
+        String response = endpointUtility.getEndpoint(GET_PANTRY_ENDPOINT.replace("{userId}", userId));
+        List<PantryData> pantryData;
         try {
-            pantryData = mapper.readValue(response, PantryData.class);
+            pantryData = mapper.readValue(response, new TypeReference<List<PantryData>>() {});
         } catch (JsonProcessingException e) {
             // If there is an issue with deserializing the response, handle it appropriately
             throw new ApiGatewayException("Unable to deserialize JSON response: " + e.getMessage());
