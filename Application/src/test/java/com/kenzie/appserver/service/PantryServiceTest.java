@@ -4,19 +4,26 @@ import com.kenzie.appserver.controller.model.PantryRequest;
 import com.kenzie.appserver.repositories.PantryRepository;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.PantryRecord;
+import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PantryServiceTest {
@@ -35,7 +42,7 @@ public class PantryServiceTest {
     }
 
     @Test
-    void createNewPantryItem_validData() {
+    void addNewPantryItem_validData() {
         //given
         String pantryItemId = UUID.randomUUID().toString();
         String itemName = "Banana";
@@ -74,5 +81,24 @@ public class PantryServiceTest {
         assertThat(createditem.getDatePurchased()).isEqualTo(expectedItem.getDatePurchased());
         assertThat(createditem.getUserId()).isEqualTo(expectedItem.getUserId());
     }
+    @Test
+    void getPantryByUserIdTest() {
+
+    }
+
+    @Test
+    void getPantryByUserIdWithInvalidUserIdFails() {
+
+    }
+
+    @Test
+    void deletePantryItemByItemId() {
+            String pantryItemId = "testPantryId";
+
+            pantryService.deletePantryItem(pantryItemId);
+
+            verify(pantryRepository).deleteById(pantryItemId);
+    }
+
 
 }

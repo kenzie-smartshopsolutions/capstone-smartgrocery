@@ -197,7 +197,7 @@ Resources:
         GetPantryItems:
           Type: Api
           Properties:
-            Path: /pantry/{pantryItemId}
+            Path: /pantry/userId/{userId}
             Method: get
   SetPantryDataFunction:
     Type: AWS::Serverless::Function
