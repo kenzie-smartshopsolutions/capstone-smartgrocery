@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+
 public class Pantry {
 
   /*pantryItemId (String)
@@ -19,21 +20,13 @@ dateUsed(Date/time)
 category(String)
 */
 
-    @Id
-    @NotNull
-    @DynamoDBHashKey(attributeName = "pantryItemId")
+
     private final String pantryItemId;
-    @DynamoDBAttribute(attributeName = "itemName")
     private final String itemName;
-    @DynamoDBAttribute(attributeName = "expiryDate")
     private final String expiryDate;
-    @DynamoDBAttribute(attributeName = "quantity")
     private final int quantity;
-    @DynamoDBAttribute(attributeName = "isExpired")
     private final boolean isExpired;
-    @DynamoDBAttribute(attributeName = "datePurchased")
     private final Date datePurchased;
-    @DynamoDBAttribute(attributeName = "userId")
     private final String userId;
 
     public final String category;

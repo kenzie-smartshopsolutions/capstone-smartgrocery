@@ -2,10 +2,13 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.PantryRequest;
 import com.kenzie.appserver.controller.model.PantryResponse;
+import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.model.PantryRecord;
+import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.PantryService;
 //import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.appserver.service.model.Pantry;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,20 +46,28 @@ public class PantryController {
 
 
     // Add a new pantry item
-    @PostMapping
+    @PostMapping("/pantryItemId/{pantryItemId}")
     public ResponseEntity<PantryResponse> addPantryItem(@RequestBody PantryRequest pantry) {
-        try {
-            PantryRecord addedItem = pantryService.addPantryItem(pantry);
+//        try {
+//            PantryRecord addedItem = pantryService.addPantryItem(pantry);
+//
+//            PantryResponse response = createPantryResponse(addedItem);
+//            return new ResponseEntity<>(response, HttpStatus.CREATED);
+//
+//            // added logging statement
+//        } catch (Exception e) {
+//                e.printStackTrace();
+//                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//            }
 
-            PantryResponse response = createPantryResponse(addedItem);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            PantryRecord createdItem = pantryService.addPantryItem(pantry);
+            PantryResponse response = createPantryResponse(createdItem);
 
-            // added logging statement
-        } catch (Exception e) {
-                e.printStackTrace();
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+
+
 
     // Update an existing pantry item
     @PutMapping("/pantryItemId/{pantryItemId}")
