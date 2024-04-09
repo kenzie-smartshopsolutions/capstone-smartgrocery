@@ -94,7 +94,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
             PantryRecord pantryRecord = pantryService.addPantryItem(pantryRequest);
 
             //WHEN
-            mvc.perform(delete("/Pantry/{pantryItemId}/", pantryRecord.getPantryItemId())
+            mvc.perform(delete("/Pantry/pantryItemId/{pantryItemId}/", pantryRecord.getPantryItemId())
                             .accept(MediaType.APPLICATION_JSON))
                     // THEN
                     .andExpect(status().isNoContent());
@@ -124,7 +124,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
             assertEquals(pantryRecord.getItemName(), itemName);
 
             mvc.perform(
-                            get("/Pantry/{pantryItemId}", pantryRecord.getPantryItemId())
+                            get("/Pantry/pantryItemId/{pantryItemId}", pantryRecord.getPantryItemId())
                                     .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("catagory").value(is(catagory)))
@@ -182,7 +182,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
             // GIVEN
             String invalidId = "invalidId";
 
-            mvc.perform(get("/pantry/{pantryItemId}", invalidId)
+            mvc.perform(get("/pantry/pantryItemId/{pantryItemId}", invalidId)
                             .accept(MediaType.APPLICATION_JSON))
                     // THEN
                     .andExpect(status().isNotFound());

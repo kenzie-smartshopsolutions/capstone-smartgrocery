@@ -19,7 +19,7 @@ public class LambdaServiceClient {
     private static final String SET_USER_ENDPOINT = "User/register";
 
     private static final String GET_PANTRY_ENDPOINT = "Pantry/userId/{userId}";
-    private static final String SET_PANTRY_ENDPOINT = "Pantry/{pantryItemId}";
+    private static final String SET_PANTRY_ENDPOINT = "Pantry/pantryItemId/{pantryItemId}";
 
     private ObjectMapper mapper;
 
