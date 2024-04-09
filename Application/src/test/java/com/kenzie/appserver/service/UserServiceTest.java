@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.User;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
@@ -43,6 +45,10 @@ class UserServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+    /** ------------------------------------------------------------------------
+     *  userService.createUser() tests
+     *  ------------------------------------------------------------------------ **/
 
     @Test
     void createUser_Success() {
@@ -90,6 +96,11 @@ class UserServiceTest {
         });
     }
 
+    /** ------------------------------------------------------------------------
+     *  userService.getUserById() tests
+     *  ------------------------------------------------------------------------ **/
+
+
     @Test
     void getUserById_Success() {
         // GIVEN
@@ -112,8 +123,6 @@ class UserServiceTest {
         verify(userRepository).findById(userId);
     }
 
-
-
     @Test
     void getUserById_notFoundTest() {
         // GIVEN
@@ -123,6 +132,11 @@ class UserServiceTest {
         // WHEN & THEN
         assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id), "User not found in databases.");
     }
+
+    /** ------------------------------------------------------------------------
+     *  userService.updateUser() tests
+     *  ------------------------------------------------------------------------ **/
+
 
     @Test
     void updateUserTest() {
@@ -151,7 +165,9 @@ class UserServiceTest {
         assertThrows(IllegalArgumentException.class, () -> userService.updateUser(userRecord), "User not found in databases.");
     }
 
-
+    /** ------------------------------------------------------------------------
+     *  userService.deleteUser() tests
+     *  ------------------------------------------------------------------------ **/
 
     @Test
     void deleteUser_Success() {
@@ -165,5 +181,86 @@ class UserServiceTest {
         verify(userRepository).deleteById(userId);
     }
 
+    /** ------------------------------------------------------------------------
+     *  userService 'other' tests
+     *  ------------------------------------------------------------------------ **/
+
+    @Test
+    void loadUserByUsername_Found_ShouldReturnUserDetails() {
+        // Given
+        String username = "existingUser";
+        UserRecord foundUser = new UserRecord("userId", username, "EncodedP@ssw0rd", "user@example.com", "household");
+        when(userRepository.findByUsername(username)).thenReturn(foundUser);
+
+        // When
+        UserDetails result = userService.loadUserByUsername(username);
+
+        // Then
+        assertEquals(username, result.getUsername());
+        assertTrue(result.isAccountNonLocked());
+        verify(userRepository).findByUsername(username);
+    }
+
+    @Test
+    void incrementFailedLoginAttempts_ValidUsername_ShouldIncrementFailedAttempts() {
+        // Given
+        String username = "existingUser";
+        UserRecord user = new UserRecord();
+        user.setUsername(username);
+        user.setFailedLoginAttempts(1);
+        when(userRepository.findByUsername(username)).thenReturn(user);
+
+        // When
+        userService.incrementFailedLoginAttempts(username);
+
+        // Then
+        assertEquals(2, user.getFailedLoginAttempts());
+        verify(userRepository).save(user);
+    }
+
+    @Test
+    void resetAndUnlockAccount_ValidUsername_ShouldResetAndUnlock() {
+        // Given
+        String username = "lockedUser";
+        UserRecord user = new UserRecord();
+        user.setUsername(username);
+        user.setFailedLoginAttempts(5);
+        user.setAccountNonLocked(false);
+        when(userRepository.findByUsername(username)).thenReturn(user);
+
+        // When
+        userService.resetAndUnlockAccount(username);
+
+        // Then
+        assertEquals(0, user.getFailedLoginAttempts());
+        assertTrue(user.isAccountNonLocked());
+        verify(userRepository).save(user);
+    }
+
+    @Test
+    void convertToDto_ValidUserRecord_ShouldConvertToDto() {
+        // Given
+        UserRecord userRecord = new UserRecord("userId", "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
+
+        // When
+        User dto = userService.convertToDto(userRecord);
+
+        // Then
+        assertEquals("userId", dto.getUserId());
+        assertEquals("existingUser", dto.getUsername());
+    }
+
+    @Test
+    void convertToUserResponse_ValidInput_ShouldConvertProperly() {
+        // Given
+        UserRecord userRecord = new UserRecord("userId", "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
+
+        // When
+        UserResponse result = userService.convertToUserResponse(userRecord);
+
+        // Then
+        assertEquals("userId", result.getUserId());
+        assertEquals("existingUser", result.getUsername());
+    }
 
 }

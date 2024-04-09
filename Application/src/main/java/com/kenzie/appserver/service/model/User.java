@@ -63,6 +63,7 @@ householdName (String) - [in case of multiple household members sharing same pan
         this.failedLoginAttempts = failedLoginAttempts;
     }
 
+
     public void setUserId(String userId) {
         this.userId = userId;
     }

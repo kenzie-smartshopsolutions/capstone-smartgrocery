@@ -102,8 +102,9 @@ public class UserRecord {
         UserRecord that = (UserRecord) o;
         return accountNonLocked == that.accountNonLocked && failedLoginAttempts == that.failedLoginAttempts &&
                 Objects.equals(userId, that.userId) &&
-                Objects.equals(email, that.email) &&
                 Objects.equals(username, that.username) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(email, that.email) &&
                 Objects.equals(householdName, that.householdName);
     }
 
