@@ -2,6 +2,7 @@ package com.kenzie.capstone.service.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.Date;
@@ -13,8 +14,6 @@ import java.util.Objects;
 
        // @NotNull(message = "Item name cannot be null")
         private String itemName;
-
-        @DynamoDBAttribute(attributeName = "Category")
         public String category;
         private String expiryDate;
         private int quantity;
@@ -38,6 +37,8 @@ import java.util.Objects;
         public PantryRecord() {
         }
 
+        @DynamoDBAttribute(attributeName = "userId")
+        @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
         public String getUserId() {
             return userId;
         }
@@ -47,10 +48,8 @@ import java.util.Objects;
         }
 
         //@Id
-        @DynamoDBHashKey(attributeName = "pantryItemId")
-        public String getPantryItemId() {
-            return pantryItemId;
-        }
+        @DynamoDBHashKey(attributeName = "Id")
+        public String getPantryItemId() {return pantryItemId;}
 
         public void setPantryItemId(String pantryItemId) {
             this.pantryItemId = pantryItemId;
@@ -101,7 +100,7 @@ import java.util.Objects;
             this.datePurchased = datePurchased;
         }
 
-        @DynamoDBAttribute(attributeName = "Category")
+        @DynamoDBAttribute(attributeName = "category")
         public String getCategory() {
             return category;
         }

@@ -40,9 +40,19 @@ public class PantryDao {
         return pantryRecord;
     }
 
-    public PantryRecord getPantryRecord(String userId) {
-        PantryRecord pantryRecord = mapper.load(PantryRecord.class, userId);
+    public PantryRecord getPantryRecord(String Id) {
+        PantryRecord pantryRecord = mapper.load(PantryRecord.class, Id);
         return pantryRecord;
+    }
+    public List<PantryRecord> getPantryRecordsByUserId(String userId) {
+        PantryRecord pantryRecord = new PantryRecord();
+        pantryRecord.setUserId(userId);
+        DynamoDBQueryExpression<PantryRecord> queryExpression = new DynamoDBQueryExpression<PantryRecord>()
+                .withHashKeyValues(pantryRecord)
+                .withIndexName("userIdIndex")
+                .withConsistentRead(false);
+        return mapper.query(PantryRecord.class, queryExpression);
+
     }
 
     public PantryRecord updatePantryRecord(PantryRecord pantryRecord) {

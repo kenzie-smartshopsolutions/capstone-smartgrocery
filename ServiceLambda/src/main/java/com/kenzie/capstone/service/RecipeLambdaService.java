@@ -45,7 +45,7 @@ public class RecipeLambdaService {
      */
 
     //????
-    public RecipeData setRecipeData(RecipeData recipeData) {
+    public static RecipeData setRecipeData(RecipeData recipeData) {
         try {
         // Call the DAO method to set recipe data
         RecipeRecord recipeRecord = recipeDao.setRecipeData(recipeData.getRecipeId(), recipeData);
