@@ -1,11 +1,9 @@
+//ServiceLambda/src/main/java/com/kenzie/capstone/service/lambda/Recipe/GetRecipeData.java
 
-package com.kenzie.capstone.service.lambda.Recipe;
+package com.kenzie.capstone.service.lambda.recipe;
+//main:ServiceLambda/src/main/java/com/kenzie/capstone/service/lambda/recipe/GetRecipeData.java
 
-import com.kenzie.capstone.service.LambdaService;
-import com.kenzie.capstone.service.RecipeLambdaService;
-import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.RecipeData;
-import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
+
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -13,6 +11,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kenzie.capstone.service.RecipeLambdaService;
+import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
+import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.model.RecipeData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

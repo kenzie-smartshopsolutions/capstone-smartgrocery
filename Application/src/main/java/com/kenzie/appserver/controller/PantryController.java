@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/pantry")
+@RequestMapping("Pantry")
 public class PantryController {
 
     @Autowired
@@ -46,7 +46,7 @@ public class PantryController {
 
 
     // Add a new pantry item
-    @PostMapping
+    @PostMapping("/pantryItemId/{pantryItemId}")
     public ResponseEntity<PantryResponse> addPantryItem(@RequestBody PantryRequest pantry) {
 //        try {
 //            PantryRecord addedItem = pantryService.addPantryItem(pantry);

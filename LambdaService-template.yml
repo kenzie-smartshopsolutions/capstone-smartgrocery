@@ -218,27 +218,89 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
+<<<<<<< HEAD
             Path: /pantry/{pantryItemId}
+=======
+            Path: /pantry/pantryItemId/{pantryItemId}
+>>>>>>> main
             Method: post
-
-#
-#  CreateRecipeFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-#      Handler: com.kenzie.appserver.controller.RecipeController::createRecipe
-#      Runtime: java11
-#      Description: Create a new recipe
-#      MemorySize: 512
-#      Timeout: 240
-#      Policies:
-#        - AWSLambdaBasicExecutionRole
-#        - AWSLambda_ReadOnlyAccess
-#        - AmazonDynamoDBFullAccess
-#      Tracing: Active
-#      Events:
-#        CreateRecipe:
-#          Type: Api
-#          Properties:
-#            Path: /recipe
-#            Method: post
+  GetRecipeDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.lambda.recipe.GetRecipeData
+      Runtime: java11
+      Description: Fetch recipe details
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        CreateRecipe:
+          Type: Api
+          Properties:
+            Path: /recipe/{recipeId}
+            Method: get
+  SetRecipeDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler:  com.kenzie.capstone.service.lambda.recipe.SetRecipeData
+      Runtime: java11
+      Description: Create a new recipe
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        CreateRecipe:
+          Type: Api
+          Properties:
+            Path: /recipe
+            Method: post
+  UpdateRecipeDataFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+        Handler:  com.kenzie.capstone.service.lambda.recipe.UpdateRecipeData
+        Runtime: java11
+        Description: Update an existing recipe
+        MemorySize: 512
+        Timeout: 240
+        Policies:
+          - AWSLambdaBasicExecutionRole
+          - AWSLambda_ReadOnlyAccess
+          - AmazonDynamoDBFullAccess
+        Tracing: Active
+        Events:
+          CreateRecipe:
+            Type: Api
+            Properties:
+              Path: /recipe/{recipeId}
+              Method: put
+  DeleteRecipeDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler:  com.kenzie.capstone.service.lambda.recipe.DeleteRecipeData
+      Runtime: java11
+      Description: Delete an existing recipe
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        CreateRecipe:
+          Type: Api
+          Properties:
+            Path: /recipe/{recipeId}
+            Method: delete

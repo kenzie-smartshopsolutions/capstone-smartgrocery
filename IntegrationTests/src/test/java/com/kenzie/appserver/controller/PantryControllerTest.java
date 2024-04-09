@@ -102,14 +102,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         }
 
         @Test
+
+        public void testSearchPantryByItemId_InvalidId() throws Exception {
+            // GIVEN
+            String invalidId = "invalidId";
+
+            mvc.perform(get("/pantry/{pantryItemId}", invalidId)
+                            .accept(MediaType.APPLICATION_JSON))
+                    // THEN
+                    .andExpect(status().isNotFound());
+
+
+        }
+        @Test
+
         public void testGetPantryDetailsByUserId_NonexistentUser() throws Exception {
             // GIVEN
             String id = UUID.randomUUID().toString();
             //WHEN
+
             mvc.perform(get("/pantry/{userId}", id)
+
                             .accept(MediaType.APPLICATION_JSON))
                     // THEN
                     .andExpect(status().isNotFound());
+
 
         }
         @Test
@@ -134,7 +151,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
             //assertThat(petService.findByPetId(id)).isNull();
 
+
         }
+
 
 
 //        @Test
@@ -203,6 +222,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //
 //
 //        }
+
 
 
 }

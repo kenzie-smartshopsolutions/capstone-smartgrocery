@@ -64,29 +64,6 @@ public class PantryService {
 //        }
 //    }
 
-
-    // Retrieve pantry items for a user
-    /**
-     * Retrieves the pantry items for a specific user.
-     * Each pantry item's category is mapped to its corresponding description.
-     * Checks if each item has expired based on its expiry date.
-     *
-     * @param userId The ID of the user whose pantry items are being retrieved.
-     * @return A list of pantry items belonging to the specified user.
-     */
-
-//    @PostConstruct // Execute after Bean initialization
-//    public void loadFoodCategories() {
-//        File file = new File("/food_category.csv"); // Replace with the correct path
-//        try {
-//            foodCategories = FoodCategoryConverter.convertCsvToCategoryMap();
-//        } catch (IOException e) {
-//            // Handle error, maybe log a message
-//            e.printStackTrace();
-//        }
-//    }
-
-
     public Optional<PantryRecord> getPantry(String userId) {
         return pantryRepository.findById(userId);
     }
@@ -109,6 +86,7 @@ public class PantryService {
                 .collect(Collectors.toList());
 
         return pantryRecord;
+
 
         }
 //public PantryRecord getByItemId(String pantryItemId) {
@@ -153,30 +131,6 @@ public class PantryService {
 //        return pantryRecord;
 //    }
 //}
-
-
-
-    // Add a new pantry item
-//    public PantryRecord addPantryItem(String userId, String pantryItemId, String itemName, String category,
-//                                      String expiryDate, int quantity, boolean isExpired, Date datePurchased) {
-//        // Create a new pantry record object
-//        PantryRecord pantryRecord = new PantryRecord();
-//
-//        // Set the properties of the pantry item
-//        pantryRecord.setUserId(userId);
-//        pantryRecord.setPantryItemId(pantryItemId);
-//        pantryRecord.setItemName(itemName);
-//        pantryRecord.setCategory(category);
-//        pantryRecord.setExpiryDate(expiryDate);
-//        pantryRecord.setQuantity(quantity);
-//        pantryRecord.setExpired(isExpired);
-//        pantryRecord.setDatePurchased(datePurchased);
-//
-//        // Save the pantry item to the repository
-//        return pantryRepository.save(pantryRecord);
-//    }
-
-
     /**
 //     * Adds a new pantry item to the repository.
 //     *
@@ -220,14 +174,6 @@ public class PantryService {
 
     // Update an existing pantry item
 
-//    public PantryRecord updatePantryItem(String pantryItemId, PantryRecord updatedPantryRecord) {
-//        // Check if the pantry item exists before updating
-//        if (pantryRepository.existsById(pantryItemId)) {
-//            updatedPantryRecord.setPantryItemId(pantryItemId);
-//            return pantryRepository.save(updatedPantryRecord);
-//        }
-//        return null; // Return null if item not found
-//    }
 public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
     return pantryRepository.save(pantryRecord);
 }
