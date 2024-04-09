@@ -53,7 +53,6 @@ public class PantryServiceTest {
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
 
-
         Pantry expectedItem = new Pantry(pantryItemId,
                 itemName, expiryDate, quanity, isExpired, datePurchased,category, userId);
 
@@ -213,6 +212,31 @@ public class PantryServiceTest {
         verify(pantryRepository).deleteById(pantryItemId);
     }
 
+    @Test
+    public void testUpdatePantryItemInvalidId() {
+        String invalidPantryItemId = "invailid";
+        String itemName = "Banana";
+        String expiryDate = "01/01/2025";
+        int quanity = 1;
+        boolean isExpired = false;
+        Date datePurchased = new Date(4,8,24);
+        String category = "Fruit";
+        String userId = UUID.randomUUID().toString();
+
+        PantryRequest request = new PantryRequest();
+        request.setQuantity(quanity);
+        request.setDatePurchased(datePurchased);
+        request.setExpired(isExpired);
+        request.setPantryItemId(invalidPantryItemId);
+        request.setExpiryDate(expiryDate);
+        //record.setCategory(category);
+
+        PantryRecord record = pantryService.addPantryItem(request);
+
+//        pantryService.updatePantryItem(record);
+        when(pantryRepository.findById(invalidPantryItemId)).thenReturn(null);
+
+    }
 
 
 
