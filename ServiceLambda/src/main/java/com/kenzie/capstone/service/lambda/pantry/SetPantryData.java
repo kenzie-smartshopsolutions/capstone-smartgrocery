@@ -6,13 +6,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kenzie.capstone.service.LambdaService;
 import com.kenzie.capstone.service.PantryLambdaService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.PantryData;
-import com.kenzie.capstone.service.model.UserData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,7 +42,7 @@ public class SetPantryData implements RequestHandler<APIGatewayProxyRequestEvent
         if (pantryData == null || pantryData.getPantryItemId()== null || pantryData.getPantryItemId().isEmpty()) {
             return response.withStatusCode(400).withBody("Pantry item does not exist");
         }
-
+        log.info("pantryPANTRYdata data: {}", pantryData);
         try {
             PantryData savedPantryData = pantryLambdaService.setPantryData(pantryData);
             String output = gson.toJson(savedPantryData);
