@@ -197,7 +197,7 @@ Resources:
         GetPantryItems:
           Type: Api
           Properties:
-            Path: /pantry/{pantryItemId}
+            Path: /pantry/userId/{userId}
             Method: get
   SetPantryDataFunction:
     Type: AWS::Serverless::Function
@@ -218,7 +218,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /pantry/{pantryItemId}
+            Path: /pantry/pantryItemId/{pantryItemId}
             Method: post
   GetRecipeDataFunction:
     Type: AWS::Serverless::Function
