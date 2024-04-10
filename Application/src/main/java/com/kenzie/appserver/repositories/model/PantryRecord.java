@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -49,7 +48,6 @@ public class PantryRecord {
         this.userId = userId;
     }
       
-    @Id
     @DynamoDBHashKey(attributeName = "pantryItemId")
     public String getPantryItemId() {
         return pantryItemId;
