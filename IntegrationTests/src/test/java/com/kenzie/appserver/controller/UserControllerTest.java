@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,18 +31,21 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @InjectMocks
     private UserService userService;
 
     @InjectMocks
     private UserController userController;
 
+    @Autowired
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private User sampleUser;
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
+
         String userId = "105f1de6-03b7-4e5e-afbe-414f0a4301a7";
         sampleUser = new User(userId,
                 "someguy",
@@ -52,7 +54,6 @@ public class UserControllerTest {
                 "household"
                 );
 
-        MockitoAnnotations.openMocks(this);
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("someguy", "P@ssw0rd"));
 
     }
@@ -67,7 +68,7 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sampleUser)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(sampleUser.getUserId()));
+                .andExpect(jsonPath("$.userId").value(sampleUser.getUserId()));
     }
 
     @Test
@@ -79,7 +80,7 @@ public class UserControllerTest {
         mockMvc.perform(get("/users/{id}", "1")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(sampleUser.getUserId()));
+                .andExpect(jsonPath("$.userId").value(sampleUser.getUserId()));
     }
 
     @Test
@@ -88,7 +89,7 @@ public class UserControllerTest {
 
         given(userService.updateUser(sampleUserRecord)).willReturn(sampleUserRecord);
 
-        mockMvc.perform(put("/users/{id}", "1")
+        mockMvc.perform(put("/users/{id}", "105f1de6-03b7-4e5e-afbe-414f0a4301a7")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sampleUser)))
                 .andExpect(status().isOk())
