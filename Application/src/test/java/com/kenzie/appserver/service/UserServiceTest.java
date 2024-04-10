@@ -39,6 +39,11 @@ class UserServiceTest {
         userService = new UserService(userRepository, passwordEncoder, lambdaServiceClient);
     }
 
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
     void createUser_Success() {
         // GIVEN
@@ -55,11 +60,19 @@ class UserServiceTest {
         assertEquals("someguy", result.getUsername());
     }
 
-
     @Test
-        // Test for exception when user already exists
+    void createUser_InvalidPassword() {
+        // GIVEN
+        User inputUser = new User(null, "newUser", "weak", "newUser@email.com", "household");
+
+        // WHEN & THEN
+        assertThrows(IllegalArgumentException.class, () -> userService.createUser(inputUser), "Password does not meet security requirements.");
+    }
+
+    // Test for exception when user already exists
+    @Test
     void createUser_AlreadyExists() {
-        // WHEN
+        // GIVEN
         User userDto = new User(
                 null,
                 "someguy",
@@ -68,6 +81,7 @@ class UserServiceTest {
                 "household"
         );
 
+        // WHEN
         when(userRepository.findByUsername("someguy")).thenReturn(new UserRecord());
 
         // THEN
@@ -77,45 +91,79 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserByIdTest() {
-        String id = UUID.randomUUID().toString();
-        UserRecord userRecord = new UserRecord();
-        when(userRepository.findById(id)).thenReturn(java.util.Optional.ofNullable(userRecord));
+    void getUserById_Success() {
+        // GIVEN
+        String userId = UUID.randomUUID().toString(); // Or a specific userId if needed.
+        UserRecord expectedUserRecord = new UserRecord(userId, "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
 
-        UserRecord result = userService.getUserById(id);
+        // Mock the UserRepository to return the expected UserRecord when findById is called with the userId
+        when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUserRecord));
 
-        assertEquals(userRecord, result);
-        verify(userRepository).findById(id);
+        // WHEN
+        // Call the method under test
+        UserRecord result = userService.getUserById(userId);
+
+        // THEN
+        // Validate that the result is not null and matches the expected UserRecord
+        assertNotNull(result, "The result should not be null.");
+        assertEquals(expectedUserRecord.getUserId(), result.getUserId(), "The userId should match the expected value.");
+
+        // Verify that findById was called on the userRepository with the correct userId
+        verify(userRepository).findById(userId);
     }
 
 
-    @Test
-    void updateUserTest() {
-        UserRecord userRecord = new UserRecord();
-
-        when(userRepository.save(userRecord)).thenReturn(userRecord);
-
-        UserRecord result = userService.updateUser(userRecord);
-
-        assertEquals(userRecord, result);
-        verify(userRepository).save(userRecord);
-    }
 
     @Test
-    void getUserByIdNotFoundTest() {
+    void getUserById_notFoundTest() {
         // GIVEN
         String id = UUID.randomUUID().toString();
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-        // WHEN
-        UserRecord result = userService.getUserById(id);
-
-        // THEN
-        assertNull(result);
-        verify(userRepository).findById(id);
+        // WHEN & THEN
+        assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id), "User not found in databases.");
     }
 
-    /** ADD MORE TESTS
-    **/
+    @Test
+    void updateUserTest() {
+        // GIVEN
+        String existingId = UUID.randomUUID().toString();
+        UserRecord userRecord = new UserRecord(existingId, "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
+        when(userRepository.findById(existingId)).thenReturn(Optional.of(userRecord));
+        when(userRepository.save(userRecord)).thenReturn(userRecord);
+
+        // WHEN
+        UserRecord result = userService.updateUser(userRecord);
+
+        // THEN
+        assertEquals(userRecord, result);
+        verify(userRepository).findById(existingId);
+        verify(userRepository).save(userRecord);
+    }
+
+    @Test
+    void updateUser_NotFound() {
+        // GIVEN
+        UserRecord userRecord = new UserRecord("nonexistentId", "nonUser", "EncodedP@ssw0rd", "nonUser@email.com", "household");
+        when(userRepository.findById("nonexistentId")).thenReturn(Optional.empty());
+
+        // THEN
+        assertThrows(IllegalArgumentException.class, () -> userService.updateUser(userRecord), "User not found in databases.");
+    }
+
+
+
+    @Test
+    void deleteUser_Success() {
+        // GIVEN
+        String userId = UUID.randomUUID().toString();
+
+        // WHEN
+        userService.deleteUser(userId);
+
+        // THEN
+        verify(userRepository).deleteById(userId);
+    }
+
 
 }

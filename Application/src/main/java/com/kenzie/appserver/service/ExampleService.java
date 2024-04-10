@@ -3,10 +3,12 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.repositories.ExampleRepository;
 import com.kenzie.appserver.repositories.model.ExampleRecord;
 import com.kenzie.appserver.service.model.Example;
+import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.ExampleData;
 import org.springframework.stereotype.Service;
 
+@ExcludeFromJacocoGeneratedReport
 @Service
 public class ExampleService {
     private ExampleRepository exampleRepository;

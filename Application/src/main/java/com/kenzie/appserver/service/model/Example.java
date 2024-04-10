@@ -1,5 +1,8 @@
 package com.kenzie.appserver.service.model;
 
+import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class Example {
     private final String id;
     private final String name;
