@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.webjars.NotFoundException;
 
 import java.util.*;
 
@@ -141,41 +142,17 @@ public class PantryServiceTest {
     @Test
     void deletePantryItemByItemId() {
 
-        String pantryItemId = UUID.randomUUID().toString();
-        String itemName = "Banana";
-        String expiryDate = "01/01/2025";
-        int quanity = 1;
-        boolean isExpired = false;
-        Date datePurchased = new Date(4,8,24);
-        String category = "Fruit";
-        String userId = UUID.randomUUID().toString();
+        String id = UUID.randomUUID().toString();
 
-//        PantryRecord record = new PantryRecord();
-//        record.setCategory(category);
-//        record.setPantryItemId(pantryItemId);
-//        record.setExpired(isExpired);
-//        record.setQuantity(quanity);
-//        record.setExpiryDate(expiryDate);
-//        record.setItemName(itemName);
-//        record.setDatePurchased(datePurchased);
-//        record.setUserId(userId);
-//        pantryService.addPantryItem(record);
-        PantryRequest request = new PantryRequest();
-        request.setQuantity(quanity);
-        request.setDatePurchased(datePurchased);
-        request.setExpired(isExpired);
-        request.setPantryItemId(pantryItemId);
-        request.setExpiryDate(expiryDate);
-        //record.setCategory(category);
+        // WHEN
+        pantryService.deletePantryItem(id);
 
-        pantryService.addPantryItem(request);
 
-            pantryService.deletePantryItem(pantryItemId);
-            List<PantryRecord> list = pantryService.getPantryItems(userId);
-
-            verify(pantryRepository).deleteById(pantryItemId);
-
+        // THEN
+       verify(pantryRepository, times(1)).deleteById(id);
     }
+
+
 
     @Test
     void updatePantryItem_isSuccessful() {
