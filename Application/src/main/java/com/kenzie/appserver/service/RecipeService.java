@@ -32,7 +32,7 @@ public class RecipeService {
      If not, it goes ahead and does the usual work, but also saves the result in the cache for future use.
       So,  the cache named "recipe" acts like a storage place for the results of this specific method
      */
-    @Cacheable("recipe")
+    @Cacheable("Recipe")
     public List<RecipeRecord> getAllRecipes() {
         return (List<RecipeRecord>) recipeRepository.findAll();
     }
