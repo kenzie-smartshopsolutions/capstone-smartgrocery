@@ -19,8 +19,6 @@ public class RecipeLambdaService {
         this.recipeDao = recipeDao;
     }
 
-
-    //needs modification
     /**
      * Retrieves recipe data for a given recipe ID.
      *

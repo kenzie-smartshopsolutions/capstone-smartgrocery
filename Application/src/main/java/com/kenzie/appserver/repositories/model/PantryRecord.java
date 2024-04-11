@@ -14,7 +14,6 @@ import java.util.Objects;
 public class PantryRecord {
     private String userId;
     private  String pantryItemId;
-  
     @NotNull(message = "Item name cannot be null")
     private  String itemName;
 
