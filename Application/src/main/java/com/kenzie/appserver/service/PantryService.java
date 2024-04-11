@@ -86,9 +86,8 @@ public class PantryService {
                 .collect(Collectors.toList());
 
         return pantryRecord;
+    }
 
-
-        }
 //public PantryRecord getByItemId(String pantryItemId) {
 //        PantryRecord pantryRecord = pantryRepository.findItemByPantryItemId(pantryItemId);
 //

@@ -28,11 +28,7 @@ category(String)
     private final boolean isExpired;
     private final Date datePurchased;
     private final String userId;
-
     public final String category;
-
-   // private final Date dateUsed;
-
 
     public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, String userId) {
         this.pantryItemId = pantryItemId;
@@ -43,7 +39,6 @@ category(String)
         this.datePurchased = datePurchased;
         this.category = category;
         this.userId = userId;
-        // this.dateUsed = dateUsed;
     }
 
     public String getPantryItemId() {
@@ -77,12 +72,4 @@ category(String)
     public String getCategory() {
         return category;
     }
-
-// public String getCategory() {
-     //   return category;
-   // }
-
-   // public Date getDateUsed() {
-     //   return dateUsed;
-    //}
 }

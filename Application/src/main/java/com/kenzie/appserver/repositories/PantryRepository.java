@@ -6,11 +6,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-//@Repository
+
 @EnableScan
 public interface PantryRepository extends CrudRepository<PantryRecord, String> {
+    //when you want to retrieve all pantry items belonging to a particular user
     List<PantryRecord> findByUserId(String userId);
-    PantryRecord findItemByPantryItemId(String pantryItemId);
-    //PantryRecord findById(String userId);
 
+
+    //when you need to fetch a specific pantry item by its ID
+    PantryRecord findItemByPantryItemId(String pantryItemId);
 }

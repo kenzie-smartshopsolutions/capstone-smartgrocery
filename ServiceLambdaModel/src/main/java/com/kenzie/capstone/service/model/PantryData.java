@@ -14,13 +14,10 @@ public class PantryData {
     private final int quantity;
     private final boolean isExpired;
     private final Date datePurchased;
-//    @DynamoDBAttribute(attributeName = "catagoryId")
-//    private final int catagoryId;
-
     public final String category;
 
 
-    // private final Date dateUsed;
+
 
 
     public PantryData(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, String userId) {

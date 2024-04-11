@@ -34,16 +34,6 @@ public class PantryController {
         return new ResponseEntity<>(pantryItems, HttpStatus.OK);
 
     }
-//    @GetMapping("/pantryItemId/{pantryItemId}")
-//    public ResponseEntity<PantryRecord> getPantryItem(@PathVariable String pantryItemId) {
-////        // Need to verify the logged-in user matches the userId:
-////        if (!authentication.getName().equals(userId)) {
-////            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-////        }
-//        PantryRecord pantryItem = pantryService.getByItemId(pantryItemId);
-//        return new ResponseEntity<>(pantryItem, HttpStatus.OK);
-
-
 
     // Add a new pantry item
     @PostMapping("/pantryItemId/{pantryItemId}")
@@ -65,9 +55,6 @@ public class PantryController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
-
-
 
     // Update an existing pantry item
     @PutMapping("/pantryItemId/{pantryItemId}")
