@@ -36,7 +36,7 @@ public class PantryController {
     }
 
     // Add a new pantry item
-    @PostMapping("/pantryItemId/{pantryItemId}")
+    @PostMapping("/pantryItemId/create")
     public ResponseEntity<PantryResponse> addPantryItem(@RequestBody PantryRequest pantry) {
 //        try {
 //            PantryRecord addedItem = pantryService.addPantryItem(pantry);
@@ -91,9 +91,11 @@ public class PantryController {
         pantryResponse.setPantryItemId(pantry.getPantryItemId());
         pantryResponse.setUserId(pantry.getUserId());
         pantryResponse.setDatePurchased(pantry.getDatePurchased());
-        pantryResponse.setExpired(pantry.isExpired());
+//        pantryResponse.setIsExpired(pantry.isExpired());
         pantryResponse.setExpiryDate(pantry.getExpiryDate());
         pantryResponse.setItemName(pantry.getItemName());
+        pantryResponse.setCategory(pantry.getCategory());
+        pantryResponse.setQuantity(pantry.getQuantity());
         return pantryResponse;
     }
 
