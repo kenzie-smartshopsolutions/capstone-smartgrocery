@@ -32,7 +32,7 @@ public class RecipeService {
      If not, it goes ahead and does the usual work, but also saves the result in the cache for future use.
       So,  the cache named "recipe" acts like a storage place for the results of this specific method
      */
-    @Cacheable("recipe")
+    @Cacheable("Recipe")
     public List<RecipeRecord> getAllRecipes() {
         return (List<RecipeRecord>) recipeRepository.findAll();
     }
@@ -103,3 +103,9 @@ public class RecipeService {
        // lambdaServiceClient.deleteRecipe(recipeId);
     }
 }
+/*
+Using Lambda here makes sure that if the recipe you're looking for isn't found in the usual place
+ (the local storage), the app can look for it in another place (the Lambda service).
+  This helps the app to always find the recipe you want, even if it's not stored on the device.
+It's like having a backup plan in case the first option doesn't work
+ */

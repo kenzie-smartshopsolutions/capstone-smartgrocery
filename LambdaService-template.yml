@@ -265,7 +265,7 @@ Resources:
         CreateRecipe:
           Type: Api
           Properties:
-            Path: /recipe/{recipeId}
+            Path: /Recipe/{recipeId}
             Method: get
   SetRecipeDataFunction:
     Type: AWS::Serverless::Function
@@ -288,7 +288,7 @@ Resources:
         CreateRecipe:
           Type: Api
           Properties:
-            Path: /recipe
+            Path: /Recipe
             Method: post
   UpdateRecipeDataFunction:
       Type: AWS::Serverless::Function
@@ -311,7 +311,7 @@ Resources:
           CreateRecipe:
             Type: Api
             Properties:
-              Path: /recipe/{recipeId}
+              Path: /Recipe/{recipeId}
               Method: put
   DeleteRecipeDataFunction:
     Type: AWS::Serverless::Function
@@ -334,5 +334,5 @@ Resources:
         CreateRecipe:
           Type: Api
           Properties:
-            Path: /recipe/{recipeId}
+            Path: /Recipe/{recipeId}
             Method: delete
