@@ -1,0 +1,14 @@
+Resources:
+  # Pantry
+  PantryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "Pantry"
+      AttributeDefinitions:
+        - AttributeName: "pantryItemId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "pantryItemId"
+          KeyType: "HASH"
+      BillingMode: PAY_PER_REQUEST
+

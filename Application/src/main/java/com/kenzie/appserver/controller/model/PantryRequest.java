@@ -1,35 +1,37 @@
 package com.kenzie.appserver.controller.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
 public class PantryRequest {
+    @JsonIgnoreProperties(ignoreUnknown = true)
 
-    @JsonProperty("pantryItemId")
-    private String pantryItemId;
+//    @JsonProperty("pantryItemId")
+//    private String pantryItemId;
     @JsonProperty("itemName")
     private String itemName;
     @JsonProperty("expiryDate")
     private String expiryDate;
     @JsonProperty("quantity")
     private int quantity;
-    @JsonProperty("isExpired")
-    private boolean isExpired;
+//    @JsonIgnore
+//    @JsonProperty("isExpired")
+//    private boolean isExpired;
     @JsonProperty("datePurchased")
-    private Date datePurchased;
-//    @JsonProperty("catagoryId")
-//    private int catagoryId;
+    private String datePurchased;
     @JsonProperty("userId")
     private String userId;
-    @JsonProperty("catagory")
-    private String catagory;
+    @JsonProperty("category")
+    private String category;
 
 
 
-    public String getPantryItemId() {
-        return pantryItemId;
-    }
+//    public String getPantryItemId() {
+//        return pantryItemId;
+//    }
 
     public String getItemName() {
         return itemName;
@@ -43,22 +45,18 @@ public class PantryRequest {
         return quantity;
     }
 
-    public boolean isExpired() {
-        return isExpired;
-    }
+//    public boolean isExpired() {
+//        return isExpired;
+//    }
 
-    public Date getDatePurchased() {
+    public String getDatePurchased() {
         return datePurchased;
     }
 
-//
-//    //public int getCatagoryId() {
-//        return catagoryId;
-//    }
 
-    public void setPantryItemId(String pantryItemId) {
-        this.pantryItemId = pantryItemId;
-    }
+//    public void setPantryItemId(String pantryItemId) {
+//        this.pantryItemId = pantryItemId;
+//    }
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
@@ -72,17 +70,13 @@ public class PantryRequest {
         this.quantity = quantity;
     }
 
-    public void setExpired(boolean expired) {
-        isExpired = expired;
-    }
+//    public void setIsExpired(boolean isExpired) {
+//        this.isExpired = isExpired;
+//    }
 
-    public void setDatePurchased(Date datePurchased) {
+    public void setDatePurchased(String datePurchased) {
         this.datePurchased = datePurchased;
     }
-
-//    public void setCatagoryId(int catagoryId) {
-//        this.catagoryId = catagoryId;
-//    }
 
     public String getUserId() {
         return userId;
@@ -92,11 +86,11 @@ public class PantryRequest {
         this.userId = userId;
     }
 
-    public String getCatagory() {
-        return catagory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCatagory(String catagory) {
-        this.catagory = catagory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

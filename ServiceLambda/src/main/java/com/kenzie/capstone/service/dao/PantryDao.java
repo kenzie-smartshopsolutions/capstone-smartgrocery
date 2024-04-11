@@ -62,20 +62,19 @@ public class PantryDao {
         return pantryRecord;
     }
 
-    // Convert between UserRecord (Entity) and UserData (DTO)
+
     public PantryData convertToPantryData(PantryRecord pantryRecord) {
         if (pantryRecord == null) return null;
-        return new PantryData(pantryRecord.getPantryItemId(),
+        return new PantryData(   pantryRecord.getUserId(),
+                pantryRecord.getPantryItemId(),
                 pantryRecord.getItemName(),
-                pantryRecord.getExpiryDate(),
-                pantryRecord.getQuantity(),
-                pantryRecord.isExpired(),
-                pantryRecord.getDatePurchased(),
                 pantryRecord.getCategory(),
-                pantryRecord.getUserId());
+                pantryRecord.getQuantity(),
+                pantryRecord.getExpiryDate(),
+//                pantryRecord.isExpired(),
+                pantryRecord.getDatePurchased());
     }
 
-    //constructor issue
     public PantryRecord convertToPantryRecord(PantryData pantryData) {
         return new PantryRecord(pantryData.getUserId(),
                 pantryData.getPantryItemId(),
@@ -83,7 +82,7 @@ public class PantryDao {
                 pantryData.getCategory(),
                 pantryData.getQuantity(),
                 pantryData.getExpiryDate(),
-                pantryData.isExpired(),
+//                pantryData.isExpired(),
                 pantryData.getDatePurchased());
     }
     public PantryRecord setPantryData(String pantryItemId, PantryData pantryData) {
