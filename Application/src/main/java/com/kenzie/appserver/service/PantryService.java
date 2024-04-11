@@ -80,7 +80,7 @@ public class PantryService {
                         data.getCategory(),
                         data.getQuantity(),
                         data.getExpiryDate(),
-                        data.isExpired(),
+//                        data.isExpired(),
                         data.getDatePurchased()
                 ))
                 .collect(Collectors.toList());
@@ -140,20 +140,13 @@ public class PantryService {
         //??Perform validation before adding the pantry item
         PantryRecord pantryRecord = new PantryRecord();
         pantryRecord.setDatePurchased(request.getDatePurchased());
-        pantryRecord.setExpired(request.isExpired());
-
-
-        // Set the generated itemId of the pantry item if null or empty
-        String itemId = request.getPantryItemId();
-        if (itemId == null || itemId.trim().isEmpty()) {
-            itemId = generatePantryItemId();
-        }
-        pantryRecord.setPantryItemId(itemId);
-
-        pantryRecord.setCategory(request.getCatagory());
+//        pantryRecord.setIsExpired(request.isExpired());
+        pantryRecord.setPantryItemId(generatePantryItemId());
+        pantryRecord.setCategory(request.getCategory());
         pantryRecord.setUserId(request.getUserId());
         pantryRecord.setExpiryDate(request.getExpiryDate());
         pantryRecord.setQuantity(request.getQuantity());
+        pantryRecord.setItemName(request.getItemName());
 
         PantryData pantryData = convertToData(pantryRecord);
         lambdaServiceClient.setPantryData(pantryData);
@@ -234,21 +227,22 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
         pantryRecord.setCategory(pantryRecord.getCategory());
         pantryRecord.setExpiryDate(pantry.getExpiryDate());
         pantryRecord.setQuantity(pantryRecord.getQuantity());
-        pantryRecord.setExpired(pantry.isExpired());
+//        pantryRecord.setIsExpired(pantry.isExpired());
         pantryRecord.setDatePurchased(pantry.getDatePurchased());
         return pantryRecord;
     }
     public Pantry convertRecordToDto(PantryRecord pantryRecord) {
         Pantry pantry = new Pantry(
+                pantryRecord.getUserId(),
                 pantryRecord.getPantryItemId(),
                 pantryRecord.getItemName(),
-                pantryRecord.getExpiryDate(),
-                pantryRecord.getQuantity(),
-                pantryRecord.isExpired(),
-                pantryRecord.getDatePurchased(),
                 pantryRecord.getCategory(),
-                pantryRecord.getUserId()
+                pantryRecord.getQuantity(),
+                pantryRecord.getExpiryDate(),
+//                pantryRecord.isExpired(),
+                pantryRecord.getDatePurchased()
         );
+
         return pantry;
     }
 //    private PantryResponse createPantryResponse(PantryRecord pantry) {
@@ -264,15 +258,16 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
 
     private PantryData convertToData(PantryRecord pantryRecord) {
         PantryData pantryData = new PantryData(
+                pantryRecord.getUserId(),
                 pantryRecord.getPantryItemId(),
                 pantryRecord.getItemName(),
-                pantryRecord.getExpiryDate(),
-                pantryRecord.getQuantity(),
-                pantryRecord.isExpired(),
-                pantryRecord.getDatePurchased(),
                 pantryRecord.getCategory(),
-                pantryRecord.getUserId()
+                pantryRecord.getQuantity(),
+                pantryRecord.getExpiryDate(),
+//                pantryRecord.isExpired(),
+                pantryRecord.getDatePurchased()
         );
+
         return pantryData;
     }
     private String generatePantryItemId() {

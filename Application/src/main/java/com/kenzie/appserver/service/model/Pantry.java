@@ -9,36 +9,30 @@ import java.util.Date;
 
 
 public class Pantry {
-
-  /*pantryItemId (String)
-itemName (String)
-quantity (int)
-expiryDate (String)
-datePurchased (Date/time)
-isExpired (boolean
-dateUsed(Date/time)
-category(String)
-*/
-
-
+    private final String userId;
     private final String pantryItemId;
     private final String itemName;
+    public final String category;
     private final String expiryDate;
     private final int quantity;
-    private final boolean isExpired;
-    private final Date datePurchased;
-    private final String userId;
-    public final String category;
 
-    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, String userId) {
+//    private final boolean isExpired;
+    private final String datePurchased;
+
+
+
+    public Pantry(String userId, String pantryItemId, String itemName,
+                  String category, int quantity, String expiryDate,
+                  String datePurchased) {
+        this.userId = userId;
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
-        this.isExpired = isExpired;
+//        this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
-        this.userId = userId;
+
     }
 
     public String getPantryItemId() {
@@ -57,11 +51,11 @@ category(String)
         return quantity;
     }
 
-    public boolean isExpired() {
-        return isExpired;
-    }
+//    public boolean isExpired() {
+//        return isExpired;
+//    }
 
-    public Date getDatePurchased() {
+    public String getDatePurchased() {
         return datePurchased;
     }
 

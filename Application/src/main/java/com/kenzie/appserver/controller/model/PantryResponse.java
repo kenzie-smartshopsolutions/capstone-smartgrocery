@@ -1,5 +1,7 @@
 package com.kenzie.appserver.controller.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,6 +10,7 @@ import java.util.Date;
 
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PantryResponse {
+        @JsonIgnoreProperties(ignoreUnknown = true)
         @JsonProperty("pantryItemId")
         private String pantryItemId;
         @JsonProperty("itemName")
@@ -16,13 +19,13 @@ public class PantryResponse {
         private String expiryDate;
         @JsonProperty("quantity")
         private int quantity;
-
-        @JsonProperty("isExpired")
-        private boolean isExpired;
+//        @JsonIgnore
+//        @JsonProperty("isExpired")
+//        private boolean isExpired;
         @JsonProperty("datePurchased")
-        private Date datePurchased;
-        @JsonProperty("catagoryId")
-        private int catagoryId;
+        private String datePurchased;
+        @JsonProperty("category")
+        private String category;
         @JsonProperty("userId")
         private String userId;
 
@@ -42,16 +45,16 @@ public class PantryResponse {
                 this.quantity = quantity;
         }
 
-        public void setExpired(boolean expired) {
-                isExpired = expired;
-        }
+//        public void setIsExpired(boolean isExpired) {
+//                this.isExpired = isExpired;
+//        }
 
-        public void setDatePurchased(Date datePurchased) {
+        public void setDatePurchased(String datePurchased) {
                 this.datePurchased = datePurchased;
         }
 
-        public void setCatagoryId(int catagoryId) {
-                this.catagoryId = catagoryId;
+        public void setCategory(String category) {
+                this.category = category;
         }
 
         public void setUserId(String userId) { this.userId = userId; }
@@ -72,16 +75,16 @@ public class PantryResponse {
                 return quantity;
         }
 
-        public boolean isExpired() {
-                return isExpired;
-        }
+//        public boolean isExpired() {
+//                return isExpired;
+//        }
 
-        public Date getDatePurchased() {
+        public String getDatePurchased() {
                 return datePurchased;
         }
 
-        public int getCatagoryId() {
-                return catagoryId;
+        public String getCategory() {
+                return category;
         }
 
         public String getUserId() {
