@@ -103,3 +103,9 @@ public class RecipeService {
        // lambdaServiceClient.deleteRecipe(recipeId);
     }
 }
+/*
+Using Lambda here makes sure that if the recipe you're looking for isn't found in the usual place
+ (the local storage), the app can look for it in another place (the Lambda service).
+  This helps the app to always find the recipe you want, even if it's not stored on the device.
+It's like having a backup plan in case the first option doesn't work
+ */

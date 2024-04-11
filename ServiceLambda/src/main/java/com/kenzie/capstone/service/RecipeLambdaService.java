@@ -51,8 +51,8 @@ public class RecipeLambdaService {
         // Construct and return RecipeData object using the data from the saved RecipeRecord
         RecipeData savedRecipeData = new RecipeData();
         savedRecipeData.setRecipeId(recipeRecord.getRecipeId());
-        savedRecipeData.setRecipeName(recipeRecord.getTitle());
-        savedRecipeData.setInstruction(recipeRecord.getInstructions());
+        savedRecipeData.setTitle(recipeRecord.getTitle());
+        savedRecipeData.setInstructions(recipeRecord.getInstructions());
         savedRecipeData.setIngredients(recipeRecord.getIngredients());
 
         return savedRecipeData;
