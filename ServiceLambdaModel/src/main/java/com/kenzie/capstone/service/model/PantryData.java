@@ -2,28 +2,29 @@ package com.kenzie.capstone.service.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 import java.util.Objects;
 
 public class PantryData {
-    public String userId;
-    private final String pantryItemId;
-    private final String itemName;
-    private final String expiryDate;
-    private final int quantity;
-    private final boolean isExpired;
-    private final Date datePurchased;
-//    @DynamoDBAttribute(attributeName = "catagoryId")
-//    private final int catagoryId;
-
-    public final String category;
-
-
-    // private final Date dateUsed;
+    private String userId;
+    private String pantryItemId;
+    private String itemName;
+    private String expiryDate;
+    private int quantity;
+    @JsonIgnore
+    private boolean isExpired;
+    private String datePurchased;
+    private String category;
+    @JsonIgnoreProperties(ignoreUnknown = true)
 
 
-    public PantryData(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, String userId) {
+    public PantryData(String userId, String pantryItemId, String itemName,
+    String category, int quantity, String expiryDate,
+    boolean isExpired, String datePurchased){
+
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
@@ -32,7 +33,9 @@ public class PantryData {
         this.datePurchased = datePurchased;
         this.category = category;
         this.userId = userId;
-        // this.dateUsed = dateUsed;
+    }
+    public PantryData() {
+
     }
 
     public String getPantryItemId() {
@@ -55,7 +58,7 @@ public class PantryData {
         return isExpired;
     }
 
-    public Date getDatePurchased() {
+    public String getDatePurchased() {
         return datePurchased;
     }
 
@@ -63,9 +66,7 @@ public class PantryData {
        return category;
      }
 
-    // public Date getDateUsed() {
-    //   return dateUsed;
-//}
+
     public String getUserId() {
         return userId;
     }

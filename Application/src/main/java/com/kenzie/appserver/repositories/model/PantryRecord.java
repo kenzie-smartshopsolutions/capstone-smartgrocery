@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import javax.validation.constraints.NotNull;
+import java.time.format.DecimalStyle;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,9 +23,11 @@ public class PantryRecord {
     private  String expiryDate;
     private  int quantity;
     private  boolean isExpired;
-    private  Date datePurchased;
+    private  String datePurchased;
 
-    public PantryRecord(String userId, String pantryItemId, String itemName, String category, int quantity, String expiryDate, boolean isExpired, Date datePurchased) {
+    public PantryRecord(String userId, String pantryItemId, String itemName,
+                        String category, int quantity, String expiryDate,
+                        boolean isExpired, String datePurchased) {
 
         this.userId = userId;
         this.pantryItemId = pantryItemId;
@@ -82,21 +85,21 @@ public class PantryRecord {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    @DynamoDBAttribute(attributeName = "expired")
+    @DynamoDBAttribute(attributeName = "isExpired")
     public boolean isExpired() {
         return isExpired;
     }
 
-    public void setExpired(boolean expired) {
-        isExpired = expired;
+    public void setIsExpired(boolean isExpired) {
+        this.isExpired = isExpired;
     }
       
     @DynamoDBAttribute(attributeName = "datePurchased")
-    public Date getDatePurchased() {
+    public String getDatePurchased() {
         return datePurchased;
     }
 
-    public void setDatePurchased(Date datePurchased) {
+    public void setDatePurchased(String datePurchased) {
         this.datePurchased = datePurchased;
     }
 

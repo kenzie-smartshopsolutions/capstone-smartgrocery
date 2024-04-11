@@ -20,7 +20,7 @@ public class LambdaServiceClient {
     private static final String SET_USER_ENDPOINT = "User/register";
 
     private static final String GET_PANTRY_ENDPOINT = "Pantry/userId/{userId}";
-    private static final String SET_PANTRY_ENDPOINT = "Pantry/pantryItemId/{pantryItemId}";
+    private static final String SET_PANTRY_ENDPOINT = "Pantry/pantryItemId/create";
 
     private static final String GET_RECIPE_ENDPOINT = "recipe/{recipeId}";
     private static final String SET_RECIPE_ENDPOINT = "recipe";
@@ -124,7 +124,7 @@ public class LambdaServiceClient {
         try {
             String jsonData = mapper.writeValueAsString(data);
             String response = endpointUtility.postEndpoint(SET_PANTRY_ENDPOINT, jsonData);
-            return mapper.readValue(response, PantryData.class);
+            pantryData = mapper.readValue(response, PantryData.class);
 
         } catch (JsonProcessingException e) {
             // If there is an issue with deserializing the response, handle it appropriately
@@ -136,6 +136,7 @@ public class LambdaServiceClient {
             // For other exceptions, handle them and wrap them in an ApiGatewayException
             throw new ApiGatewayException("An error occurred while processing the response: " + e.getMessage());
         }
+        return pantryData;
     }
     public RecipeData getRecipe(String recipeId) {
         EndpointUtility endpointUtility = new EndpointUtility();

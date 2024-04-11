@@ -9,32 +9,21 @@ import java.util.Date;
 
 
 public class Pantry {
-
-  /*pantryItemId (String)
-itemName (String)
-quantity (int)
-expiryDate (String)
-datePurchased (Date/time)
-isExpired (boolean
-dateUsed(Date/time)
-category(String)
-*/
-
-
+    private final String userId;
     private final String pantryItemId;
     private final String itemName;
+    public final String category;
     private final String expiryDate;
     private final int quantity;
     private final boolean isExpired;
-    private final Date datePurchased;
-    private final String userId;
-
-    public final String category;
-
-   // private final Date dateUsed;
+    private final String datePurchased;
 
 
-    public Pantry(String pantryItemId, String itemName, String expiryDate, int quantity, boolean isExpired, Date datePurchased, String category, String userId) {
+
+    public Pantry(String userId, String pantryItemId, String itemName,
+                  String category, int quantity, String expiryDate,
+                  boolean isExpired, String datePurchased) {
+        this.userId = userId;
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
@@ -42,8 +31,7 @@ category(String)
         this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
-        this.userId = userId;
-        // this.dateUsed = dateUsed;
+
     }
 
     public String getPantryItemId() {
@@ -66,7 +54,7 @@ category(String)
         return isExpired;
     }
 
-    public Date getDatePurchased() {
+    public String getDatePurchased() {
         return datePurchased;
     }
 

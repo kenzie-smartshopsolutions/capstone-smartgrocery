@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
 import org.webjars.NotFoundException;
 
 import java.util.*;
@@ -24,15 +26,20 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PantryServiceTest {
 
+//    @Autowired
+//    private MockMvc mockMvc;
     @Mock
     PantryRepository pantryRepository;
     @Mock
     LambdaServiceClient lambdaServiceClient;
     PantryService pantryService;
 
+    Pantry samplePantryItem;
 
     @BeforeEach
     void initiate() {
@@ -47,24 +54,23 @@ public class PantryServiceTest {
         //given
         String pantryItemId = UUID.randomUUID().toString();
         String itemName = "Banana";
-        String expiryDate = "01/01/2025";
+        String expiryDate = "01012025";
         int quanity = 1;
         boolean isExpired = false;
-        Date datePurchased = new Date(4,8,24);
+        String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
 
-        Pantry expectedItem = new Pantry(pantryItemId,
-                itemName, expiryDate, quanity, isExpired, datePurchased,category, userId);
+        Pantry expectedItem = new Pantry(userId, pantryItemId,
+                itemName, category, quanity, expiryDate, isExpired, datePurchased);
 
         PantryRequest pantryRequest = new PantryRequest();
-        pantryRequest.setPantryItemId(pantryItemId);
         pantryRequest.setItemName(itemName);
         pantryRequest.setExpiryDate(expiryDate);
         pantryRequest.setQuantity(quanity);
-        pantryRequest.setExpired(isExpired);
+        pantryRequest.setIsExpired(isExpired);
         pantryRequest.setDatePurchased(datePurchased);
-        pantryRequest.setCatagory(category);
+        pantryRequest.setCategory(category);
         pantryRequest.setUserId(userId);
 
         // setup save method to return your expectedPet object
@@ -96,18 +102,17 @@ public class PantryServiceTest {
         // GIVEN
         String pantryItemId = UUID.randomUUID().toString();
         String itemName = "Banana";
-        String expiryDate = "01/01/2025";
+        String expiryDate = "01012025";
         int quanity = 1;
         boolean isExpired = false;
-        Date datePurchased = new Date(4,8,24);
+        String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
 
         PantryRequest request = new PantryRequest();
         request.setQuantity(quanity);
         request.setDatePurchased(datePurchased);
-        request.setExpired(isExpired);
-        request.setPantryItemId(pantryItemId);
+        request.setIsExpired(isExpired);
         request.setExpiryDate(expiryDate);
         //record.setCategory(category);
 
@@ -154,22 +159,22 @@ public class PantryServiceTest {
 
 
 
+
     @Test
     void updatePantryItem_isSuccessful() {
         String pantryItemId = UUID.randomUUID().toString();
         String itemName = "Banana";
-        String expiryDate = "01/01/2025";
+        String expiryDate = "01012025";
         int quanity = 1;
         boolean isExpired = false;
-        Date datePurchased = new Date(4,8,24);
+        String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
 
         PantryRequest request = new PantryRequest();
         request.setQuantity(quanity);
         request.setDatePurchased(datePurchased);
-        request.setExpired(isExpired);
-        request.setPantryItemId(pantryItemId);
+        request.setIsExpired(isExpired);
         request.setExpiryDate(expiryDate);
         //record.setCategory(category);
 
@@ -193,18 +198,17 @@ public class PantryServiceTest {
     public void testUpdatePantryItemInvalidId() {
         String invalidPantryItemId = "invailid";
         String itemName = "Banana";
-        String expiryDate = "01/01/2025";
+        String expiryDate = "01012025";
         int quanity = 1;
         boolean isExpired = false;
-        Date datePurchased = new Date(4,8,24);
+        String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
 
         PantryRequest request = new PantryRequest();
         request.setQuantity(quanity);
         request.setDatePurchased(datePurchased);
-        request.setExpired(isExpired);
-        request.setPantryItemId(invalidPantryItemId);
+        request.setIsExpired(isExpired);
         request.setExpiryDate(expiryDate);
         //record.setCategory(category);
 
