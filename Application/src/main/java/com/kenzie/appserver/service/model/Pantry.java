@@ -15,20 +15,20 @@ public class Pantry {
     public final String category;
     private final String expiryDate;
     private final int quantity;
-    private final boolean isExpired;
+//    private final boolean isExpired;
     private final String datePurchased;
 
 
 
     public Pantry(String userId, String pantryItemId, String itemName,
                   String category, int quantity, String expiryDate,
-                  boolean isExpired, String datePurchased) {
+                  String datePurchased) {
         this.userId = userId;
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
-        this.isExpired = isExpired;
+//        this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
 
@@ -50,9 +50,9 @@ public class Pantry {
         return quantity;
     }
 
-    public boolean isExpired() {
-        return isExpired;
-    }
+//    public boolean isExpired() {
+//        return isExpired;
+//    }
 
     public String getDatePurchased() {
         return datePurchased;

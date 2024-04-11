@@ -14,8 +14,8 @@ public class PantryData {
     private String itemName;
     private String expiryDate;
     private int quantity;
-    @JsonIgnore
-    private boolean isExpired;
+//    @JsonIgnore
+//    private boolean isExpired;
     private String datePurchased;
     private String category;
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -23,13 +23,13 @@ public class PantryData {
 
     public PantryData(String userId, String pantryItemId, String itemName,
     String category, int quantity, String expiryDate,
-    boolean isExpired, String datePurchased){
+    String datePurchased){
 
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
-        this.isExpired = isExpired;
+//        this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
         this.userId = userId;
@@ -54,9 +54,9 @@ public class PantryData {
         return quantity;
     }
 
-    public boolean isExpired() {
-        return isExpired;
-    }
+//    public boolean isExpired() {
+//        return isExpired;
+//    }
 
     public String getDatePurchased() {
         return datePurchased;
@@ -77,11 +77,11 @@ public class PantryData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PantryData that = (PantryData) o;
-        return quantity == that.quantity && isExpired == that.isExpired && Objects.equals(pantryItemId, that.pantryItemId) && Objects.equals(itemName, that.itemName) && Objects.equals(expiryDate, that.expiryDate) && Objects.equals(datePurchased, that.datePurchased) && Objects.equals(category, that.category);
+        return quantity == that.quantity && Objects.equals(pantryItemId, that.pantryItemId) && Objects.equals(itemName, that.itemName) && Objects.equals(expiryDate, that.expiryDate) && Objects.equals(datePurchased, that.datePurchased) && Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pantryItemId, itemName, expiryDate, quantity, isExpired, datePurchased, category);
+        return Objects.hash(pantryItemId, itemName, expiryDate, quantity, datePurchased, category);
     }
 }

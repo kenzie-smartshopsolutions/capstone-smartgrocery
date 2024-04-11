@@ -15,9 +15,9 @@ public class PantryUpdateRequest {
         private String expiryDate;
         @JsonProperty("quantity")
         private int quantity;
-        @JsonIgnore
-        @JsonProperty("isExpired")
-        private boolean isExpired;
+//        @JsonIgnore
+//        @JsonProperty("isExpired")
+//        private boolean isExpired;
         @JsonProperty("datePurchased")
         private String datePurchased;
         @JsonProperty("userId")
@@ -43,9 +43,9 @@ public class PantryUpdateRequest {
             return quantity;
         }
 
-        public boolean isExpired() {
-            return isExpired;
-        }
+//        public boolean isExpired() {
+//            return isExpired;
+//        }
 
         public String getDatePurchased() {
             return datePurchased;
@@ -68,9 +68,9 @@ public class PantryUpdateRequest {
             this.quantity = quantity;
         }
 
-        public void setIsExpired(boolean isExpired) {
-            this.isExpired = isExpired;
-        }
+//        public void setIsExpired(boolean isExpired) {
+//            this.isExpired = isExpired;
+//        }
 
         public void setDatePurchased(String datePurchased) {
             this.datePurchased = datePurchased;

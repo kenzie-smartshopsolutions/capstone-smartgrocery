@@ -56,19 +56,19 @@ public class PantryServiceTest {
         String itemName = "Banana";
         String expiryDate = "01012025";
         int quanity = 1;
-        boolean isExpired = false;
+//        boolean isExpired = false;
         String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
 
         Pantry expectedItem = new Pantry(userId, pantryItemId,
-                itemName, category, quanity, expiryDate, isExpired, datePurchased);
+                itemName, category, quanity, expiryDate, datePurchased);
 
         PantryRequest pantryRequest = new PantryRequest();
         pantryRequest.setItemName(itemName);
         pantryRequest.setExpiryDate(expiryDate);
         pantryRequest.setQuantity(quanity);
-        pantryRequest.setIsExpired(isExpired);
+//        pantryRequest.setIsExpired(isExpired);
         pantryRequest.setDatePurchased(datePurchased);
         pantryRequest.setCategory(category);
         pantryRequest.setUserId(userId);
@@ -104,7 +104,7 @@ public class PantryServiceTest {
         String itemName = "Banana";
         String expiryDate = "01012025";
         int quanity = 1;
-        boolean isExpired = false;
+//        boolean isExpired = false;
         String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
@@ -112,7 +112,7 @@ public class PantryServiceTest {
         PantryRequest request = new PantryRequest();
         request.setQuantity(quanity);
         request.setDatePurchased(datePurchased);
-        request.setIsExpired(isExpired);
+//        request.setIsExpired(isExpired);
         request.setExpiryDate(expiryDate);
         //record.setCategory(category);
 
@@ -166,7 +166,7 @@ public class PantryServiceTest {
         String itemName = "Banana";
         String expiryDate = "01012025";
         int quanity = 1;
-        boolean isExpired = false;
+//        boolean isExpired = false;
         String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
@@ -174,7 +174,7 @@ public class PantryServiceTest {
         PantryRequest request = new PantryRequest();
         request.setQuantity(quanity);
         request.setDatePurchased(datePurchased);
-        request.setIsExpired(isExpired);
+//        request.setIsExpired(isExpired);
         request.setExpiryDate(expiryDate);
         //record.setCategory(category);
 
@@ -200,7 +200,7 @@ public class PantryServiceTest {
         String itemName = "Banana";
         String expiryDate = "01012025";
         int quanity = 1;
-        boolean isExpired = false;
+//        boolean isExpired = false;
         String datePurchased = "04102024";
         String category = "Fruit";
         String userId = UUID.randomUUID().toString();
@@ -208,7 +208,7 @@ public class PantryServiceTest {
         PantryRequest request = new PantryRequest();
         request.setQuantity(quanity);
         request.setDatePurchased(datePurchased);
-        request.setIsExpired(isExpired);
+//        request.setIsExpired(isExpired);
         request.setExpiryDate(expiryDate);
         //record.setCategory(category);
 

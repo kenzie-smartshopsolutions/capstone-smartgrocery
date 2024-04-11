@@ -104,7 +104,7 @@ public class PantryController {
         pantryResponse.setPantryItemId(pantry.getPantryItemId());
         pantryResponse.setUserId(pantry.getUserId());
         pantryResponse.setDatePurchased(pantry.getDatePurchased());
-        pantryResponse.setIsExpired(pantry.isExpired());
+//        pantryResponse.setIsExpired(pantry.isExpired());
         pantryResponse.setExpiryDate(pantry.getExpiryDate());
         pantryResponse.setItemName(pantry.getItemName());
         pantryResponse.setCategory(pantry.getCategory());

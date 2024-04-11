@@ -17,10 +17,10 @@ import java.util.Objects;
         public String category;
         private String expiryDate;
         private int quantity;
-        private boolean isExpired;
+//        private boolean isExpired;
         private String datePurchased;
 
-        public PantryRecord(String userId, String pantryItemId, String itemName, String category, int quantity, String expiryDate, boolean isExpired, String datePurchased) {
+        public PantryRecord(String userId, String pantryItemId, String itemName, String category, int quantity, String expiryDate, String datePurchased) {
 
             this.userId = userId;
             this.pantryItemId = pantryItemId;
@@ -28,7 +28,7 @@ import java.util.Objects;
             this.category = category;
             this.quantity = quantity;
             this.expiryDate = expiryDate;
-            this.isExpired = isExpired;
+//            this.isExpired = isExpired;
             this.datePurchased = datePurchased;
         }
 
@@ -80,14 +80,14 @@ import java.util.Objects;
             this.quantity = quantity;
         }
 
-        @DynamoDBAttribute(attributeName = "isExpired")
-        public boolean isExpired() {
-            return isExpired;
-        }
-
-        public void setIsExpired(boolean isExpired) {
-            this.isExpired = isExpired;
-        }
+//        @DynamoDBAttribute(attributeName = "isExpired")
+//        public boolean isExpired() {
+//            return isExpired;
+//        }
+//
+//        public void setIsExpired(boolean isExpired) {
+//            this.isExpired = isExpired;
+//        }
 
         @DynamoDBAttribute(attributeName = "datePurchased")
         public String getDatePurchased() {

@@ -71,7 +71,7 @@ public class PantryDao {
                 pantryRecord.getCategory(),
                 pantryRecord.getQuantity(),
                 pantryRecord.getExpiryDate(),
-                pantryRecord.isExpired(),
+//                pantryRecord.isExpired(),
                 pantryRecord.getDatePurchased());
     }
 
@@ -82,7 +82,7 @@ public class PantryDao {
                 pantryData.getCategory(),
                 pantryData.getQuantity(),
                 pantryData.getExpiryDate(),
-                pantryData.isExpired(),
+//                pantryData.isExpired(),
                 pantryData.getDatePurchased());
     }
     public PantryRecord setPantryData(String pantryItemId, PantryData pantryData) {

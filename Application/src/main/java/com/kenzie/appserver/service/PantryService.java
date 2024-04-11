@@ -80,7 +80,7 @@ public class PantryService {
                         data.getCategory(),
                         data.getQuantity(),
                         data.getExpiryDate(),
-                        data.isExpired(),
+//                        data.isExpired(),
                         data.getDatePurchased()
                 ))
                 .collect(Collectors.toList());
@@ -141,15 +141,13 @@ public class PantryService {
         //??Perform validation before adding the pantry item
         PantryRecord pantryRecord = new PantryRecord();
         pantryRecord.setDatePurchased(request.getDatePurchased());
-        pantryRecord.setIsExpired(request.isExpired());
+//        pantryRecord.setIsExpired(request.isExpired());
         pantryRecord.setPantryItemId(generatePantryItemId());
         pantryRecord.setCategory(request.getCategory());
         pantryRecord.setUserId(request.getUserId());
         pantryRecord.setExpiryDate(request.getExpiryDate());
         pantryRecord.setQuantity(request.getQuantity());
         pantryRecord.setItemName(request.getItemName());
-        pantryRecord.setIsExpired(request.isExpired());
-
 
         PantryData pantryData = convertToData(pantryRecord);
         lambdaServiceClient.setPantryData(pantryData);
@@ -230,7 +228,7 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
         pantryRecord.setCategory(pantryRecord.getCategory());
         pantryRecord.setExpiryDate(pantry.getExpiryDate());
         pantryRecord.setQuantity(pantryRecord.getQuantity());
-        pantryRecord.setIsExpired(pantry.isExpired());
+//        pantryRecord.setIsExpired(pantry.isExpired());
         pantryRecord.setDatePurchased(pantry.getDatePurchased());
         return pantryRecord;
     }
@@ -242,7 +240,7 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
                 pantryRecord.getCategory(),
                 pantryRecord.getQuantity(),
                 pantryRecord.getExpiryDate(),
-                pantryRecord.isExpired(),
+//                pantryRecord.isExpired(),
                 pantryRecord.getDatePurchased()
         );
 
@@ -267,7 +265,7 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
                 pantryRecord.getCategory(),
                 pantryRecord.getQuantity(),
                 pantryRecord.getExpiryDate(),
-                pantryRecord.isExpired(),
+//                pantryRecord.isExpired(),
                 pantryRecord.getDatePurchased()
         );
 
