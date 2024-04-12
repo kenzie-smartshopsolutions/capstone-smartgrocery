@@ -28,10 +28,10 @@ package com.kenzie.appserver.controller {
 
 '    @RestController
     class RecipeController {
-        + @PostMapping("/recipes") createRecipe(RecipeRequest)
-        + @GetMapping("/recipes") listRecipes()
-        + @PutMapping("/recipes/{recipeId}") updateRecipe(@PathVariable String recipeId, RecipeRequest recipe)
-        + @DeleteMapping("/recipes/{recipeId}") deleteRecipe(@PathVariable String recipeId)
+        + @PostMapping("/recipe") createRecipe(RecipeRequest)
+        + @GetMapping("/recipe") listRecipes()
+        + @PutMapping("/recipe/{recipeId}") updateRecipe(@PathVariable String recipeId, RecipeRequest recipe)
+        + @DeleteMapping("/recipe/{recipeId}") deleteRecipe(@PathVariable String recipeId)
     }
 
 '    @RestController

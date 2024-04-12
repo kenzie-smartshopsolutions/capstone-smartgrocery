@@ -66,8 +66,11 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
         - AWSLambda_ReadOnlyAccess
-        - AmazonDynamoDBReadOnlyAccess
       Tracing: Active
       Events:
         GetUser:
@@ -86,8 +89,11 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
         CreateUser:
@@ -106,8 +112,11 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
         UpdateUser:
@@ -127,8 +136,11 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
           DeleteUser:
@@ -148,8 +160,11 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
           LoginUser:
@@ -169,8 +184,11 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
         LoginUser:
@@ -190,8 +208,11 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
         - AWSLambda_ReadOnlyAccess
-        - AmazonDynamoDBReadOnlyAccess
       Tracing: Active
       Events:
         GetPantryItems:
@@ -210,15 +231,18 @@ Resources:
       Timeout: 240
       # Function's execution role
       Policies:
-              - AWSLambdaBasicExecutionRole
-              - AWSLambda_ReadOnlyAccess
-              - AmazonDynamoDBReadOnlyAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /Pantry/pantryItemId/{pantryItemId}
+            Path: /Pantry/pantryItemId/create
             Method: post
   GetRecipeDataFunction:
     Type: AWS::Serverless::Function
@@ -231,14 +255,17 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
         CreateRecipe:
           Type: Api
           Properties:
-            Path: /recipe/{recipeId}
+            Path: /Recipe/{recipeId}
             Method: get
   SetRecipeDataFunction:
     Type: AWS::Serverless::Function
@@ -251,14 +278,17 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
         CreateRecipe:
           Type: Api
           Properties:
-            Path: /recipe
+            Path: /Recipe
             Method: post
   UpdateRecipeDataFunction:
       Type: AWS::Serverless::Function
@@ -271,14 +301,17 @@ Resources:
         Timeout: 240
         Policies:
           - AWSLambdaBasicExecutionRole
-          - AWSLambda_ReadOnlyAccess
+          - AWSXrayWriteOnlyAccess
+          - AWSLambdaVPCAccessExecutionRole
+          - AmazonS3FullAccess
           - AmazonDynamoDBFullAccess
+          - AWSLambda_ReadOnlyAccess
         Tracing: Active
         Events:
           CreateRecipe:
             Type: Api
             Properties:
-              Path: /recipe/{recipeId}
+              Path: /Recipe/{recipeId}
               Method: put
   DeleteRecipeDataFunction:
     Type: AWS::Serverless::Function
@@ -291,12 +324,15 @@ Resources:
       Timeout: 240
       Policies:
         - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
       Tracing: Active
       Events:
         CreateRecipe:
           Type: Api
           Properties:
-            Path: /recipe/{recipeId}
+            Path: /Recipe/{recipeId}
             Method: delete

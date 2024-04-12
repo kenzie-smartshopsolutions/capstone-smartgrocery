@@ -5,8 +5,8 @@ import java.util.Objects;
 
 public class RecipeData {
     private String recipeId;
-    private String recipeName;
-    private String instruction;
+    private String title;
+    private String instructions;
     private List<String> ingredients;
 
     /**
@@ -19,14 +19,14 @@ public class RecipeData {
      * Parameterized constructor.
      *
      * @param recipeId     The unique identifier for the recipe.
-     * @param recipeName   The name of the recipe.
-     * @param instruction  The cooking instructions for the recipe.
+     * @param title  The name of the recipe.
+     * @param instructions  The cooking instructions for the recipe.
      * @param ingredients  The list of ingredients required for the recipe.
      */
-    public RecipeData(String recipeId, String recipeName, String instruction, List<String> ingredients) {
+    public RecipeData(String recipeId, String title, String instructions, List<String> ingredients) {
         this.recipeId = recipeId;
-        this.recipeName = recipeName;
-        this.instruction = instruction;
+        this.title = title;
+        this.instructions = instructions;
         this.ingredients = ingredients;
     }
 
@@ -39,20 +39,20 @@ public class RecipeData {
         this.recipeId = recipeId;
     }
 
-    public String getRecipeName() {
-        return recipeName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getInstruction() {
-        return instruction;
+    public String getInstructions() {
+        return instructions;
     }
 
-    public void setInstruction(String instruction) {
-        this.instruction = instruction;
+    public void setInstructions(String instruction) {
+        this.instructions = instructions;
     }
 
     public List<String> getIngredients() {
@@ -69,11 +69,11 @@ public class RecipeData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeData that = (RecipeData) o;
-        return Objects.equals(recipeId, that.recipeId) && Objects.equals(recipeName, that.recipeName) && Objects.equals(instruction, that.instruction) && Objects.equals(ingredients, that.ingredients);
+        return Objects.equals(recipeId, that.recipeId) && Objects.equals(title, that.title) && Objects.equals(instructions, that.instructions) && Objects.equals(ingredients, that.ingredients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recipeId, recipeName, instruction, ingredients);
+        return Objects.hash(recipeId, title, instructions, ingredients);
     }
 }

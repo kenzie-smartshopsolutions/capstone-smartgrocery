@@ -60,8 +60,8 @@ public class RecipeDao {
 
         RecipeData recipeData = new RecipeData();
         recipeData.setRecipeId(recipeRecord.getRecipeId());
-        recipeData.setRecipeName(recipeRecord.getTitle());
-        recipeData.setInstruction(recipeRecord.getInstructions());
+        recipeData.setTitle(recipeRecord.getTitle());
+        recipeData.setInstructions(recipeRecord.getInstructions());
         recipeData.setIngredients(recipeRecord.getIngredients());
 
         return recipeData;
@@ -78,8 +78,8 @@ public class RecipeDao {
         // Create a new RecipeRecord object and set its properties using the provided recipe data.
         RecipeRecord recipeRecord = new RecipeRecord();
         recipeRecord.setRecipeId(recipeId);
-        recipeRecord.setTitle(recipeData.getRecipeName());
-        recipeRecord.setInstructions(recipeData.getInstruction());
+        recipeRecord.setTitle(recipeData.getTitle());
+        recipeRecord.setInstructions(recipeData.getInstructions());
         recipeRecord.setIngredients(recipeData.getIngredients());
 
         try {
@@ -112,8 +112,8 @@ public class RecipeDao {
         // Check if the recipe record exists.
         if (recipeRecordToUpdate != null) {
             // If the recipe record exists, update its fields with the data from the provided recipe data.
-            recipeRecordToUpdate.setTitle(recipeData.getRecipeName());
-            recipeRecordToUpdate.setInstructions(recipeData.getInstruction());
+            recipeRecordToUpdate.setTitle(recipeData.getTitle());
+            recipeRecordToUpdate.setInstructions(recipeData.getInstructions());
             recipeRecordToUpdate.setIngredients(recipeData.getIngredients());
 
             // Save the updated recipe record to DynamoDB.

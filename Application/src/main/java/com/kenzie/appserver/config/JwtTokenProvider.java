@@ -82,8 +82,6 @@ public class JwtTokenProvider {
     public void blacklistToken(String token) {
         blacklistedTokens.add(token);
     }
-
-
 }
 
 

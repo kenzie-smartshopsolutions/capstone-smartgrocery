@@ -34,19 +34,9 @@ public class PantryController {
         return new ResponseEntity<>(pantryItems, HttpStatus.OK);
 
     }
-//    @GetMapping("/pantryItemId/{pantryItemId}")
-//    public ResponseEntity<PantryRecord> getPantryItem(@PathVariable String pantryItemId) {
-////        // Need to verify the logged-in user matches the userId:
-////        if (!authentication.getName().equals(userId)) {
-////            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-////        }
-//        PantryRecord pantryItem = pantryService.getByItemId(pantryItemId);
-//        return new ResponseEntity<>(pantryItem, HttpStatus.OK);
-
-
 
     // Add a new pantry item
-    @PostMapping("/pantryItemId/{pantryItemId}")
+    @PostMapping("/pantryItemId/create")
     public ResponseEntity<PantryResponse> addPantryItem(@RequestBody PantryRequest pantry) {
 //        try {
 //            PantryRecord addedItem = pantryService.addPantryItem(pantry);
@@ -65,9 +55,6 @@ public class PantryController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
-
-
 
     // Update an existing pantry item
     @PutMapping("/pantryItemId/{pantryItemId}")
@@ -104,9 +91,11 @@ public class PantryController {
         pantryResponse.setPantryItemId(pantry.getPantryItemId());
         pantryResponse.setUserId(pantry.getUserId());
         pantryResponse.setDatePurchased(pantry.getDatePurchased());
-        pantryResponse.setExpired(pantry.isExpired());
+//        pantryResponse.setIsExpired(pantry.isExpired());
         pantryResponse.setExpiryDate(pantry.getExpiryDate());
         pantryResponse.setItemName(pantry.getItemName());
+        pantryResponse.setCategory(pantry.getCategory());
+        pantryResponse.setQuantity(pantry.getQuantity());
         return pantryResponse;
     }
 
