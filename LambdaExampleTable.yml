@@ -45,6 +45,6 @@ Resources:
         - AttributeName: "recipeId"
           AttributeType: "S"
       "KeySchema":
-        - "AttributeName": "id"
+        - "AttributeName": "recipeId"
           "KeyType": "HASH"
       BillingMode: PAY_PER_REQ

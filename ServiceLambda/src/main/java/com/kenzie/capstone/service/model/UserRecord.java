@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.List;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "User")
@@ -36,6 +37,8 @@ public class UserRecord {
         this.accountNonLocked = true;
         this.failedLoginAttempts = 0;
     }
+
+
 
     @DynamoDBHashKey(attributeName = "userId")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
