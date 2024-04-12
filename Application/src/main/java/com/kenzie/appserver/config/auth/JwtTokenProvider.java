@@ -1,4 +1,4 @@
-package com.kenzie.appserver.config;
+package com.kenzie.appserver.config.auth;
 
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;

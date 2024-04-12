@@ -19,7 +19,11 @@ public class UserRecord {
     private boolean accountNonLocked;
     private int failedLoginAttempts;
 
-    public UserRecord(String userId, String username, String password,String email, String householdName) {
+    public UserRecord(String userId,
+                      String username,
+                      String password,
+                      String email,
+                      String householdName) {
         this.userId = userId;
         this.username = username;
         this.password = password;

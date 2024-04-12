@@ -5,19 +5,13 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-import javax.validation.constraints.NotNull;
-import java.time.format.DecimalStyle;
-import java.util.Date;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "Pantry")
 public class PantryRecord {
     private String userId;
     private  String pantryItemId;
-    @NotNull(message = "Item name cannot be null")
     private  String itemName;
-
-    @DynamoDBAttribute(attributeName = "category")
     public String category;
     private  String expiryDate;
     private  int quantity;
@@ -102,7 +96,7 @@ public class PantryRecord {
         this.datePurchased = datePurchased;
     }
 
-    @DynamoDBAttribute(attributeName = "Category")
+    @DynamoDBAttribute(attributeName = "category")
     public String getCategory() {
         return category;
     }

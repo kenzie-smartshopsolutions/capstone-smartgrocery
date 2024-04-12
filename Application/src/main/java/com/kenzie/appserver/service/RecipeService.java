@@ -2,11 +2,8 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
-import com.kenzie.appserver.service.model.Example;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.RecipeData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -84,8 +81,8 @@ public class RecipeService {
         recipeData.setTitle(savedRecipe.getTitle());
         recipeData.setInstructions(savedRecipe.getInstructions());
         recipeData.setIngredients(savedRecipe.getIngredients());
-        lambdaServiceClient.setRecipeData(recipeData);
 
+        lambdaServiceClient.setRecipeData(recipeData);
         return savedRecipe;
     }
 

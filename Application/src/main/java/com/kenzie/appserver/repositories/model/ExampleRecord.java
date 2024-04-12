@@ -8,7 +8,7 @@ import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import java.util.Objects;
 
 @ExcludeFromJacocoGeneratedReport
-@DynamoDBTable(tableName = "Pantry")
+@DynamoDBTable(tableName = "Example")
 public class ExampleRecord {
 
     private String id;

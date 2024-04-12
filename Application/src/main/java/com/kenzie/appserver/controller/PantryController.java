@@ -1,14 +1,11 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.PantryRequest;
-import com.kenzie.appserver.controller.model.PantryResponse;
-import com.kenzie.appserver.controller.model.user.UserResponse;
+import com.kenzie.appserver.controller.model.pantry.PantryRequest;
+import com.kenzie.appserver.controller.model.pantry.PantryResponse;
 import com.kenzie.appserver.repositories.model.PantryRecord;
-import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.PantryService;
 //import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.appserver.service.model.Pantry;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

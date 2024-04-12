@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const password = document.getElementById('password').value;
 
         // Placeholder for API endpoint
-        const apiEndpoint = '/login';
+        const apiEndpoint = '/User/login';
 
         fetch(apiEndpoint, {
             method: 'POST',
