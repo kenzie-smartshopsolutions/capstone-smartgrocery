@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import nonapi.io.github.classgraph.json.Id;
 
 import javax.validation.constraints.NotNull;
 import java.time.format.DecimalStyle;
@@ -14,11 +15,7 @@ import java.util.Objects;
 public class PantryRecord {
     private String userId;
     private  String pantryItemId;
-  
-    @NotNull(message = "Item name cannot be null")
     private  String itemName;
-
-    @DynamoDBAttribute(attributeName = "category")
     public String category;
     private  String expiryDate;
     private  int quantity;
@@ -41,6 +38,7 @@ public class PantryRecord {
       
     public PantryRecord() {}
 
+
     @DynamoDBAttribute(attributeName = "userId")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
     public String getUserId() {
@@ -50,7 +48,7 @@ public class PantryRecord {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-      
+
     @DynamoDBHashKey(attributeName = "pantryItemId")
     public String getPantryItemId() {
         return pantryItemId;

@@ -220,6 +220,29 @@ Resources:
           Properties:
             Path: /Pantry/userId/{userId}
             Method: get
+  GetPantryItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.lambda.pantry.GetPantryData
+      Runtime: java11
+      Description: Fetch pantry item for a user
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
+        - AWSLambda_ReadOnlyAccess
+      Tracing: Active
+      Events:
+        GetPantryItems:
+          Type: Api
+          Properties:
+            Path: /Pantry/pantryItemId/{pantryItemId}
+            Method: get
   SetPantryDataFunction:
     Type: AWS::Serverless::Function
     Properties:
