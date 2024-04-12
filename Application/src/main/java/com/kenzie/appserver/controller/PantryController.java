@@ -32,7 +32,6 @@ public class PantryController {
 //        }
         List<PantryRecord> pantryItems = pantryService.getPantryItems(userId);
         return new ResponseEntity<>(pantryItems, HttpStatus.OK);
-
     }
 
     // Add a new pantry item

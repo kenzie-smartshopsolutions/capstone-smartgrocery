@@ -24,21 +24,21 @@ public class RecipeRecord {
         this.instructions = instructions;
     }
 
-    @DynamoDBHashKey(attributeName = "RecipeId")
+    @DynamoDBHashKey(attributeName = "recipeId")
     public String getRecipeId() {
         return recipeId;
     }
     public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
     }
-    @DynamoDBAttribute(attributeName = "Title")
+    @DynamoDBAttribute(attributeName = "title")
     public String getTitle() {
         return title;
     }
     public void setTitle(String title) {
         this.title = title;
     }
-    @DynamoDBAttribute(attributeName = "Ingredients")
+    @DynamoDBAttribute(attributeName = "ingredients")
     public List<String> getIngredients() {
         return ingredients;
     }
@@ -47,7 +47,7 @@ public class RecipeRecord {
         this.ingredients = ingredients;
     }
 
-    @DynamoDBAttribute(attributeName = "Instructions")
+    @DynamoDBAttribute(attributeName = "instructions")
     public String getInstructions() {
         return instructions;
     }

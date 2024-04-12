@@ -68,7 +68,7 @@ public class PantryService {
         return pantryRepository.findById(userId);
     }
 
- //    Retrieve pantry items for a user or household
+    // Retrieve pantry items for a user or household
     public List<PantryRecord> getPantryItems(String userId) {
         List<PantryData> lambdaPantryData = lambdaServiceClient.getPantryData(userId);
 

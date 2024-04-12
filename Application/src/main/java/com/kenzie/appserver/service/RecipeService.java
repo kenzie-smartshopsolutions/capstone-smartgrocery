@@ -47,7 +47,7 @@ public class RecipeService {
         }
 
         // If recipe data is not found in the local repository, fetch it from the Lambda service
-        RecipeData recipeDataFromLambda = lambdaServiceClient.getRecipe(recipeId);
+        RecipeData recipeDataFromLambda = lambdaServiceClient.getRecipeData(recipeId);
 
         // If recipe data is found in the Lambda service, construct a RecipeRecord from it and return
         if (recipeDataFromLambda != null) {
@@ -84,7 +84,7 @@ public class RecipeService {
         recipeData.setTitle(savedRecipe.getTitle());
         recipeData.setInstructions(savedRecipe.getInstructions());
         recipeData.setIngredients(savedRecipe.getIngredients());
-        lambdaServiceClient.createRecipe(recipeData);
+        lambdaServiceClient.setRecipeData(recipeData);
 
         return savedRecipe;
     }

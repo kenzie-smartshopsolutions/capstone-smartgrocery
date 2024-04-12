@@ -51,7 +51,7 @@ public class RecipeData {
         return instructions;
     }
 
-    public void setInstructions(String instruction) {
+    public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
 
