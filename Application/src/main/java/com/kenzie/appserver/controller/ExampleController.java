@@ -1,7 +1,7 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.ExampleCreateRequest;
-import com.kenzie.appserver.controller.model.ExampleResponse;
+import com.kenzie.appserver.controller.example.ExampleCreateRequest;
+import com.kenzie.appserver.controller.example.ExampleResponse;
 import com.kenzie.appserver.service.ExampleService;
 import com.kenzie.appserver.service.model.Example;
 import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @ExcludeFromJacocoGeneratedReport
 @RestController
-@RequestMapping("/example")
+@RequestMapping("example")
 public class ExampleController {
 
     private ExampleService exampleService;

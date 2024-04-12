@@ -22,8 +22,8 @@ public class LambdaServiceClient {
     private static final String GET_PANTRY_ENDPOINT = "Pantry/userId/{userId}";
     private static final String SET_PANTRY_ENDPOINT = "Pantry/pantryItemId/create";
 
-    private static final String GET_RECIPE_ENDPOINT = "recipe/{recipeId}";
-    private static final String SET_RECIPE_ENDPOINT = "recipe";
+    private static final String GET_RECIPE_ENDPOINT = "Recipe/{recipeId}";
+    private static final String SET_RECIPE_ENDPOINT = "Recipe";
 
     private ObjectMapper mapper;
 
@@ -150,7 +150,7 @@ public class LambdaServiceClient {
         return recipeData;
     }
 
-    public RecipeData createRecipe(RecipeData recipeData) {
+    public RecipeData setRecipe(RecipeData recipeData) {
         EndpointUtility endpointUtility = new EndpointUtility();
         try {
             String jsonData = mapper.writeValueAsString(recipeData);

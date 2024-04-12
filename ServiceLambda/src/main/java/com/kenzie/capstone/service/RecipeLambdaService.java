@@ -4,12 +4,13 @@ import com.kenzie.capstone.service.dao.RecipeDao;
 import com.kenzie.capstone.service.model.RecipeData;
 import com.kenzie.capstone.service.model.RecipeRecord;
 
+import com.kenzie.capstone.service.model.UserRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-//needs modification
+
 public class RecipeLambdaService {
 
     private static RecipeDao recipeDao;
@@ -28,7 +29,14 @@ public class RecipeLambdaService {
      */
     public RecipeData getRecipeData(String recipeId) {
         try {
-            return recipeDao.getRecipeData(recipeId);
+            RecipeRecord recipeRecord = recipeDao.getRecipeData(recipeId);
+
+            // Handle recipe not found scenario
+            if (recipeRecord == null) {
+                log.error("Recipe not found with ID: {}",recipeId);
+                throw new RuntimeException("Recipe not found");
+            }
+            return recipeDao.convertToRecipeData(recipeRecord);
         } catch (Exception e) {
             log.error("Error fetching recipe data for ID: {}", recipeId, e);
             throw new RuntimeException("Error fetching recipe data", e);
@@ -42,26 +50,10 @@ public class RecipeLambdaService {
      * @return The set recipe data.
      */
 
-    //????
-    public static RecipeData setRecipeData(RecipeData recipeData) {
-        try {
-        // Call the DAO method to set recipe data
-        RecipeRecord recipeRecord = recipeDao.setRecipeData(recipeData.getRecipeId(), recipeData);
-
-        // Construct and return RecipeData object using the data from the saved RecipeRecord
-        RecipeData savedRecipeData = new RecipeData();
-        savedRecipeData.setRecipeId(recipeRecord.getRecipeId());
-        savedRecipeData.setTitle(recipeRecord.getTitle());
-        savedRecipeData.setInstructions(recipeRecord.getInstructions());
-        savedRecipeData.setIngredients(recipeRecord.getIngredients());
-
-        return savedRecipeData;
-
-        } catch (Exception e) {
-            log.error("Error setting recipe data: {}", e.getMessage(), e);
-            throw new RuntimeException("Error setting recipe data", e);
-        }
-
+    public  RecipeData setRecipeData(RecipeData recipeData) {
+            String recipeId = recipeData.getRecipeId();
+            RecipeRecord recipeRecord = recipeDao.setRecipeData(recipeId, recipeData);
+            return recipeDao.convertToRecipeData(recipeRecord);
     }
 
     /**

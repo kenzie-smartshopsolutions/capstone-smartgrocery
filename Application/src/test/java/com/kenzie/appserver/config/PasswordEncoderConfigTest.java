@@ -1,5 +1,6 @@
 package com.kenzie.appserver.config;
 
+import com.kenzie.appserver.config.auth.PasswordEncoderConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

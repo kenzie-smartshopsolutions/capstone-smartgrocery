@@ -1,6 +1,7 @@
 package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import java.util.Objects;
 public class UserRecord implements UserDetails {
 
     @Id
+    @Hidden
     @DynamoDBHashKey(attributeName = "userId")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
     private  String userId;
@@ -22,9 +24,11 @@ public class UserRecord implements UserDetails {
     @DynamoDBAttribute(attributeName = "email")
     private  String email;
     @DynamoDBAttribute(attributeName = "householdName")
-    private  String householdName;
+    private  String householdName = "myHousehold";
+    @Hidden
     @DynamoDBAttribute(attributeName = "accountNonLocked")
     private boolean accountNonLocked;
+    @Hidden
     @DynamoDBAttribute(attributeName = "failedLoginAttempts")
     private int failedLoginAttempts;
 

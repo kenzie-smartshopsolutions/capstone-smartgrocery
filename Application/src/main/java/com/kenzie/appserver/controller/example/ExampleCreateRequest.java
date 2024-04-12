@@ -1,4 +1,4 @@
-package com.kenzie.appserver.controller.model;
+package com.kenzie.appserver.controller.example;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;

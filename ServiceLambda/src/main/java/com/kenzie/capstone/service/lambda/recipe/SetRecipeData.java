@@ -11,6 +11,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kenzie.capstone.service.model.UserData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,32 +37,22 @@ public class SetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String body = input.getBody();
+        RecipeData recipeData = gson.fromJson(input.getBody(), RecipeData.class);
 
-        if (body == null || body.isEmpty()) {
+        if (recipeData == null || recipeData.getRecipeId() == null || recipeData.getRecipeId().isEmpty()) {
             return response
                     .withStatusCode(400)
-                    .withBody("Request body is empty");
+                    .withBody("Recipe ID is empty or missing");
         }
 
         try {
-            //???
-            RecipeData recipeData = gson.fromJson(body, RecipeData.class);
-
-
-           // RecipeData savedRecipeData = RecipeLambdaService.setRecipeData(recipeData);
-            //String output = gson.toJson(savedRecipeData);
 
             RecipeData savedRecipeData = recipeLambdaService.setRecipeData(recipeData);
             String output = gson.toJson(savedRecipeData);
 
-           // RecipeData savedRecipeData = RecipeLambdaService.setRecipeData(recipeData);
-            //String output = gson.toJson(savedRecipeData);
-
-
             return response
-                    .withStatusCode(200);
-                  //  .withBody(output);
+                    .withStatusCode(200)
+                    .withBody(output);
 
         } catch (Exception e) {
             return response
