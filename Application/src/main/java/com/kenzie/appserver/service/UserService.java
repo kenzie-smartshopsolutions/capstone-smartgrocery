@@ -68,8 +68,8 @@ public class UserService implements UserDetailsService {
             // Convert UserData to User
             User lambdaUser = new User(lambdaUserData.getUserId(),
                     lambdaUserData.getUsername(),
-                    lambdaUserData.getEmail(),
                     lambdaUserData.getPassword(),
+                    lambdaUserData.getEmail(),
                     lambdaUserData.getHouseholdName());
 
             // Convert User to UserRecord
@@ -122,8 +122,8 @@ public class UserService implements UserDetailsService {
         return new User(
                 userRecord.getUserId(),
                 userRecord.getUsername(),
-                userRecord.getEmail(),
                 userRecord.getPassword(),
+                userRecord.getEmail(),
                 userRecord.getHouseholdName());
     }
 

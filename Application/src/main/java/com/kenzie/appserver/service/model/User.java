@@ -17,7 +17,12 @@ householdName (String) - [in case of multiple household members sharing same pan
     private boolean accountNonLocked;
     private int failedLoginAttempts;
 
-    public User(String userId, String username, String password, String email, String householdName) {
+    public User(
+            String userId,
+            String username,
+            String password,
+            String email,
+            String householdName) {
         this.userId = userId;
         this.username = username;
         this.password = password;

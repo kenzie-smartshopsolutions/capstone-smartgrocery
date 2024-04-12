@@ -9,7 +9,11 @@ public class UserData {
     private boolean accountNonLocked;
     private int failedLoginAttempts;
 
-    public UserData(String userId, String username, String password, String email, String householdName) {
+    public UserData(String userId,
+                    String username,
+                    String password,
+                    String email,
+                    String householdName) {
         this.userId = userId;
         this.username = username;
         this.password = password;
