@@ -1,6 +1,6 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.config.JwtTokenProvider;
+import com.kenzie.appserver.config.auth.JwtTokenProvider;
 import com.kenzie.appserver.controller.model.user.UserRequest;
 import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.model.UserRecord;
@@ -16,6 +16,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("User")
@@ -94,6 +96,9 @@ public class UserController {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            // Resets any failed login attempts after successful login authentication
+            userService.resetAndUnlockAccount(userRequest.getUsername());
+
             // Generates JWT token & responses
             String jwt = tokenProvider.generateToken(authentication);
             return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
@@ -113,15 +118,15 @@ public class UserController {
     }
 
     // Logout a user
-//    @PostMapping("/logout")
-//    public ResponseEntity<Void> logout(HttpServletRequest request) {
-//        String bearerToken = request.getHeader("Authorization");
-//        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-//            String token = bearerToken.substring(7);
-//
-//            // Add JWT Token to blacklist
-//            tokenProvider.blacklistToken(token);
-//        }
-//        return ResponseEntity.ok().build();
-//    }
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7);
+
+            // Add JWT Token to blacklist
+            tokenProvider.blacklistToken(token);
+        }
+        return ResponseEntity.ok().build();
+    }
 }

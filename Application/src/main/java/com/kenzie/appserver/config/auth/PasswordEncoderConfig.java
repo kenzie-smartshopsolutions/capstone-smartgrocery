@@ -1,4 +1,4 @@
-package com.kenzie.appserver.config;
+package com.kenzie.appserver.config.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

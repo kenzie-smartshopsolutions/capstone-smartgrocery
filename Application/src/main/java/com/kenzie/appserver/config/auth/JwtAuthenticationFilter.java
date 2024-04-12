@@ -1,4 +1,4 @@
-package com.kenzie.appserver.config;
+package com.kenzie.appserver.config.auth;
 
 import com.kenzie.appserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

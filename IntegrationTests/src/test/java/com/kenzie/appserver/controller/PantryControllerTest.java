@@ -3,10 +3,9 @@ package com.kenzie.appserver.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.PantryRequest;
+import com.kenzie.appserver.controller.model.pantry.PantryRequest;
 import com.kenzie.appserver.repositories.PantryRepository;
 import com.kenzie.appserver.repositories.model.PantryRecord;
-import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.PantryService;
 import com.kenzie.appserver.service.model.Pantry;
 import net.andreinc.mockneat.MockNeat;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.shaded.org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +25,9 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.testcontainers.shaded.org.hamcrest.Matchers.any;
 
 
 @IntegrationTest

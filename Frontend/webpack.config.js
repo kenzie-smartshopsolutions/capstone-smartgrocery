@@ -11,7 +11,6 @@ module.exports = {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
     navbar: path.resolve(__dirname, 'src', 'pages', 'navbar.js'),
     //login: path.resolve(__dirname, 'src', 'pages', 'login.js'),
-    //uploadPhoto: path.resolve(__dirname, 'src', 'pages', 'uploadPhoto.js'),
     loginPopup: path.resolve(__dirname, 'src', 'pages', 'loginPopup.js'),
     registration: path.resolve(__dirname, 'src', 'pages', 'registration.js'),
   },
