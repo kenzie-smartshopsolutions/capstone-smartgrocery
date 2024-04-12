@@ -23,7 +23,7 @@ Resources:
       KeySchema:
         - AttributeName: "userId"
           KeyType: "HASH"
-      BillingMode: PAY_PER_REQUEST
+      BillingMode: PAY_PER_REQ
 # Pantry
   PantryTable:
     Type: AWS::DynamoDB::Table
@@ -35,7 +35,7 @@ Resources:
       KeySchema:
         - AttributeName: "pantryItemId"
           KeyType: "HASH"
-      BillingMode: PAY_PER_REQUEST
+      BillingMode: PAY_PER_REQ
 # Recipe
   RecipeTable:
     Type: AWS::DynamoDB::Table
@@ -47,4 +47,4 @@ Resources:
       "KeySchema":
         - "AttributeName": "id"
           "KeyType": "HASH"
-      BillingMode: PAY_PER_REQUEST
+      BillingMode: PAY_PER_REQ
