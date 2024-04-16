@@ -1,13 +1,8 @@
-let isLoggedIn = false;
-
-function loggedIn() {
-    isLoggedIn = true;
-    updateRendering();
+function isLoggedIn() {
+    return Boolean(localStorage.getItem('jwt'));
 }
-
-function loggedOut() {
-    isLoggedIn = false;
-    logout();
+function loggedIn() {
+    localStorage.setItem('jwt', token);
     updateRendering();
 }
 
@@ -23,14 +18,14 @@ async function logout() {
         });
         if (!response.ok) throw new Error('Logout failed');
 
-        // Succesfully logged out
+        // Successful logged out -> removes token
         localStorage.removeItem('jwt');
-        isLoggedIn = false;
+
+        // update & redirects to homepage w/ message
         updateRendering();
+        window.location.href = '/';
         alert('Logged out successfully.');
 
-        // Redirects to homepage
-        window.location.href = '/';
         return { success: true };
 
     } catch (error) {
@@ -41,7 +36,6 @@ async function logout() {
 }
 
 function updateRendering() {
-
     const logoutElements = [1, 2, 3, 4, 5].map(
         (element) => document.getElementById(`logged-out${element}`)
     );

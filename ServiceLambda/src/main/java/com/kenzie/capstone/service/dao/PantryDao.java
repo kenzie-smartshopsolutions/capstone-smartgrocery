@@ -9,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.PantryData;
 import com.kenzie.capstone.service.model.PantryRecord;
+import com.kenzie.capstone.service.model.UserRecord;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,9 +41,20 @@ public class PantryDao {
     }
 
     public PantryRecord getPantryRecord(String pantryItemId) {
-        PantryRecord pantryRecord = mapper.load(PantryRecord.class, pantryItemId);
-        return pantryRecord;
+//        PantryRecord pantryRecord = mapper.load(PantryRecord.class, pantryItemId);
+//        return pantryRecord;
+        PantryRecord pantryRecord = new PantryRecord();
+        if (pantryItemId == null || pantryItemId.isEmpty() || pantryItemId.isBlank()) {
+            throw new IllegalArgumentException("PantryItemId cannot be blank or null");
+        } else {
+            pantryRecord.setPantryItemId(pantryItemId);
+        }
+        DynamoDBQueryExpression<PantryRecord> queryExpression = new DynamoDBQueryExpression<PantryRecord>()
+                .withHashKeyValues(pantryRecord)
+                .withConsistentRead(false);
+        return mapper.query(PantryRecord.class, queryExpression).get(0);
     }
+
     public List<PantryRecord> getPantryRecordsByUserId(String userId) {
         PantryRecord pantryRecord = new PantryRecord();
         pantryRecord.setUserId(userId);

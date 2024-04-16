@@ -20,6 +20,7 @@ public class LambdaServiceClient {
     private static final String SET_USER_ENDPOINT = "User/register";
 
     private static final String GET_PANTRY_ENDPOINT = "Pantry/userId/{userId}";
+    private static final String GET_PANTRY_ITEM_ENDPOINT = "Pantry/pantryItemId/{pantryItemId}";
     private static final String SET_PANTRY_ENDPOINT = "Pantry/pantryItemId/create";
 
     private static final String GET_RECIPE_ENDPOINT = "Recipe/{recipeId}";
@@ -96,7 +97,25 @@ public class LambdaServiceClient {
         }
     }
 
-    //pantryId??
+  
+    public PantryData getPantryItemData(String pantryItemId) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.getEndpoint(GET_PANTRY_ITEM_ENDPOINT.replace("{pantryItemId}", pantryItemId));
+        PantryData pantryData;
+        try {
+            pantryData = mapper.readValue(response, PantryData.class);
+        } catch (JsonProcessingException e) {
+            // If there is an issue with deserializing the response, handle it appropriately
+            throw new ApiGatewayException("Unable to deserialize JSON response: " + e.getMessage());
+        } catch (ApiGatewayException e) {
+            // If an ApiGatewayException is thrown, re-throw it
+            throw e;
+        } catch (Exception e) {
+            // For other exceptions, handle them and wrap them in an ApiGatewayException
+            throw new ApiGatewayException("An error occurred while processing the response: " + e.getMessage());
+        }
+        return pantryData;
+    }
     public List<PantryData> getPantryData(String userId) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_PANTRY_ENDPOINT.replace("{userId}", userId));
@@ -138,7 +157,7 @@ public class LambdaServiceClient {
         }
         return pantryData;
     }
-    public RecipeData getRecipe(String recipeId) {
+    public RecipeData getRecipeData(String recipeId) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_RECIPE_ENDPOINT.replace("{recipeId}", recipeId));
         RecipeData recipeData;
@@ -150,7 +169,8 @@ public class LambdaServiceClient {
         return recipeData;
     }
 
-    public RecipeData setRecipe(RecipeData recipeData) {
+
+    public RecipeData setRecipeData(RecipeData recipeData) {
         EndpointUtility endpointUtility = new EndpointUtility();
         try {
             String jsonData = mapper.writeValueAsString(recipeData);

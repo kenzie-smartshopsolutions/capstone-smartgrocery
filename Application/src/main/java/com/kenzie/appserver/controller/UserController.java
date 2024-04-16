@@ -85,19 +85,19 @@ public class UserController {
 
     // Login a user
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> login(@RequestBody UserRequest loginRequest) {
         // Handles the process of validating user credentials
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            userRequest.getUsername(),
-                            userRequest.getPassword()
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Resets any failed login attempts after successful login authentication
-            userService.resetAndUnlockAccount(userRequest.getUsername());
+            userService.resetAndUnlockAccount(loginRequest.getUsername());
 
             // Generates JWT token & responses
             String jwt = tokenProvider.generateToken(authentication);
@@ -110,7 +110,7 @@ public class UserController {
                     .body("Your account has been locked due to multiple failed login attempts. " +
                             "Please contact support to unlock your account.");
         } catch (BadCredentialsException e) {
-            userService.incrementFailedLoginAttempts(userRequest.getUsername());
+            userService.incrementFailedLoginAttempts(loginRequest.getUsername());
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password.");

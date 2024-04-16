@@ -55,7 +55,7 @@
 <section>
     <div id="id01" class="modal">
 
-        <form class="modal-content animate" action="/action_page.php" method="post">
+        <form class="modal-content animate" id="login-form" method="post">
             <div class="imgcontainer">
                 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                 <img src="img/user.png" alt="Avatar" class="avatar">
@@ -79,17 +79,19 @@
     <details>
         <summary>Settings</summary>
         <div class="card">
-            <form class="card-content" autocomplete="off" id="">
+            <form class="card-content" autocomplete="off" id="settings-form">
                 <p class="form-field">
                     <button class="uploadimg" type="submit">Upload image</button>
-                    <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="change password" id="">
-                    <input type="text" maxlength="50" required placeholder="change blank" id="">
-                    <input type="text" maxlength="50" required placeholder="change blank" id="">
+                    <input type="text" maxlength="50" pattern="^[A-Za-z]+\s[A-Za-z]+$" required placeholder="change password" id="password">
+                    <input type="text" maxlength="50" required placeholder="username" id="username">
+                    <input type="email" maxlength="50" required placeholder="Change email" id="email">
+                    <input type="text" maxlength="50" required placeholder="Change household name" id="householdName">
                 </p>
                 <input type="submit" value="Update settings">
             </form>
         </div>
     </details>
+    <script src="/src/pages/user.js"></script>
 </section>
 <br>
 </main>

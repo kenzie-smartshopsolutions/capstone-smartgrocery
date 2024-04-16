@@ -7,5 +7,4 @@ import org.springframework.data.repository.CrudRepository;
 public interface RecipeRepository extends CrudRepository<RecipeRecord, String> {
     RecipeRecord findByRecipeId(String recipeId);
     RecipeRecord findByTitle(String title);
-
 }

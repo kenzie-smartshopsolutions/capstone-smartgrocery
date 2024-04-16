@@ -39,7 +39,6 @@ public class UserRecord {
     }
 
 
-
     @DynamoDBHashKey(attributeName = "userId")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
     public String getUserId() {

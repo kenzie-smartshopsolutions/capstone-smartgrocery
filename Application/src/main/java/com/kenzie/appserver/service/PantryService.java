@@ -64,11 +64,8 @@ public class PantryService {
 //        }
 //    }
 
-    public Optional<PantryRecord> getPantry(String userId) {
-        return pantryRepository.findById(userId);
-    }
 
- //    Retrieve pantry items for a user or household
+    // Retrieve pantry items for a user or household
     public List<PantryRecord> getPantryItems(String userId) {
         List<PantryData> lambdaPantryData = lambdaServiceClient.getPantryData(userId);
 
@@ -86,50 +83,37 @@ public class PantryService {
                 .collect(Collectors.toList());
 
         return pantryRecord;
-    }
+        }
 
-//public PantryRecord getByItemId(String pantryItemId) {
-//        PantryRecord pantryRecord = pantryRepository.findItemByPantryItemId(pantryItemId);
-//
-//    // Retrieve UserData from the lambda function
-//        PantryData lambdaPantryData = lambdaServiceClient.getPantryData(pantryRecord.getUserId());
-//
-//
-//    Pantry lambdaPantry = new Pantry(
-//            lambdaPantryData.getPantryItemId(),
-//            lambdaPantryData.getItemName(),
-//            lambdaPantryData.getExpiryDate(),
-//            lambdaPantryData.getQuantity(),
-//            lambdaPantryData.isExpired(),
-//            lambdaPantryData.getDatePurchased(),
-//            lambdaPantryData.getCategory(),
-//            lambdaPantryData.getUserId());
-//
-//
-//    PantryRecord lambdaPantryRecord = convertFromDto(lambdaPantry);
-//
-//    if (pantryRecord == null && lambdaPantryRecord == null) {
-//        throw new IllegalArgumentException("Pantry not found in both the database and lambda function.");
-//    } else if (pantryRecord == null) {
-//        // Only the DB user record is null
-//        throw new IllegalArgumentException("Pantry not found in the database.");
-//    } else if (lambdaPantryRecord == null) {
-//        // Only the Lambda user record is null
-//        throw new IllegalArgumentException("Pantry not found in the lambda function.");
-//    } else {
-//        // if both found, merge/save
-//        pantryRecord.setDatePurchased(lambdaPantryRecord.getDatePurchased());
-//        pantryRecord.setPantryItemId(lambdaPantryRecord.getPantryItemId());
-//        pantryRecord.setItemName(lambdaPantryRecord.getItemName());
-//        pantryRecord.setExpired(lambdaPantryRecord.isExpired());
-//        pantryRecord.setQuantity(lambdaPantryRecord.getQuantity());
-//        pantryRecord.setCategory(lambdaPantryRecord.getCategory());
-//        pantryRecord.setUserId(lambdaPantryRecord.getUserId());
-//        pantryRecord.setExpiryDate(lambdaPantryData.getExpiryDate());
-//
-//        return pantryRecord;
-//    }
-//}
+public PantryRecord getByItemId(String pantryItemId) {
+        PantryRecord pantryRecord = null;
+
+        try {
+            PantryData lambdaPantryData = lambdaServiceClient.getPantryItemData(pantryItemId);
+
+            Pantry lambdaPantry = new Pantry(
+                    lambdaPantryData.getUserId(),
+                    lambdaPantryData.getPantryItemId(),
+                    lambdaPantryData.getItemName(),
+                    lambdaPantryData.getCategory(),
+                    lambdaPantryData.getQuantity(),
+                    lambdaPantryData.getExpiryDate(),
+                    lambdaPantryData.getDatePurchased()
+
+            );
+            pantryRecord = convertFromDto(lambdaPantry);
+        }catch (Exception e) {
+            System.err.println("Unable to retrieve data from the Lambda function: " + e.getMessage());
+
+            pantryRecord = pantryRepository.findItemByPantryItemId(pantryItemId);
+
+//            if (pantryRecord == null) {
+//                throw new IllegalArgumentException("Item not found in databases.");
+//            }
+        }
+        return pantryRecord;
+}
+
     /**
 //     * Adds a new pantry item to the repository.
 //     *
@@ -179,6 +163,7 @@ public PantryRecord updatePantryItem(PantryRecord pantryRecord) {
    //  Delete a pantry item by ID
     public void deletePantryItem(String pantryItemId) {
         // Check if the pantry item exists before deleting
+       // PantryRecord record = pantryRepository.findItemByPantryItemId(pantryItemId);
         if (pantryRepository.existsById(pantryItemId)) {
             pantryRepository.deleteById(pantryItemId);
         } else {
