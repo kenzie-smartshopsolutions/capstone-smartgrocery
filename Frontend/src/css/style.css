@@ -99,7 +99,8 @@ main {
 }
 
 .register {
-    background: linear-gradient(var(--hero-primary), var(--hero-primary)), url("");
+    background: linear-gradient(var(--hero-primary), var(--hero-primary));
+    /*, url("");*/
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;
@@ -397,12 +398,12 @@ img.avatar {
   border-radius: 10px;
 }
 
-.psw {
+.password {
   float: right;
   padding-top: 16px;
 }
 
-.psw a {
+.password a {
     color: white;
     background-color: DodgerBlue;
     border-radius: 3px;
@@ -411,7 +412,7 @@ img.avatar {
     text-decoration: none;
 }
 
-.psw a:hover {
+.password a:hover {
   opacity: 0.8;
   color: black;
 }
@@ -503,7 +504,7 @@ footer p,a {
 
 table {
     width: 100%;
-    border-collapse;
+    border-collapse: collapse;
 }
 
 th, td {

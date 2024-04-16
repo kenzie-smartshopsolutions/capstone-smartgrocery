@@ -54,25 +54,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/User/login/**",
                             "/User/register/**").permitAll()
 
-//                /**
-//                 Comment out TODO items when LIVE
-//                 * **/
-//
-////                * Allows open endpoints for development testing
-////                * TODO comment out when LIVE
-//
-//                .antMatchers("/example/**").permitAll()
-//                    .antMatchers("/Pantry/**").permitAll()
-//                    .antMatchers("/Recipe/**").permitAll()
-//
-////                 * Allows swaggerUI testing
-////                 * TODO comment out when LIVE
-//                .antMatchers("/v1/api/get-token",
-//                        "/swagger-ui.html",
-//                        "/swagger-ui/**",
-//                        "/v3/api-docs/**",
-//                        "/swagger-resources/**",
-//                        "/webjars/**").permitAll()
+                /**
+                 Comment out TODO items when LIVE
+                 * **/
+
+//                * Allows open endpoints for development testing
+//                * TODO comment out when LIVE
+
+                .antMatchers("/example/**").permitAll()
+                    .antMatchers("/Pantry/**").permitAll()
+                    .antMatchers("/Recipe/**").permitAll()
+
+//                 * Allows swaggerUI testing
+//                 * TODO comment out when LIVE
+                .antMatchers("/v1/api/get-token",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-resources/**",
+                        "/webjars/**").permitAll()
 
                 // All other requests must be authenticated
                 .anyRequest().authenticated().and()

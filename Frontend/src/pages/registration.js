@@ -27,7 +27,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .then(data => {
                 // Handle registration success
                 console.log('Registration successful', data);
-                // Redirect to login page or other action
+
+                // Redirect to homepage w/ message
+                window.location.href = '/';
+                alert('Registration successful. Please login.');
             })
             .catch(error => {
                 // Handle errors, such as displaying a registration failed message
