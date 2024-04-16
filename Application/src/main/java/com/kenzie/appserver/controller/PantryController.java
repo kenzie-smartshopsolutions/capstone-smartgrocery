@@ -6,6 +6,9 @@ import com.kenzie.appserver.repositories.model.PantryRecord;
 import com.kenzie.appserver.service.PantryService;
 //import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.appserver.service.model.Pantry;
+import com.kenzie.appserver.service.model.User;
+import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,21 +35,24 @@ public class PantryController {
 
     }
 
+  @GetMapping("/pantryItemId/{pantryItemId}")
+    public ResponseEntity<Pantry> getPantryItem(@PathVariable String pantryItemId) {
+//        // Need to verify the logged-in user matches the userId:
+//        if (!authentication.getName().equals(userId)) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
+        PantryRecord pantryItem = pantryService.getByItemId(pantryItemId);
+        if (pantryItem != null) {
+            Pantry pantryDto = pantryService.convertRecordToDto(pantryItem);
+            return ResponseEntity.ok(pantryDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     // Add a new pantry item
     @PostMapping("/pantryItemId/create")
     public ResponseEntity<PantryResponse> addPantryItem(@RequestBody PantryRequest pantry) {
-//        try {
-//            PantryRecord addedItem = pantryService.addPantryItem(pantry);
-//
-//            PantryResponse response = createPantryResponse(addedItem);
-//            return new ResponseEntity<>(response, HttpStatus.CREATED);
-//
-//            // added logging statement
-//        } catch (Exception e) {
-//                e.printStackTrace();
-//                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-
             PantryRecord createdItem = pantryService.addPantryItem(pantry);
             PantryResponse response = createPantryResponse(createdItem);
 
@@ -71,8 +77,12 @@ public class PantryController {
     // Delete a pantry item by ID
     @DeleteMapping("/pantryItemId/{pantryItemId}")
     public ResponseEntity<Void> deleteItem(@PathVariable("pantryItemId") String pantryItemId) {
-        pantryService.deletePantryItem(pantryItemId);
-        return ResponseEntity.status(204).build();
+        if (pantryService.getByItemId(pantryItemId) != null) {
+            pantryService.deletePantryItem(pantryItemId);
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
      }
 //    public ResponseEntity<Void> deletePantryItem(@PathVariable String pantryItemId) {
 //        if (pantryService.getPantryItems(pantryItemId) != null) {

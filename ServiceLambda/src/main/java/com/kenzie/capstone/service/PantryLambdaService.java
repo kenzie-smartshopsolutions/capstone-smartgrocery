@@ -25,15 +25,26 @@ public class PantryLambdaService {
     }
 
 
-    public PantryData getPantryData(String userId) {
-        PantryRecord pantryRecord = pantryDao.getPantryRecord(userId);
-        return pantryDao.convertToPantryData(pantryRecord);
+    public PantryData getPantryData(String pantryItemId) {
+        try {
+            PantryRecord pantryRecord = pantryDao.getPantryRecord(pantryItemId);
+            // Handle item not found scenario
+            if (pantryRecord == null) {
+                log.error("Pantry item not found with ID: {}", pantryItemId);
+                throw new RuntimeException("Pantry item not found");
+            }
+            return pantryDao.convertToPantryData(pantryRecord);
+        } catch (Exception e) {
+            log.error("Error fetching pantry data for ID: {}, error: {}", pantryItemId, e.getMessage());
+            throw e;
+        }
     }
 
         public PantryData setPantryData(PantryData pantryData) {
         String pantryItemId = pantryData.getPantryItemId();
         PantryRecord pantryRecord = pantryDao.setPantryData(pantryItemId, pantryData);
         return pantryDao.convertToPantryData(pantryRecord);
+
     }
     public List<PantryData> getPantryDataByUserId(String userId) {
         List<PantryRecord> pantryRecords = pantryDao.getPantryRecordsByUserId(userId);
