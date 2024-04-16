@@ -29,7 +29,6 @@ public class Pantry {
         this.itemName = itemName;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
-//        this.isExpired = isExpired;
         this.datePurchased = datePurchased;
         this.category = category;
 

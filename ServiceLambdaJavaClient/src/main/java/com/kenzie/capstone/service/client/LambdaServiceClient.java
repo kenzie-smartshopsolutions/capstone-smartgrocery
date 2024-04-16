@@ -96,6 +96,8 @@ public class LambdaServiceClient {
             throw new ApiGatewayException("An error occurred while processing the response: " + e.getMessage());
         }
     }
+
+  
     public PantryData getPantryItemData(String pantryItemId) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_PANTRY_ITEM_ENDPOINT.replace("{pantryItemId}", pantryItemId));
@@ -155,7 +157,7 @@ public class LambdaServiceClient {
         }
         return pantryData;
     }
-    public RecipeData getRecipe(String recipeId) {
+    public RecipeData getRecipeData(String recipeId) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_RECIPE_ENDPOINT.replace("{recipeId}", recipeId));
         RecipeData recipeData;
@@ -167,7 +169,8 @@ public class LambdaServiceClient {
         return recipeData;
     }
 
-    public RecipeData setRecipe(RecipeData recipeData) {
+
+    public RecipeData setRecipeData(RecipeData recipeData) {
         EndpointUtility endpointUtility = new EndpointUtility();
         try {
             String jsonData = mapper.writeValueAsString(recipeData);
