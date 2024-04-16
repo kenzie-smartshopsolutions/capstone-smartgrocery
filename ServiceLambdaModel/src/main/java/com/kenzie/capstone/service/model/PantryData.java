@@ -19,7 +19,7 @@ public class PantryData {
 //    private boolean isExpired;
     private String datePurchased;
     private String category;
-    @JsonIgnoreProperties(ignoreUnknown = true)
+   // @JsonIgnoreProperties(ignoreUnknown = true)
 
 
     public PantryData(String userId, String pantryItemId, String itemName,

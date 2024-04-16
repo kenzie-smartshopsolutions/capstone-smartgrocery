@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import nonapi.io.github.classgraph.json.Id;
 
 import java.util.Objects;
 
@@ -34,6 +35,7 @@ public class PantryRecord {
       
     public PantryRecord() {}
 
+
     @DynamoDBAttribute(attributeName = "userId")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
     public String getUserId() {
@@ -43,7 +45,7 @@ public class PantryRecord {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-      
+
     @DynamoDBHashKey(attributeName = "pantryItemId")
     public String getPantryItemId() {
         return pantryItemId;
