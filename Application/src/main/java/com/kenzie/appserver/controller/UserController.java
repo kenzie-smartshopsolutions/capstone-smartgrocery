@@ -1,6 +1,6 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.config.JwtTokenProvider;
+import com.kenzie.appserver.config.auth.JwtTokenProvider;
 import com.kenzie.appserver.controller.model.user.UserRequest;
 import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.model.UserRecord;
@@ -16,6 +16,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("User")
@@ -83,16 +85,19 @@ public class UserController {
 
     // Login a user
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> login(@RequestBody UserRequest loginRequest) {
         // Handles the process of validating user credentials
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            userRequest.getUsername(),
-                            userRequest.getPassword()
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Resets any failed login attempts after successful login authentication
+            userService.resetAndUnlockAccount(loginRequest.getUsername());
 
             // Generates JWT token & responses
             String jwt = tokenProvider.generateToken(authentication);
@@ -105,7 +110,7 @@ public class UserController {
                     .body("Your account has been locked due to multiple failed login attempts. " +
                             "Please contact support to unlock your account.");
         } catch (BadCredentialsException e) {
-            userService.incrementFailedLoginAttempts(userRequest.getUsername());
+            userService.incrementFailedLoginAttempts(loginRequest.getUsername());
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password.");
@@ -113,15 +118,15 @@ public class UserController {
     }
 
     // Logout a user
-//    @PostMapping("/logout")
-//    public ResponseEntity<Void> logout(HttpServletRequest request) {
-//        String bearerToken = request.getHeader("Authorization");
-//        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-//            String token = bearerToken.substring(7);
-//
-//            // Add JWT Token to blacklist
-//            tokenProvider.blacklistToken(token);
-//        }
-//        return ResponseEntity.ok().build();
-//    }
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7);
+
+            // Add JWT Token to blacklist
+            tokenProvider.blacklistToken(token);
+        }
+        return ResponseEntity.ok().build();
+    }
 }

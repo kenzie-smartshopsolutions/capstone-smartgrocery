@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class PantryData {
+
     private String userId;
     private String pantryItemId;
     private String itemName;
@@ -24,7 +25,6 @@ public class PantryData {
     public PantryData(String userId, String pantryItemId, String itemName,
     String category, int quantity, String expiryDate,
     String datePurchased){
-
         this.pantryItemId = pantryItemId;
         this.itemName = itemName;
         this.expiryDate = expiryDate;

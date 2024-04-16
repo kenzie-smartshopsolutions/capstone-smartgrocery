@@ -1,7 +1,7 @@
 package com.kenzie.appserver.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
-import com.kenzie.appserver.controller.model.PantryRequest;
+import com.kenzie.appserver.controller.model.pantry.PantryRequest;
 import com.kenzie.appserver.repositories.PantryRepository;
 import com.kenzie.appserver.repositories.model.PantryRecord;
 import com.kenzie.appserver.service.model.Pantry;
@@ -113,6 +113,7 @@ public PantryRecord getByItemId(String pantryItemId) {
         }
         return pantryRecord;
 }
+
     /**
 //     * Adds a new pantry item to the repository.
 //     *

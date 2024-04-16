@@ -1,24 +1,17 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.controller.model.PantryRequest;
+import com.kenzie.appserver.controller.model.pantry.PantryRequest;
 import com.kenzie.appserver.repositories.PantryRepository;
-import com.kenzie.appserver.repositories.UserRepository;
-import com.kenzie.appserver.repositories.model.ExampleRecord;
 import com.kenzie.appserver.repositories.model.PantryRecord;
 
-import com.kenzie.appserver.service.model.Example;
 import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
-import org.webjars.NotFoundException;
 
 import java.util.*;
 
@@ -27,7 +20,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PantryServiceTest {
 

@@ -10,8 +10,7 @@ module.exports = {
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
     navbar: path.resolve(__dirname, 'src', 'pages', 'navbar.js'),
-    //login: path.resolve(__dirname, 'src', 'pages', 'login.js'),
-    //uploadPhoto: path.resolve(__dirname, 'src', 'pages', 'uploadPhoto.js'),
+    login: path.resolve(__dirname, 'src', 'pages', 'login.js'),
     loginPopup: path.resolve(__dirname, 'src', 'pages', 'loginPopup.js'),
     registration: path.resolve(__dirname, 'src', 'pages', 'registration.js'),
   },
@@ -21,12 +20,15 @@ module.exports = {
   },
   devServer: {
     https: false,
-    port: 8080,
+    port: 8083,
     open: true,
     proxy: [
       {
         context: [
           '/example',
+            '/User',
+            '/Pantry',
+            '/Recipe'
         ],
         target: 'http://localhost:5001'
       }

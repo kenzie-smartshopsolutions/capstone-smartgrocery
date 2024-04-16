@@ -13,7 +13,16 @@ public class RecipeRecord {
     private List<String> ingredients; // Adjusted data type
     private  String instructions;
 
+    public RecipeRecord() {
+        // Default constructor required by DynamoDB
+    }
 
+    public RecipeRecord(String recipeId, String title, List<String> ingredients, String instructions) {
+        this.recipeId = recipeId;
+        this.title = title;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+    }
 
     @DynamoDBHashKey(attributeName = "RecipeId")
     public String getRecipeId() {

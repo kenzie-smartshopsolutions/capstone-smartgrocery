@@ -11,13 +11,13 @@ package "API Gateway" {
   [Get User Details] as (GetUserDetails)
 ' "/users/{userId} - PUT"
   [Update User Details] as (UpdateUserDetails)
-' "/recipes - POST"
+' "/recipe - POST"
   [Create Recipe] as (CreateRecipe)
-' "/recipes - GET"
-  [Get Recipes] as (GetRecipes)
-' "/recipes/{recipeId} - PUT"
+' "/recipe - GET"
+  [Get Recipe] as (GetRecipe)
+' "/recipe/{recipeId} - PUT"
   [Update Recipe] as (UpdateRecipe)
-' "/recipes/{recipeId} - DELETE"
+' "/recipe/{recipeId} - DELETE"
   [Delete Recipe] as (DeleteRecipe)
 ' "/ingredients - POST"
   [Add Ingredient] as (AddIngredient)

@@ -50,7 +50,6 @@ public class GetRecipeData implements RequestHandler<APIGatewayProxyRequestEvent
         }
 
         try {
-            //???
             RecipeData recipeData = recipeLambdaService.getRecipeData(recipeId);
             String output = gson.toJson(recipeData);
 

@@ -1,15 +1,14 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.PantryRequest;
-import com.kenzie.appserver.controller.model.PantryResponse;
-import com.kenzie.appserver.controller.model.user.UserResponse;
+import com.kenzie.appserver.controller.model.pantry.PantryRequest;
+import com.kenzie.appserver.controller.model.pantry.PantryResponse;
 import com.kenzie.appserver.repositories.model.PantryRecord;
-import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.PantryService;
 //import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.appserver.service.model.Pantry;
 import com.kenzie.appserver.service.model.User;
 import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,8 @@ public class PantryController {
         return new ResponseEntity<>(pantryItems, HttpStatus.OK);
 
     }
-    @GetMapping("/pantryItemId/{pantryItemId}")
+
+  @GetMapping("/pantryItemId/{pantryItemId}")
     public ResponseEntity<Pantry> getPantryItem(@PathVariable String pantryItemId) {
 //        // Need to verify the logged-in user matches the userId:
 //        if (!authentication.getName().equals(userId)) {
@@ -50,8 +50,6 @@ public class PantryController {
         }
     }
 
-
-
     // Add a new pantry item
     @PostMapping("/pantryItemId/create")
     public ResponseEntity<PantryResponse> addPantryItem(@RequestBody PantryRequest pantry) {
@@ -60,9 +58,6 @@ public class PantryController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
-
-
 
     // Update an existing pantry item
     @PutMapping("/pantryItemId/{pantryItemId}")

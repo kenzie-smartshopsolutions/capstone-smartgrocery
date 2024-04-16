@@ -15,6 +15,16 @@ public class RecipeRecord {
     private List<String> ingredients;
     private  String instructions;
 
+    public RecipeRecord(String recipeId, String title, List<String> ingredients, String instructions) {
+        this.recipeId = recipeId;
+        this.title = title;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+    }
+
+    public RecipeRecord() {
+
+    }
 
     @DynamoDBHashKey(attributeName = "RecipeId")
     public String getRecipeId() {

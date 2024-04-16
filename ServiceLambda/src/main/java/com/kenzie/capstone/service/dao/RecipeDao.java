@@ -6,8 +6,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
+import com.kenzie.capstone.service.model.PantryRecord;
 import com.kenzie.capstone.service.model.RecipeData;
 import com.kenzie.capstone.service.model.RecipeRecord;
+import com.kenzie.capstone.service.model.UserRecord;
 
 import java.util.UUID;
 
@@ -42,29 +44,28 @@ public class RecipeDao {
      * @param recipeId The ID of the recipe to retrieve.
      * @return The retrieved recipe data.
      */
-    public RecipeData getRecipeData(String recipeId) {
-        // Load the RecipeRecord from the database using the provided recipe ID.
-        RecipeRecord recipeRecord = mapper.load(RecipeRecord.class, recipeId);
+    public RecipeRecord getRecipeData(String recipeId) {
+        RecipeRecord recipeRecord= new RecipeRecord();
 
-        // Convert RecipeRecord to RecipeData
-        RecipeData recipeData = convertToRecipeData(recipeRecord);
-
-        // Return the retrieved recipe data.
-        return recipeData;
+        if (recipeId == null || recipeId.isEmpty() || recipeId.isBlank()) {
+            throw new IllegalArgumentException("RecipeId cannot be null or empty");
+        }else {
+            recipeRecord.setRecipeId(recipeId);
+        }
+        DynamoDBQueryExpression<RecipeRecord> queryExpression = new DynamoDBQueryExpression<RecipeRecord>()
+                .withHashKeyValues(recipeRecord)
+                .withConsistentRead(false);
+        return mapper.query(RecipeRecord.class, queryExpression).get(0);
     }
 
-    private RecipeData convertToRecipeData(RecipeRecord recipeRecord) {
+    public RecipeData convertToRecipeData(RecipeRecord recipeRecord) {
         if (recipeRecord == null) {
             return null;
         }
-
-        RecipeData recipeData = new RecipeData();
-        recipeData.setRecipeId(recipeRecord.getRecipeId());
-        recipeData.setRecipeName(recipeRecord.getTitle());
-        recipeData.setInstruction(recipeRecord.getInstructions());
-        recipeData.setIngredients(recipeRecord.getIngredients());
-
-        return recipeData;
+        return new RecipeData(recipeRecord.getRecipeId(),
+                recipeRecord.getTitle(),
+                recipeRecord.getInstructions(),
+                recipeRecord.getIngredients());
     }
 
     /**
@@ -77,27 +78,23 @@ public class RecipeDao {
     public RecipeRecord setRecipeData(String recipeId, RecipeData recipeData) {
         // Create a new RecipeRecord object and set its properties using the provided recipe data.
         RecipeRecord recipeRecord = new RecipeRecord();
-        recipeRecord.setRecipeId(recipeId);
-        recipeRecord.setTitle(recipeData.getRecipeName());
-        recipeRecord.setInstructions(recipeData.getInstruction());
-        recipeRecord.setIngredients(recipeData.getIngredients());
 
-        try {
-            // Save the RecipeRecord to DynamoDB with an expected condition that ensures the recipeId does not already exist.
-            mapper.save(recipeRecord, new DynamoDBSaveExpression()
-                    .withExpected(ImmutableMap.of(
-                            "recipeId",
-                            new ExpectedAttributeValue().withExists(false)
-                    )));
-        } catch (ConditionalCheckFailedException e) {
-            // If the recipeId already exists, throw an IllegalArgumentException.
-            throw new IllegalArgumentException("Recipe ID already exists");
+        if (recipeId == null || recipeId.isEmpty() || recipeId.isBlank()) {
+            String uniqueRecipeId = UUID.randomUUID().toString();
+            recipeRecord.setRecipeId(uniqueRecipeId);
         }
+        RecipeRecord tempData = convertToRecipeRecord(recipeData);
 
-        // Return the saved recipe record.
+        mapper.save(tempData);
         return recipeRecord;
     }
 
+    public RecipeRecord convertToRecipeRecord(RecipeData recipeData) {
+        return new RecipeRecord(recipeData.getRecipeId(),
+                recipeData.getTitle(),
+                recipeData.getIngredients(),
+               recipeData.getInstructions());
+    }
     /**
      * Updates existing recipe data in the database.
      *
@@ -112,8 +109,8 @@ public class RecipeDao {
         // Check if the recipe record exists.
         if (recipeRecordToUpdate != null) {
             // If the recipe record exists, update its fields with the data from the provided recipe data.
-            recipeRecordToUpdate.setTitle(recipeData.getRecipeName());
-            recipeRecordToUpdate.setInstructions(recipeData.getInstruction());
+            recipeRecordToUpdate.setTitle(recipeData.getTitle());
+            recipeRecordToUpdate.setInstructions(recipeData.getInstructions());
             recipeRecordToUpdate.setIngredients(recipeData.getIngredients());
 
             // Save the updated recipe record to DynamoDB.

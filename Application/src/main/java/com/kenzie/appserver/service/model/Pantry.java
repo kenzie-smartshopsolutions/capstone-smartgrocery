@@ -15,6 +15,7 @@ public class Pantry {
     public final String category;
     private final String expiryDate;
     private final int quantity;
+
 //    private final boolean isExpired;
     private final String datePurchased;
 
@@ -65,12 +66,4 @@ public class Pantry {
     public String getCategory() {
         return category;
     }
-
-// public String getCategory() {
-     //   return category;
-   // }
-
-   // public Date getDateUsed() {
-     //   return dateUsed;
-    //}
 }

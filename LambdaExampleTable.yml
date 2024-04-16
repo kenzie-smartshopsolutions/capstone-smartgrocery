@@ -1,17 +1,17 @@
 Resources:
-#  ExampleTable:
-#    Type: AWS::DynamoDB::Table
-#    Properties:
-#      TableName: "LambdaExample"
-#      "AttributeDefinitions":
-#        - "AttributeName": "id"
-#          "AttributeType": "S"
-#      "KeySchema":
-#        - "AttributeName": "id"
-#          "KeyType": "HASH"
-#      PointInTimeRecoverySpecification:
-#        PointInTimeRecoveryEnabled: false
-#      BillingMode: PAY_PER_REQUEST
+  ExampleTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "LambdaExample"
+      "AttributeDefinitions":
+        - "AttributeName": "id"
+          "AttributeType": "S"
+      "KeySchema":
+        - "AttributeName": "id"
+          "KeyType": "HASH"
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: false
+      BillingMode: PAY_PER_REQUEST
 # User
   UserTable:
     Type: AWS::DynamoDB::Table
@@ -45,6 +45,6 @@ Resources:
         - AttributeName: "recipeId"
           AttributeType: "S"
       "KeySchema":
-        - "AttributeName": "id"
+        - "AttributeName": "recipeId"
           "KeyType": "HASH"
       BillingMode: PAY_PER_REQUEST

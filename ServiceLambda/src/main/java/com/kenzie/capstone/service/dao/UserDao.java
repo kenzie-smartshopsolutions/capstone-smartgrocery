@@ -90,16 +90,16 @@ public class UserDao {
         if (userRecord == null) return null;
         return new UserData(userRecord.getUserId(),
                 userRecord.getUsername(),
-                userRecord.getEmail(),
                 userRecord.getPassword(),
+                userRecord.getEmail(),
                 userRecord.getHouseholdName());
     }
 
     public UserRecord convertToUserRecord(UserData userData) {
         return new UserRecord(userData.getUserId(),
                 userData.getUsername(),
-                userData.getEmail(),
                 userData.getPassword(),
+                userData.getEmail(),
                 userData.getHouseholdName());
     }
 }

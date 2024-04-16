@@ -1,4 +1,4 @@
-package com.kenzie.appserver.config;
+package com.kenzie.appserver.config.auth;
 
 import com.kenzie.appserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,12 +54,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/User/login/**",
                             "/User/register/**").permitAll()
 
-                // bypass authentication for API testing - comment out if/when applicable
+                /**
+                 Comment out TODO items when LIVE
+                 * **/
+
+//                * Allows open endpoints for development testing
+//                * TODO comment out when LIVE
+
                 .antMatchers("/example/**").permitAll()
                     .antMatchers("/Pantry/**").permitAll()
-                    .antMatchers("/recipes/**").permitAll()
-                /** Allows unauthenticated access to Swagger UI
-                 FOR TESTING ONLY - PLEASE COMMENT OUT WHEN LIVE **/
+                    .antMatchers("/Recipe/**").permitAll()
+
+//                 * Allows swaggerUI testing
+//                 * TODO comment out when LIVE
                 .antMatchers("/v1/api/get-token",
                         "/swagger-ui.html",
                         "/swagger-ui/**",
@@ -67,13 +74,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/webjars/**").permitAll()
 
-                // any other requests must be authenticated
-                .anyRequest().authenticated();
+                // All other requests must be authenticated
+                .anyRequest().authenticated().and()
 
-        // Add JWT token filter
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        // Logout & invalidate authentication/session
+        .logout()
+                .logoutUrl("/User/logout")
+                .logoutSuccessUrl("/User/login?logout")
+                .deleteCookies("token")
+
+                // Invalidate session
+                .invalidateHttpSession(true)
+
+                // Clear authentication attributes
+                .clearAuthentication(true)
+                .permitAll().and()
+
+                // Add JWT token filter
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
 
     @Bean
     @Override

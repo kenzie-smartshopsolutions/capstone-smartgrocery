@@ -6,9 +6,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import nonapi.io.github.classgraph.json.Id;
 
-import javax.validation.constraints.NotNull;
-import java.time.format.DecimalStyle;
-import java.util.Date;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "Pantry")
@@ -101,7 +98,7 @@ public class PantryRecord {
         this.datePurchased = datePurchased;
     }
 
-    @DynamoDBAttribute(attributeName = "Category")
+    @DynamoDBAttribute(attributeName = "category")
     public String getCategory() {
         return category;
     }
