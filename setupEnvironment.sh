@@ -7,7 +7,7 @@
 #If the casing is different you will have issues.
 #for example if the username was tHisIS-bOb this would read:
 #export CAPSTONE_REPO_NAME=ata-capstone-project-tHisIS-bOb
-export CAPSTONE_REPO_NAME=ata-capstone-project-smartgrocery
+export CAPSTONE_REPO_NAME=capstone-smartgrocery
 
 # Fill out the following value with the group name in all lowercase and no spaces or special characters.
 export GITHUB_GROUP_NAME=smartshopsolutions
@@ -19,7 +19,7 @@ export GITHUB_GROUP_NAME=smartshopsolutions
 # For Windows
 # Copy and paste ALL of the properties below into your .bashrc file in your home directory
 #export JAVA_HOME=c/Users/12146/.jdks/corretto-16.0.2
-#export GITHUB_TOKEN=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
+#export GITHUB_TOKEN=
 
 # In IntelliJ Terminal
 # Type source ./setupEnvironment.sh
