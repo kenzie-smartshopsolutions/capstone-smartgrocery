@@ -26,6 +26,7 @@ echo "Github Group Name: $GITHUB_GROUP_NAME"
 echo "Repo path: $CAPSTONE_REPO_NAME"
 echo "Branch: $branch"
 echo "Template file path: $TEMPLATE_FILE_PATH"
+echo $GITHUB_TOKEN
 
 # Check if the stack exists
 STACK_EXISTS=$(aws cloudformation describe-stacks --stack-name $GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME 2>&1)
@@ -61,7 +62,8 @@ STACK_STATUS=$(aws cloudformation describe-stacks --stack-name $GITHUB_GROUP_NAM
 if [ "$STACK_STATUS" != "CREATE_COMPLETE" ] && [ "$STACK_STATUS" != "UPDATE_COMPLETE" ]; then
   echo "Stack $ACTION failed with status: $STACK_STATUS"
   echo "Fetching stack events for more details..."
-  aws cloudformation describe-stack-events $GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME --query "StackEvents[?ResourceStatus=='ROLLBACK_COMPLETE' || ResourceStatus=='CREATE_FAILED' || ResourceStatus=='UPDATE_FAILED']" --output table
+  aws cloudformation describe-stack-events --stack-name $GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME --query "StackEvents[?ResourceStatus=='ROLLBACK_COMPLETE' || ResourceStatus=='CREATE_FAILED' || ResourceStatus=='UPDATE_FAILED']" --output table
+
   exit
 fi
 
