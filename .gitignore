@@ -30,3 +30,6 @@ lambda-service-development.yml
 
 package-lock.json
 yarn.lock
+
+# Add .env to gitignore
+.env

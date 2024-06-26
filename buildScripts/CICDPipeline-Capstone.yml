@@ -231,7 +231,7 @@ Resources:
               Configuration:
                 Repo: !Ref Repo
                 Branch: !Ref Branch
-                Owner: 'KenzieAcademy-SoftwareEngineering'
+                Owner: 'kenzie-smartshopsolutions'
                 OAuthToken: !Ref GithubToken
                 PollForSourceChanges: false
               OutputArtifacts:

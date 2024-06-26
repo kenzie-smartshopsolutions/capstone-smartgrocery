@@ -7,10 +7,10 @@
 #If the casing is different you will have issues.
 #for example if the username was tHisIS-bOb this would read:
 #export CAPSTONE_REPO_NAME=ata-capstone-project-tHisIS-bOb
-export CAPSTONE_REPO_NAME=capstone-smartgrocery
+export CAPSTONE_PROJECT_NAME=capstone-smartgrocery
 
 # Fill out the following value with the group name in all lowercase and no spaces or special characters.
-export GITHUB_GROUP_NAME=smartshopsolutions
+export GITHUB_GROUP_NAME=kenzie-smartshopsolutions
 
 # Step Two - configure your shell to always have these variables.
 # For OSX / Linux
@@ -19,7 +19,7 @@ export GITHUB_GROUP_NAME=smartshopsolutions
 # For Windows
 # Copy and paste ALL of the properties below into your .bashrc file in your home directory
 #export JAVA_HOME=c/Users/12146/.jdks/corretto-16.0.2
-#export GITHUB_TOKEN=
+export GITHUB_TOKEN=$(awk -F '=' '/GITHUB_TOKEN/{gsub(/ /, "", $2); print $2}' .env)
 
 # In IntelliJ Terminal
 # Type source ./setupEnvironment.sh
@@ -29,9 +29,9 @@ export GITHUB_GROUP_NAME=smartshopsolutions
 
 
 # Do not modify the rest of these unless you have been instructed to do so.
-export CAPSTONE_PROJECT_NAME=capstone
-export CAPSTONE_PIPELINE_STACK=$CAPSTONE_PROJECT_NAME-$GITHUB_GROUP_NAME
-export CAPSTONE_ARTIFACT_BUCKET=$CAPSTONE_PROJECT_NAME-$GITHUB_GROUP_NAME-artifacts
-export CAPSTONE_APPLICATION_STACK=$CAPSTONE_PROJECT_NAME-$GITHUB_GROUP_NAME-application
-export CAPSTONE_SERVICE_STACK=$CAPSTONE_PROJECT_NAME-$GITHUB_GROUP_NAME-service
-export CAPSTONE_SERVICE_STACK_DEV=$CAPSTONE_PROJECT_NAME-$GITHUB_GROUP_NAME-service-dev
+export CAPSTONE_REPO_NAME=$GITHUB_GROUP_NAME/$CAPSTONE_PROJECT_NAME
+export CAPSTONE_PIPELINE_STACK=$GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME
+export CAPSTONE_ARTIFACT_BUCKET=$GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME-artifacts
+export CAPSTONE_APPLICATION_STACK=$GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME-application
+export CAPSTONE_SERVICE_STACK=$GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME-service
+export CAPSTONE_SERVICE_STACK_DEV=$GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME-service-dev
