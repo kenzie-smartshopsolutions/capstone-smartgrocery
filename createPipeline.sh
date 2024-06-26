@@ -26,7 +26,7 @@ echo "Github Group Name: $GITHUB_GROUP_NAME"
 echo "Repo path: $CAPSTONE_REPO_NAME"
 echo "Branch: $branch"
 echo "Template file path: $TEMPLATE_FILE_PATH"
-echo $GITHUB_TOKEN
+#curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/user
 
 # Check if the stack exists
 STACK_EXISTS=$(aws cloudformation describe-stacks --stack-name $GITHUB_GROUP_NAME-$CAPSTONE_PROJECT_NAME 2>&1)
