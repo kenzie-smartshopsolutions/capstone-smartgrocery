@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+
         if (!email || !username || !password) {
             alert("Email, username, and password are required.");
             return;

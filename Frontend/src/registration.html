@@ -19,20 +19,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="blank"/>
 
-    <link rel="icon" href="/src/img/shopping-cart.png" type="image">
-    <link rel="stylesheet" type="text/css" href="/src/css/style.css">
+    <link rel="icon" href="img/shopping-cart.png" type="image">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <script type="text/javascript" src="/src/pages/navbar.js"></script>
+    <script type="text/javascript" src="navbar.js"></script>
 </head>
 <body>
 <header class="hero-image">
     <h1 class="hero-text">Registration</h1>
     <div class="nav-menu" id="nav">
-        <img src="/src/img/shopping-cart.png" alt="logo">
+        <img src="img/shopping-cart.png" alt="logo">
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
         <nav>
             <ul>
-                <li><a href="/src/index.html">Home</a></li>
+                <li><a href="index.html">Home</a></li>
             </ul>
         </nav>
         <label for="nav-toggle" class="nav-toggle-label">
@@ -45,12 +45,37 @@
         <div class="card">
             <form class="card-content" id="registration-form">
                 <p class="form-field">
-                    <label for="email"></label><input type="email" id="email" name="email" required placeholder="email">
-                    <label for="username"></label><input type="text" id="username" name="username" required placeholder="username">
-                    <label for="password"></label><input type="password" id="password" name="password" required placeholder="password">
+                    <label for="email">Email</label>
+                        <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                                autocomplete="email"
+                                placeholder="Enter Email">
+                    <label for="username">Username</label>
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               required autocomplete="username"
+                               placeholder="Enter Username">
+                    <label for="password">New password</label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               required
+                               autocomplete="new-password"
+                               placeholder="Enter Password">
+                    <label for="confirm_password">Confirm New Password</label>
+                        <input type="password"
+                               id="confirm_password"
+                               name="confirm_password"
+                               required
+                               autocomplete="new-password"
+                               placeholder="Confirm Password">
 
                     <input type="hidden" id="userId" name="userId" value=null>
-                    <input type="hidden" id="householdname" name="householdname" value="myHousehold">
+                    <input type="hidden" id="household" name="household" value="myHousehold">
                     <input type="hidden" id="accountNonLocked" name="accountNonLocked" value="true">
                     <input type="hidden" id="failedLoginAttempts" name="failedLogin" value="0">
                 </p>
@@ -59,11 +84,13 @@
                 <input type="submit" value="Register">
             </form>
         </div>
-        <script src="/src/pages/registration.js"></script>
+        <script src="registration.js"></script>
     </section>
 </main>
 </body>
 <footer>
-    <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p><a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank" rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>
+    <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p>
+    <a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank"
+       rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>
 </footer>
 </html>
