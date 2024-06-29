@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repositor
+@Repository
 @EnableScan
 public interface PantryRepository extends CrudRepository<PantryRecord, String> {
     //when you want to retrieve all pantry items belonging to a particular user

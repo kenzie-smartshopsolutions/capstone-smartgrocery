@@ -11,7 +11,6 @@ public class LoginLog {
 
     private String userId;
 
-    @DynamoDBAttribute(attributeName = "username")
     private String username;
 
     private LocalDateTime loginTime;

@@ -130,21 +130,21 @@ public class UserController {
      * **/
 
     // Get LoginLogs by userId
-    @GetMapping("/logs/user/{userId}")
+    @GetMapping("/login/logs/user/{userId}")
     public ResponseEntity<List<LoginLog>> getLoginLogsByUserId(@PathVariable String userId) {
         List<LoginLog> logs = loginService.getLoginLogsByUserId(userId);
         return ResponseEntity.ok(logs);
     }
 
     // Get LoginLogs by userId & Date
-    @GetMapping("/logs/user/{userId}/date/{date}")
+    @GetMapping("/login/logs/user/{userId}/date/{date}")
     public ResponseEntity<List<LoginLog>> getLoginLogsByUserIdAndTime(@PathVariable String userId, @PathVariable String date) {
         List<LoginLog> logs = loginService.getLoginLogsByUserIdAndTime(userId, date);
         return ResponseEntity.ok(logs);
     }
 
     // Get LoginLogs by Date
-    @GetMapping("/logs/date/{date}")
+    @GetMapping("/login/logs/date/{date}")
     public ResponseEntity<List<LoginLog>> getLoginLogsByDate(@PathVariable String date) {
         List<LoginLog> logs = loginService.getLoginLogsByDate(date);
         return ResponseEntity.ok(logs);
