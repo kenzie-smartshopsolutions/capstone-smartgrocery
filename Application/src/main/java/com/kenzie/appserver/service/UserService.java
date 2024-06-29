@@ -3,13 +3,13 @@ package com.kenzie.appserver.service;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.kenzie.appserver.config.UuidUtils;
 import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 
-import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.UserData;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,7 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final LambdaServiceClient lambdaServiceClient;
-    private UserDao userDao;
-
-
+    private UuidUtils uuid;
 
     @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, LambdaServiceClient lambdaServiceClient) {
@@ -43,14 +41,14 @@ public class UserService implements UserDetailsService {
         this.lambdaServiceClient = lambdaServiceClient;
     }
 
-
     // Create a new user
     public UserRecord createUser(User userDto) {
         // Validate user details
         validateUserDetails(userDto);
 
         // Generate userId only for new user creation
-        if (userDto.getUserId() == null || userDto.getUserId().trim().isEmpty()) {
+        String idCheck = userDto.getUserId();
+        if (idCheck == null || idCheck.trim().isEmpty() || !UuidUtils.isValidUUID(idCheck)) {
             String uniqueUserId = UUID.randomUUID().toString();
 
             // Set the generated userId on the DTO
@@ -61,6 +59,9 @@ public class UserService implements UserDetailsService {
 
         // encode & save password
         userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        userRecord.setAccountNonLocked(true);
+        userRecord.setFailedLoginAttempts(0);
         userRecord.setRole(USER);
 
         // Save user to local database
@@ -124,7 +125,11 @@ public class UserService implements UserDetailsService {
     /** Helper methods for conversions **/
 
     public UserData getUserByUsername(String username) {
-        return this.userDao.getUserDataByUsername(username);
+        UserRecord userRecord = userRepository.findByUsername(username);
+        if (userRecord != null) {
+            return convertToUserData(userRecord);
+        }
+        return null;
     }
 
     // Convert DTO to UserRecord (Entity)
@@ -159,6 +164,7 @@ public class UserService implements UserDetailsService {
         userData.setPassword(userRecord.getPassword()); // Note: Consider security implications
         userData.setEmail(userRecord.getEmail());
         userData.setHouseholdName(userRecord.getHouseholdName());
+        userData.setRole(userRecord.getRole().toString());
 
         return userData;
     }
