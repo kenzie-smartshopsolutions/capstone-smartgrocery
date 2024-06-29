@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kenzie.capstone.service.model.user.Role;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,14 +21,14 @@ public class UserRecord {
     private boolean accountNonLocked;
     private int failedLoginAttempts;
     @JsonIgnore
-    private String role;
+    private Role role;
 
     public UserRecord(String userId,
                       String username,
                       String password,
                       String email,
                       String householdName,
-                      String role) {
+                      Role role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -108,11 +109,11 @@ public class UserRecord {
         this.failedLoginAttempts = failedLoginAttempts;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -121,18 +122,18 @@ public class UserRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserRecord that = (UserRecord) o;
-        return accountNonLocked == that.accountNonLocked && failedLoginAttempts == that.failedLoginAttempts &&
+        return accountNonLocked == that.accountNonLocked &&
+                failedLoginAttempts == that.failedLoginAttempts &&
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(householdName, that.householdName);
+                Objects.equals(householdName, that.householdName) &&
+                Objects.equals(role, that.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, username, householdName, accountNonLocked, failedLoginAttempts);
+        return Objects.hash(userId, email, username, householdName, accountNonLocked, failedLoginAttempts, role);
     }
-
-
 }

@@ -42,37 +42,32 @@ public class UserService implements UserDetailsService {
     }
 
     // Create a new user
-    public UserRecord createUser(User userDto) {
+    public UserRecord createUser(UserData userData) {
         // Validate user details
-        validateUserDetails(userDto);
+        validateUserDetails(userData);
 
         // Generate userId only for new user creation
-        String idCheck = userDto.getUserId();
+        String idCheck = userData.getUserId();
         if (idCheck == null || idCheck.trim().isEmpty() || !UuidUtils.isValidUUID(idCheck)) {
             String uniqueUserId = UUID.randomUUID().toString();
 
             // Set the generated userId on the DTO
-            userDto.setUserId(uniqueUserId);
+            userData.setUserId(uniqueUserId);
         }
 
-        UserRecord userRecord = convertFromDto(userDto);
-
         // encode & save password
-        userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        userRecord.setAccountNonLocked(true);
-        userRecord.setFailedLoginAttempts(0);
-        userRecord.setRole(USER);
+        userData.setPassword(passwordEncoder.encode(userData.getPassword()));
 
         // Save user to local database
-        UserRecord savedUser = userRepository.save(userRecord);
+        UserRecord userRecord = convertToUserRecord(userData);
+        userRepository.save(userRecord);
 
 
         // Convert UserRecord to UserData and "setUserData"
-        UserData userData = convertToUserData(savedUser);
+        UserData savedUser = convertToUserData(userRecord);
         lambdaServiceClient.setUserData(userData);
 
-        return savedUser;
+        return userRecord;
     }
 
     // Retrieve a user by their ID
@@ -164,7 +159,7 @@ public class UserService implements UserDetailsService {
         userData.setPassword(userRecord.getPassword()); // Note: Consider security implications
         userData.setEmail(userRecord.getEmail());
         userData.setHouseholdName(userRecord.getHouseholdName());
-        userData.setRole(userRecord.getRole().toString());
+        userData.setRole(userRecord.getRole());
 
         return userData;
     }
@@ -181,7 +176,18 @@ public class UserService implements UserDetailsService {
         return userResponse;
     }
 
+    private UserRecord convertToUserRecord(UserData userData) {
+        UserRecord userRecord = new UserRecord();
+        userRecord.setUserId(userData.getUserId());
+        userRecord.setUsername(userData.getUsername());
+        userRecord.setPassword(userData.getPassword());
+        userRecord.setEmail(userData.getEmail());
+        userRecord.setHouseholdName(userData.getHouseholdName());
+        userRecord.setFailedLoginAttempts(userData.getFailedLoginAttempts());
+        userRecord.setRole(userData.getRole());
 
+        return userRecord;
+    }
     // Increment failed login attempts for a user
     public void incrementFailedLoginAttempts(String username) {
         UserRecord user = userRepository.findByUsername(username);
@@ -236,17 +242,17 @@ public class UserService implements UserDetailsService {
     }
 
     // helper method that performs validation checks for registration
-    private void validateUserDetails(User userDto) {
+    private void validateUserDetails(UserData userData) {
         // Check if username exists
-        if (userRepository.findByUsername(userDto.getUsername()) != null) {
+        if (userRepository.findByUsername(userData.getUsername()) != null) {
             throw new IllegalArgumentException("Username already exists.");
         }
         // Check if email exists
-        if (userRepository.findByEmail(userDto.getEmail()) != null) {
+        if (userRepository.findByEmail(userData.getEmail()) != null) {
             throw new IllegalArgumentException("Email already exists.");
         }
         // Validate the password
-        if (!isValidPassword(userDto.getPassword())) {
+        if (!isValidPassword(userData.getPassword())) {
             throw new IllegalArgumentException("Password does not meet security requirements.");
         }
     }

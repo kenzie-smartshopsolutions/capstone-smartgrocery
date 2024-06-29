@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const registrationForm = document.getElementById('registration-form');
 
-    registrationForm.addEventListener('submit', function (e) {
+    registrationForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         const email = document.getElementById('email').value;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const householdName = document.getElementById('householdName').value;
 
         if (password !== confirmPassword) {
             alert("Passwords do not match.");
@@ -18,33 +20,35 @@ document.addEventListener('DOMContentLoaded', (event) => {
             return;
         }
 
+        const userData = {
+            email: email,
+            username: username,
+            password: password,
+            householdName: householdName
+        };
+
         // Placeholder for API endpoint
-        const apiEndpoint = 'User/register';
+        const apiEndpoint = '/User/register';
 
-        fetch(apiEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, username, password }),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Handle registration success
-                console.log('Registration successful', data);
-
-                // Redirect to homepage w/ message
-                window.location.href = '/';
-                alert('Registration successful. Please login.');
-            })
-            .catch(error => {
-                // Handle errors, such as displaying a registration failed message
-                console.error('Registration failed', error);
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Registration successful', data);
+            window.location.href = '/login.html';
+            alert('Registration successful. Please login.');
+        } catch (error) {
+            console.error('Registration failed', error);
+        }
     });
 });

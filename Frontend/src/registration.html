@@ -57,7 +57,8 @@
                         <input type="text"
                                id="username"
                                name="username"
-                               required autocomplete="username"
+                               required
+                               autocomplete="username"
                                placeholder="Enter Username">
                     <label for="password">New password</label>
                         <input type="password"
@@ -66,18 +67,21 @@
                                required
                                autocomplete="new-password"
                                placeholder="Enter Password">
-                    <label for="confirm_password">Confirm New Password</label>
+                    <label for="confirmPassword">Confirm New Password</label>
                         <input type="password"
-                               id="confirm_password"
-                               name="confirm_password"
+                               id="confirmPassword"
+                               name="confirmPassword"
                                required
-                               autocomplete="new-password"
                                placeholder="Confirm Password">
 
-                    <input type="hidden" id="userId" name="userId" value=null>
-                    <input type="hidden" id="household" name="household" value="myHousehold">
-                    <input type="hidden" id="accountNonLocked" name="accountNonLocked" value="true">
-                    <input type="hidden" id="failedLoginAttempts" name="failedLogin" value="0">
+                    <label for="userId"></label>
+                        <input type="hidden" id="userId" name="userId" value=" ">
+                    <label for="householdName"></label>
+                        <input type="hidden" id="householdName" name="householdName" value="myHousehold">
+                    <label for="accountNonLocked"></label>
+                        <input type="hidden" id="accountNonLocked" name="accountNonLocked" value="true">
+                    <label for="failedLoginAttempts"></label>
+                        <input type="hidden" id="failedLoginAttempts" name="failedLoginAttempts" value="0">
                 </p>
 
                 <!-- <button type="submit">Register</button> -->

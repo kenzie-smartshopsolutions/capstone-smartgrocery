@@ -107,18 +107,21 @@ public class UserRecord implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserRecord that = (UserRecord) o;
-        return accountNonLocked == that.accountNonLocked && failedLoginAttempts == that.failedLoginAttempts &&
+        return accountNonLocked == that.accountNonLocked &&
+                failedLoginAttempts == that.failedLoginAttempts &&
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(householdName, that.householdName);
-    }
+                Objects.equals(householdName, that.householdName) &&
+                Objects.equals(role, that.role);  // Include Role in equality check
+    };
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, username, householdName, accountNonLocked, failedLoginAttempts);
-    }
+        return Objects.hash(userId, username, password, email, householdName, accountNonLocked,
+                failedLoginAttempts, role);  // Include Role in hashCode calculation
+    };
 
     /** Added to implement and adapt UserDetails interface from Spring Boot Security
      * Need to add logic (if applicable) or keep things straightforward and simple
@@ -167,7 +170,7 @@ public class UserRecord implements UserDetails {
         this.failedLoginAttempts = failedLoginAttempts;
     }
 
-    public Role getRole() {
+    public com.kenzie.capstone.service.model.user.Role getRole() {
         return role;
     }
 

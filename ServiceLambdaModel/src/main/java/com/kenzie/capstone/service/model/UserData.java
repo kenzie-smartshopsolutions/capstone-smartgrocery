@@ -1,6 +1,8 @@
 package com.kenzie.capstone.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kenzie.capstone.service.model.user.Role;
+
 
 public class UserData {
     private String userId;
@@ -14,14 +16,14 @@ public class UserData {
     @JsonIgnore
     private int failedLoginAttempts;
     @JsonIgnore
-    private String role;
+    private Role role;
 
     public UserData(String userId,
                     String username,
                     String password,
                     String email,
                     String householdName,
-                    String role) {
+                    Role role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -92,11 +94,11 @@ public class UserData {
         this.failedLoginAttempts = failedLoginAttempts;
     }
 
-    public String getRole() {
+    public com.kenzie.appserver.config.Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

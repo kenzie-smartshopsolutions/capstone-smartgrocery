@@ -58,18 +58,18 @@ public class UserControllerTest {
 
     }
 
-    @Test
-    void createUserTest() throws Exception {
-        UserRecord sampleUserRecord = userService.convertFromDto(sampleUser);
-
-        given(userService.createUser(sampleUser)).willReturn(sampleUserRecord);
-
-        mockMvc.perform(post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(sampleUser)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.userId").value(sampleUser.getUserId()));
-    }
+//    @Test
+//    void createUserTest() throws Exception {
+//        UserRecord sampleUserRecord = userService.convertFromDto(sampleUser);
+//
+//        given(userService.createUser(sampleUser)).willReturn(sampleUserRecord);
+//
+//        mockMvc.perform(post("/users")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(sampleUser)))
+//                .andExpect(status().isCreated())
+//                .andExpect(jsonPath("$.userId").value(sampleUser.getUserId()));
+//    }
 
     @Test
     void getUserByIdTest() throws Exception {

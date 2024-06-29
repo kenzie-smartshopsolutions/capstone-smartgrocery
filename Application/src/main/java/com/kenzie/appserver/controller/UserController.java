@@ -7,12 +7,15 @@ import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.appserver.service.LoginService;
+import com.kenzie.capstone.service.model.UserData;
+import com.kenzie.capstone.service.model.user.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("User")
@@ -42,10 +45,22 @@ public class UserController {
 
     // Register a new user
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(@RequestBody User userDTO) {
-        UserRecord createdUser = userService.createUser(userDTO);
-        UserResponse responseDTO = userService.convertToUserResponse(createdUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+    public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest request) {
+        UserData newUser = new UserData();
+        newUser.setUsername(request.getUsername());
+        newUser.setPassword(request.getPassword());
+        newUser.setEmail(request.getEmail());
+        newUser.setHouseholdName(request.getHouseholdName());
+
+        // Set default values for userId, accountNonLocked, and failedLoginAttempts
+        newUser.setUserId(UUID.randomUUID().toString());
+        newUser.setAccountNonLocked(true);
+        newUser.setFailedLoginAttempts(0);
+        newUser.setRole(Role.USER);
+
+        UserRecord createdUser = userService.createUser(newUser);
+        UserResponse response = userService.convertToUserResponse(createdUser);
+        return ResponseEntity.ok(response);
     }
 
     // Update an existing user
