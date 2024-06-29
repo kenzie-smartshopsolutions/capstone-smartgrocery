@@ -1,25 +1,31 @@
 package com.kenzie.appserver.controller;
 
+import com.kenzie.appserver.config.Role;
 import com.kenzie.appserver.config.auth.JwtTokenProvider;
 import com.kenzie.appserver.controller.model.user.UserRequest;
 import com.kenzie.appserver.controller.model.user.UserResponse;
+import com.kenzie.appserver.repositories.model.LoginLog;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.appserver.service.LoginService;
 import com.kenzie.capstone.service.model.UserData;
-import com.kenzie.capstone.service.model.user.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static com.kenzie.appserver.config.Role.USER;
 
 @RestController
 @RequestMapping("User")
 public class UserController {
+
     private final LoginService loginService;
     private UserService userService;
     @Autowired
@@ -56,7 +62,7 @@ public class UserController {
         newUser.setUserId(UUID.randomUUID().toString());
         newUser.setAccountNonLocked(true);
         newUser.setFailedLoginAttempts(0);
-        newUser.setRole(Role.USER);
+        newUser.setRole(USER.toString());
 
         UserRecord createdUser = userService.createUser(newUser);
         UserResponse response = userService.convertToUserResponse(createdUser);
@@ -110,37 +116,37 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    //    // Login a user
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody UserRequest loginRequest) {
-//        // Handles the process of validating user credentials
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            loginRequest.getUsername(),
-//                            loginRequest.getPassword()
-//                    )
-//            );
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            // Resets any failed login attempts after successful login authentication
-//            userService.resetAndUnlockAccount(loginRequest.getUsername());
-//
-//            // Generates JWT token & responses
-//            String jwt = tokenProvider.generateToken(authentication);
-//            return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
-//
-//        // Manages account lockout due to multiple failed login attempts
-//        } catch (LockedException e) {
-//            return ResponseEntity
-//                    .status(HttpStatus.LOCKED)
-//                    .body("Your account has been locked due to multiple failed login attempts. " +
-//                            "Please contact support to unlock your account.");
-//        } catch (BadCredentialsException e) {
-//            userService.incrementFailedLoginAttempts(loginRequest.getUsername());
-//            return ResponseEntity
-//                    .status(HttpStatus.UNAUTHORIZED)
-//                    .body("Invalid username or password.");
-//        }
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserRecord> users = userService.getAllUsers();
+        List<UserResponse> userResponses = users.stream()
+                .map(userService::convertToUserResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(userResponses);
+    }
+
+    /**
+     * API endpoints for User login date/time
+     * **/
+
+    // Get LoginLogs by userId
+    @GetMapping("/logs/user/{userId}")
+    public ResponseEntity<List<LoginLog>> getLoginLogsByUserId(@PathVariable String userId) {
+        List<LoginLog> logs = loginService.getLoginLogsByUserId(userId);
+        return ResponseEntity.ok(logs);
+    }
+
+    // Get LoginLogs by userId & Date
+    @GetMapping("/logs/user/{userId}/date/{date}")
+    public ResponseEntity<List<LoginLog>> getLoginLogsByUserIdAndTime(@PathVariable String userId, @PathVariable String date) {
+        List<LoginLog> logs = loginService.getLoginLogsByUserIdAndTime(userId, date);
+        return ResponseEntity.ok(logs);
+    }
+
+    // Get LoginLogs by Date
+    @GetMapping("/logs/date/{date}")
+    public ResponseEntity<List<LoginLog>> getLoginLogsByDate(@PathVariable String date) {
+        List<LoginLog> logs = loginService.getLoginLogsByDate(date);
+        return ResponseEntity.ok(logs);
+    }
 }

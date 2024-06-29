@@ -1,5 +1,7 @@
 package com.kenzie.appserver.service.model;
 
+import com.kenzie.appserver.config.Role;
+
 public class User {
 
     /*userId (String)
@@ -16,13 +18,16 @@ householdName (String) - [in case of multiple household members sharing same pan
     private final String householdName;
     private boolean accountNonLocked;
     private int failedLoginAttempts;
+    private Role role;
 
     public User(
             String userId,
             String username,
             String password,
             String email,
-            String householdName) {
+            String householdName,
+            boolean accountNonLocked,
+            int failedLoginAttempts) {
         this.userId = userId;
         this.username = username;
         this.password = password;

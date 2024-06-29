@@ -74,6 +74,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/webjars/**").permitAll()
 
+                // Protect admin-only endpoints
+                .antMatchers("/User/logs/**").hasRole("ADMIN")
+
                 // All other requests must be authenticated
                 .anyRequest().authenticated().and()
 
@@ -82,13 +85,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/User/logout")
                 .logoutSuccessUrl("/User/login?logout")
                 .deleteCookies("token")
-
-                // Invalidate session
                 .invalidateHttpSession(true)
 
                 // Clear authentication attributes
                 .clearAuthentication(true)
-                .permitAll().and()
+                .permitAll()
+                    .and()
 
                 // Add JWT token filter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             const data = await response.json();
             console.log('Registration successful', data);
-            window.location.href = '/login.html';
+            window.location.href = '/index.html';
             alert('Registration successful. Please login.');
         } catch (error) {
             console.error('Registration failed', error);

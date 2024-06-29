@@ -3,6 +3,7 @@ package com.kenzie.appserver.service;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.kenzie.appserver.config.Role;
 import com.kenzie.appserver.config.UuidUtils;
 import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.UserRepository;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +35,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final LambdaServiceClient lambdaServiceClient;
     private UuidUtils uuid;
+    private Role role;
 
     @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, LambdaServiceClient lambdaServiceClient) {
@@ -83,7 +86,9 @@ public class UserService implements UserDetailsService {
                     lambdaUserData.getUsername(),
                     lambdaUserData.getPassword(),
                     lambdaUserData.getEmail(),
-                    lambdaUserData.getHouseholdName());
+                    lambdaUserData.getHouseholdName(),
+                    lambdaUserData.isAccountNonLocked(),
+                    lambdaUserData.getFailedLoginAttempts()) ;
 
             // Convert User to UserRecord
             userRecord = convertFromDto(lambdaUser);
@@ -126,6 +131,9 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+    public List<UserRecord> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     // Convert DTO to UserRecord (Entity)
     public UserRecord convertFromDto(User userDto) {
@@ -145,7 +153,9 @@ public class UserService implements UserDetailsService {
                 userRecord.getUsername(),
                 userRecord.getPassword(),
                 userRecord.getEmail(),
-                userRecord.getHouseholdName());
+                userRecord.getHouseholdName(),
+                userRecord.isAccountNonLocked(),
+                userRecord.getFailedLoginAttempts());
     }
 
     // Convert UserRecord to UserData
@@ -159,8 +169,7 @@ public class UserService implements UserDetailsService {
         userData.setPassword(userRecord.getPassword()); // Note: Consider security implications
         userData.setEmail(userRecord.getEmail());
         userData.setHouseholdName(userRecord.getHouseholdName());
-        userData.setRole(userRecord.getRole());
-
+        userData.setRole(userData.getRole());
         return userData;
     }
     public UserResponse convertToUserResponse(UserRecord userRecord) {
@@ -171,7 +180,7 @@ public class UserService implements UserDetailsService {
         userResponse.setEmail(userRecord.getEmail());
         userResponse.setHouseholdName(userRecord.getHouseholdName());
         userResponse.setFailedLoginAttempts(userRecord.getFailedLoginAttempts());
-        userResponse.setRole(userResponse.getRole());
+        userResponse.setRole(userRecord.getRole());
 
         return userResponse;
     }
@@ -184,7 +193,7 @@ public class UserService implements UserDetailsService {
         userRecord.setEmail(userData.getEmail());
         userRecord.setHouseholdName(userData.getHouseholdName());
         userRecord.setFailedLoginAttempts(userData.getFailedLoginAttempts());
-        userRecord.setRole(userData.getRole());
+        userRecord.setRole(Role.fromString(userData.getRole()));
 
         return userRecord;
     }

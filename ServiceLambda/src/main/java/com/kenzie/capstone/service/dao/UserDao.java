@@ -122,11 +122,15 @@ public class UserDao {
     }
 
     public UserRecord convertToUserRecord(UserData userData) {
-        return new UserRecord(userData.getUserId(),
-                userData.getUsername(),
-                userData.getPassword(),
-                userData.getEmail(),
-                userData.getHouseholdName(),
-                userData.getRole());
+        UserRecord userRecord = new UserRecord();
+        userRecord.setUserId(userData.getUserId());
+        userRecord.setUsername(userData.getUsername());
+        userRecord.setPassword(userData.getPassword());
+        userRecord.setEmail(userData.getEmail());
+        userRecord.setHouseholdName(userData.getHouseholdName());
+        userRecord.setAccountNonLocked(userData.isAccountNonLocked());
+        userRecord.setFailedLoginAttempts(userData.getFailedLoginAttempts());
+        userRecord.setRole(userData.getRole());
+        return userRecord;
     }
 }

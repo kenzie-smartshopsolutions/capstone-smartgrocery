@@ -5,7 +5,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kenzie.capstone.service.model.user.Role;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,14 +20,14 @@ public class UserRecord {
     private boolean accountNonLocked;
     private int failedLoginAttempts;
     @JsonIgnore
-    private Role role;
+    private String role;
 
     public UserRecord(String userId,
                       String username,
                       String password,
                       String email,
                       String householdName,
-                      Role role) {
+                      String role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -109,11 +108,11 @@ public class UserRecord {
         this.failedLoginAttempts = failedLoginAttempts;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

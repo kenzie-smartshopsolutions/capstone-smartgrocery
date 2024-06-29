@@ -7,6 +7,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
+        if (!username) {
+            alert("Username is required!");
+            return;
+        }
+
+        if (!password) {
+            alert("Password is required.");
+            return;
+        }
+
+        const loginData = {
+            username: username,
+            password: password
+        };
+
         // Placeholder for API endpoint
         const apiEndpoint = 'User/login';
 
@@ -15,7 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({username, password}),
+            body: JSON.stringify({loginData}),
         })
             .then(response => {
                 if (!response.ok) {
@@ -26,10 +41,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .then(data => {
                 console.log('Login successful', data);
                 localStorage.setItem('jwt', data.token);
-                location.reload();
+                window.location.href = '/pantry.html';
             })
             .catch(error => {
                 console.error('Login failed', error);
+                alert('Login failed. Please try again.');
             });
     });
 });

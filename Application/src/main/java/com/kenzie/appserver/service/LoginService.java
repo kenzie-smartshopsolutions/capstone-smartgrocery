@@ -1,7 +1,9 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.config.auth.JwtTokenProvider;
-import com.kenzie.appserver.service.UserService;
+import com.kenzie.appserver.repositories.LoginLogRepository;
+import com.kenzie.appserver.repositories.model.LoginLog;
+
 
 import com.kenzie.capstone.service.model.UserData;
 
@@ -16,21 +18,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class LoginService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final JwtTokenProvider tokenProvider;
+    private final LoginLogRepository loginLogRepository;
 
     @Autowired
     public LoginService(AuthenticationManager authenticationManager,
                         UserService userService,
-                        JwtTokenProvider tokenProvider) {
+                        JwtTokenProvider tokenProvider, LoginLogRepository loginLogRepository) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenProvider = tokenProvider;
+        this.loginLogRepository = loginLogRepository;
     }
 
     public ResponseEntity<?> login(String username, String password) {
@@ -49,6 +54,15 @@ public class LoginService {
             userService.resetAndUnlockAccount(username);
 
             String jwt = tokenProvider.generateToken(authentication);
+
+            // Log the successful login attempt
+            LoginLog loginLog = new LoginLog();
+            String userId = userData.getUserId();
+            loginLog.setUserId(userId);
+            loginLog.setUsername(username);
+            loginLog.setLoginTime(LocalDateTime.now());
+            loginLogRepository.save(loginLog);
+
             return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
         } catch (LockedException e) {
             return ResponseEntity
@@ -61,5 +75,20 @@ public class LoginService {
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password.");
         }
+    }
+
+    // Method to retrieve login logs by user ID
+    public List<LoginLog> getLoginLogsByUserId(String userId) {
+        return loginLogRepository.findByUserId(userId);
+    }
+
+    // Method to retrieve login logs by user ID and date
+    public List<LoginLog> getLoginLogsByUserIdAndTime(String userId, String date) {
+        return loginLogRepository.findByUserIdAndTime(userId, date);
+    }
+
+    // Method to retrieve login logs by date
+    public List<LoginLog> getLoginLogsByDate(String date) {
+        return loginLogRepository.findByDate(date);
     }
 }

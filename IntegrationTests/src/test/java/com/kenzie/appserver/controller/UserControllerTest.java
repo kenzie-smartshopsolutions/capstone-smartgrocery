@@ -51,7 +51,9 @@ public class UserControllerTest {
                 "someguy",
                 "P@ssw0rd",
                 "someguy@email.com",
-                "household"
+                "household",
+                true,
+                0
                 );
 
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("someguy", "P@ssw0rd"));

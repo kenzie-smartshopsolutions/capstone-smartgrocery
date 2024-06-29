@@ -3,10 +3,11 @@ package com.kenzie.appserver.repositories;
 import com.kenzie.appserver.repositories.model.PantryRecord;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+@Repositor
 @EnableScan
 public interface PantryRepository extends CrudRepository<PantryRecord, String> {
     //when you want to retrieve all pantry items belonging to a particular user

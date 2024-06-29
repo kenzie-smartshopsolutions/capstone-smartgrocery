@@ -170,11 +170,12 @@ public class UserRecord implements UserDetails {
         this.failedLoginAttempts = failedLoginAttempts;
     }
 
-    public com.kenzie.capstone.service.model.user.Role getRole() {
-        return role;
-    }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }
