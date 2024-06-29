@@ -1,7 +1,9 @@
 package com.kenzie.appserver.controller.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kenzie.appserver.config.Role;
 import io.swagger.v3.oas.annotations.Hidden;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserResponse {
     @Hidden
@@ -21,6 +23,8 @@ public class UserResponse {
     @Hidden
     @JsonProperty("failedLoginAttempts")
     private int failedLoginAttempts;
+    @JsonIgnore
+    private Role role;
 
     public String getUserId() {
         return userId;
@@ -76,5 +80,13 @@ public class UserResponse {
 
     public void setAccountNonLocked(boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

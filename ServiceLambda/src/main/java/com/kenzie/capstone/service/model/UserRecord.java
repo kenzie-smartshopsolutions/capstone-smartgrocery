@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,12 +19,15 @@ public class UserRecord {
     private String householdName;
     private boolean accountNonLocked;
     private int failedLoginAttempts;
+    @JsonIgnore
+    private String role;
 
     public UserRecord(String userId,
                       String username,
                       String password,
                       String email,
-                      String householdName) {
+                      String householdName,
+                      String role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -31,6 +35,7 @@ public class UserRecord {
         this.householdName = householdName;
         this.accountNonLocked = true;
         this.failedLoginAttempts = 0;
+        this.role = role;
     }
 
     public UserRecord() {
@@ -101,6 +106,14 @@ public class UserRecord {
 
     public void setFailedLoginAttempts(int failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

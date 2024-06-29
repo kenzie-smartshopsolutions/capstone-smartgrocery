@@ -1,6 +1,7 @@
 package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.kenzie.appserver.config.Role;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,13 +32,16 @@ public class UserRecord implements UserDetails {
     @Hidden
     @DynamoDBAttribute(attributeName = "failedLoginAttempts")
     private int failedLoginAttempts;
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
+    private Role role;
 
     public UserRecord(
             String userId,
             String username,
             String password,
             String email,
-            String householdName) {
+            String householdName,
+            Role role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -45,6 +49,8 @@ public class UserRecord implements UserDetails {
         this.householdName = householdName;
         this.accountNonLocked = true;
         this.failedLoginAttempts = 0;
+        this.role = role;
+
     }
     // Added to track failed login attempts and if account is locked
     public UserRecord() {
@@ -159,5 +165,13 @@ public class UserRecord implements UserDetails {
 
     public void setFailedLoginAttempts(int failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

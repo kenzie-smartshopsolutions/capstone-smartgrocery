@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
+        if (!email || !username || !password) {
+            alert("Email, username, and password are required.");
+            return;
+        }
+
         // Placeholder for API endpoint
         const apiEndpoint = 'User/register';
 

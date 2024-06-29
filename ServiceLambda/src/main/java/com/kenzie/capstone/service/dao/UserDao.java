@@ -10,10 +10,15 @@ import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.UserData;
 import com.kenzie.capstone.service.model.UserRecord;
 
+import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+
 public class UserDao {
-    private DynamoDBMapper mapper;
+    private final DynamoDBMapper mapper;
 
     /**
      * Allows access to and manipulation of Match objects from the data store.
@@ -21,24 +26,25 @@ public class UserDao {
      * @param mapper Access to DynamoDB
      */
 
+    @Inject
     public UserDao(DynamoDBMapper mapper) {
         this.mapper = mapper;
     }
 
-    public UserData storeUserData(UserData userData) {
-        try {
-            mapper.save(userData, new DynamoDBSaveExpression()
-                    .withExpected(ImmutableMap.of(
-                            "userId",
-                            new ExpectedAttributeValue()
-                                    .withValue(new AttributeValue().withS(userData.getUserId()))
-                                    .withExists(false)
-                    )));
-        } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("Account already exists for this userId: " + userData.getUserId());
-        }
-        return userData;
-    }
+//    public UserData storeUserData(UserData userData) {
+//        try {
+//            mapper.save(userData, new DynamoDBSaveExpression()
+//                    .withExpected(ImmutableMap.of(
+//                            "userId",
+//                            new ExpectedAttributeValue()
+//                                    .withValue(new AttributeValue().withS(userData.getUserId()))
+//                                    .withExists(false)
+//                    )));
+//        } catch (ConditionalCheckFailedException e) {
+//            throw new IllegalArgumentException("Account already exists for this userId: " + userData.getUserId());
+//        }
+//        return userData;
+//    }
 
     public UserRecord getUserData(String userId) {
         UserRecord userRecord = new UserRecord();
@@ -85,6 +91,25 @@ public class UserDao {
         }
     }
 
+    public UserData getUserDataByUsername(String username) {
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":val1", new AttributeValue().withS(username));
+
+        DynamoDBQueryExpression<UserRecord> queryExpression = new DynamoDBQueryExpression<UserRecord>()
+                .withIndexName("username-index") // Ensure you have a global secondary index on username
+                .withConsistentRead(false)
+                .withKeyConditionExpression("username = :val1")
+                .withExpressionAttributeValues(eav);
+
+        List<UserRecord> records = mapper.query(UserRecord.class, queryExpression);
+
+        if (records != null && !records.isEmpty()) {
+            return convertToUserData(records.get(0));
+        } else {
+            return null;
+        }
+    }
+
     // Convert between UserRecord (Entity) and UserData (DTO)
     public UserData convertToUserData(UserRecord userRecord) {
         if (userRecord == null) return null;
@@ -92,7 +117,8 @@ public class UserDao {
                 userRecord.getUsername(),
                 userRecord.getPassword(),
                 userRecord.getEmail(),
-                userRecord.getHouseholdName());
+                userRecord.getHouseholdName(),
+                userRecord.getRole());
     }
 
     public UserRecord convertToUserRecord(UserData userData) {
@@ -100,6 +126,7 @@ public class UserDao {
                 userData.getUsername(),
                 userData.getPassword(),
                 userData.getEmail(),
-                userData.getHouseholdName());
+                userData.getHouseholdName(),
+                userData.getRole());
     }
 }

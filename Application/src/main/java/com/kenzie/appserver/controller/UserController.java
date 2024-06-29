@@ -6,15 +6,10 @@ import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.User;
+import com.kenzie.appserver.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,15 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("User")
 public class UserController {
-
+    private final LoginService loginService;
     private UserService userService;
-    private AuthenticationManager authenticationManager;
     @Autowired
     private JwtTokenProvider tokenProvider;
   
-    public UserController(UserService userService, AuthenticationManager authenticationManager) {
+    public UserController(UserService userService, LoginService loginService) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
+        this.loginService = loginService;
     }
 
     // Get user by ID
@@ -83,38 +77,9 @@ public class UserController {
         }
     }
 
-    // Login a user
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest loginRequest) {
-        // Handles the process of validating user credentials
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // Resets any failed login attempts after successful login authentication
-            userService.resetAndUnlockAccount(loginRequest.getUsername());
-
-            // Generates JWT token & responses
-            String jwt = tokenProvider.generateToken(authentication);
-            return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
-
-        // Manages account lockout due to multiple failed login attempts
-        } catch (LockedException e) {
-            return ResponseEntity
-                    .status(HttpStatus.LOCKED)
-                    .body("Your account has been locked due to multiple failed login attempts. " +
-                            "Please contact support to unlock your account.");
-        } catch (BadCredentialsException e) {
-            userService.incrementFailedLoginAttempts(loginRequest.getUsername());
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid username or password.");
-        }
+        return loginService.login(loginRequest.getUsername(), loginRequest.getPassword());
     }
 
     // Logout a user
@@ -129,4 +94,38 @@ public class UserController {
         }
         return ResponseEntity.ok().build();
     }
+
+    //    // Login a user
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody UserRequest loginRequest) {
+//        // Handles the process of validating user credentials
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            loginRequest.getUsername(),
+//                            loginRequest.getPassword()
+//                    )
+//            );
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//            // Resets any failed login attempts after successful login authentication
+//            userService.resetAndUnlockAccount(loginRequest.getUsername());
+//
+//            // Generates JWT token & responses
+//            String jwt = tokenProvider.generateToken(authentication);
+//            return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
+//
+//        // Manages account lockout due to multiple failed login attempts
+//        } catch (LockedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.LOCKED)
+//                    .body("Your account has been locked due to multiple failed login attempts. " +
+//                            "Please contact support to unlock your account.");
+//        } catch (BadCredentialsException e) {
+//            userService.incrementFailedLoginAttempts(loginRequest.getUsername());
+//            return ResponseEntity
+//                    .status(HttpStatus.UNAUTHORIZED)
+//                    .body("Invalid username or password.");
+//        }
+//    }
 }

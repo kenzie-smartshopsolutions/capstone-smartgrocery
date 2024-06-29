@@ -1,11 +1,17 @@
 package com.kenzie.appserver.service;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.kenzie.appserver.controller.model.user.UserResponse;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+
+import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.UserData;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,9 +19,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.kenzie.appserver.config.Role.USER;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -23,6 +32,9 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final LambdaServiceClient lambdaServiceClient;
+    private UserDao userDao;
+
+
 
     @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, LambdaServiceClient lambdaServiceClient) {
@@ -30,6 +42,7 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
         this.lambdaServiceClient = lambdaServiceClient;
     }
+
 
     // Create a new user
     public UserRecord createUser(User userDto) {
@@ -48,7 +61,11 @@ public class UserService implements UserDetailsService {
 
         // encode & save password
         userRecord.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userRecord.setRole(USER);
+
+        // Save user to local database
         UserRecord savedUser = userRepository.save(userRecord);
+
 
         // Convert UserRecord to UserData and "setUserData"
         UserData userData = convertToUserData(savedUser);
@@ -106,6 +123,10 @@ public class UserService implements UserDetailsService {
 
     /** Helper methods for conversions **/
 
+    public UserData getUserByUsername(String username) {
+        return this.userDao.getUserDataByUsername(username);
+    }
+
     // Convert DTO to UserRecord (Entity)
     public UserRecord convertFromDto(User userDto) {
         UserRecord userRecord = new UserRecord();
@@ -149,6 +170,8 @@ public class UserService implements UserDetailsService {
         userResponse.setEmail(userRecord.getEmail());
         userResponse.setHouseholdName(userRecord.getHouseholdName());
         userResponse.setFailedLoginAttempts(userRecord.getFailedLoginAttempts());
+        userResponse.setRole(userResponse.getRole());
+
         return userResponse;
     }
 

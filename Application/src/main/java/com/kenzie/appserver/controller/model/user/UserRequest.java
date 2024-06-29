@@ -1,6 +1,8 @@
 package com.kenzie.appserver.controller.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kenzie.appserver.config.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserRequest {
     @JsonProperty("userId")
@@ -17,6 +19,8 @@ public class UserRequest {
     private boolean accountNonLocked;
     @JsonProperty("failedLoginAttempts")
     private int failedLoginAttempts;
+    @JsonIgnore
+    private Role role;
 
     public String getUserId() {
         return userId;
@@ -72,5 +76,13 @@ public class UserRequest {
 
     public void setAccountNonLocked(boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

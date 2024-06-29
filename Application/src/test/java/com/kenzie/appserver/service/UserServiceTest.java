@@ -5,17 +5,22 @@ import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.kenzie.appserver.config.Role.USER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
@@ -54,7 +59,7 @@ class UserServiceTest {
     void createUser_Success() {
         // GIVEN
         User inputUser = new User("1", "someguy", "P@ssw0rd", "someguy@email.com", "household");
-        UserRecord expectedUserRecord = new UserRecord("1", "someguy", passwordEncoder.encode("P@ssw0rd"), "someguy@email.com", "household");
+        UserRecord expectedUserRecord = new UserRecord("1", "someguy", passwordEncoder.encode("P@ssw0rd"), "someguy@email.com", "household", USER);
         when(userRepository.save(any(UserRecord.class))).thenReturn(expectedUserRecord);
         when(passwordEncoder.encode(anyString())).thenReturn("EncodedP@ssw0rd");
 
@@ -105,7 +110,7 @@ class UserServiceTest {
     void getUserById_Success() {
         // GIVEN
         String userId = UUID.randomUUID().toString(); // Or a specific userId if needed.
-        UserRecord expectedUserRecord = new UserRecord(userId, "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
+        UserRecord expectedUserRecord = new UserRecord(userId, "existingUser", "EncodedP@ssw0rd", "user@example.com", "household", USER);
 
         // Mock the UserRepository to return the expected UserRecord when findById is called with the userId
         when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUserRecord));
@@ -142,7 +147,7 @@ class UserServiceTest {
     void updateUserTest() {
         // GIVEN
         String existingId = UUID.randomUUID().toString();
-        UserRecord userRecord = new UserRecord(existingId, "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
+        UserRecord userRecord = new UserRecord(existingId, "existingUser", "EncodedP@ssw0rd", "user@example.com", "household", USER);
         when(userRepository.findById(existingId)).thenReturn(Optional.of(userRecord));
         when(userRepository.save(userRecord)).thenReturn(userRecord);
 
@@ -158,7 +163,7 @@ class UserServiceTest {
     @Test
     void updateUser_NotFound() {
         // GIVEN
-        UserRecord userRecord = new UserRecord("nonexistentId", "nonUser", "EncodedP@ssw0rd", "nonUser@email.com", "household");
+        UserRecord userRecord = new UserRecord("nonexistentId", "nonUser", "EncodedP@ssw0rd", "nonUser@email.com", "household", USER);
         when(userRepository.findById("nonexistentId")).thenReturn(Optional.empty());
 
         // THEN
@@ -189,7 +194,7 @@ class UserServiceTest {
     void loadUserByUsername_Found_ShouldReturnUserDetails() {
         // Given
         String username = "existingUser";
-        UserRecord foundUser = new UserRecord("userId", username, "EncodedP@ssw0rd", "user@example.com", "household");
+        UserRecord foundUser = new UserRecord("userId", username, "EncodedP@ssw0rd", "user@example.com", "household", USER);
         when(userRepository.findByUsername(username)).thenReturn(foundUser);
 
         // When
@@ -240,7 +245,7 @@ class UserServiceTest {
     @Test
     void convertToDto_ValidUserRecord_ShouldConvertToDto() {
         // Given
-        UserRecord userRecord = new UserRecord("userId", "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
+        UserRecord userRecord = new UserRecord("userId", "existingUser", "EncodedP@ssw0rd", "user@example.com", "household", USER);
 
         // When
         User dto = userService.convertToDto(userRecord);
@@ -253,7 +258,7 @@ class UserServiceTest {
     @Test
     void convertToUserResponse_ValidInput_ShouldConvertProperly() {
         // Given
-        UserRecord userRecord = new UserRecord("userId", "existingUser", "EncodedP@ssw0rd", "user@example.com", "household");
+        UserRecord userRecord = new UserRecord("userId", "existingUser", "EncodedP@ssw0rd", "user@example.com", "household", USER);
 
         // When
         UserResponse result = userService.convertToUserResponse(userRecord);
