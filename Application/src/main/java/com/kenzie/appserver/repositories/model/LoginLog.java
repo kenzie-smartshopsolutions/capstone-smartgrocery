@@ -8,16 +8,22 @@ import java.time.LocalDateTime;
 @DynamoDBTable(tableName = "LoginLog")
 public class LoginLog {
 
-
+    private String logId;
     private String userId;
-
     private String username;
-
-    private LocalDateTime loginTime;
+    private String date;
 
     @Id
-    @DynamoDBHashKey(attributeName = "userId")
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "userIdIndex", attributeName = "userId")
+    @DynamoDBHashKey(attributeName = "logId")
+    public String getLogId() {
+        return logId;
+    }
+
+    public void setLogId(String logId) {
+        this.logId = logId;
+    }
+
+    @DynamoDBAttribute(attributeName = "userId")
     public String getUserId() {
         return userId;
     }
@@ -35,12 +41,12 @@ public class LoginLog {
         this.username = username;
     }
 
-    @DynamoDBRangeKey(attributeName = "loginTime")
-    public LocalDateTime getLoginTime() {
-        return loginTime;
+    @DynamoDBAttribute(attributeName = "date")
+    public String getLoginDate() {
+        return date;
     }
 
-    public void setLoginTime(LocalDateTime loginTime) {
-        this.loginTime = loginTime;
+    public void setLoginDate(String date) {
+        this.date = date;
     }
 }

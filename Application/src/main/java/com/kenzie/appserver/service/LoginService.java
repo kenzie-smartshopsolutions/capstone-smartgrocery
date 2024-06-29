@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LoginService {
@@ -31,7 +32,8 @@ public class LoginService {
     @Autowired
     public LoginService(AuthenticationManager authenticationManager,
                         UserService userService,
-                        JwtTokenProvider tokenProvider, LoginLogRepository loginLogRepository) {
+                        JwtTokenProvider tokenProvider,
+                        LoginLogRepository loginLogRepository) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenProvider = tokenProvider;
@@ -42,7 +44,8 @@ public class LoginService {
         try {
             UserData userData = userService.getUserByUsername(username);
             if (userData == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Invalid username or password.");
             }
 
             Authentication authentication = authenticationManager.authenticate(
@@ -58,9 +61,11 @@ public class LoginService {
             // Log the successful login attempt
             LoginLog loginLog = new LoginLog();
             String userId = userData.getUserId();
+            String logId = UUID.randomUUID().toString();
+            loginLog.setLogId(logId);
             loginLog.setUserId(userId);
             loginLog.setUsername(username);
-            loginLog.setLoginTime(LocalDateTime.now());
+            loginLog.setLoginDate(String.valueOf(LocalDateTime.now()));
             loginLogRepository.save(loginLog);
 
             return ResponseEntity.ok().body("User logged in successfully with Token:" + jwt);
@@ -78,17 +83,25 @@ public class LoginService {
     }
 
     // Method to retrieve login logs by user ID
-    public List<LoginLog> getLoginLogsByUserId(String userId) {
+    public List<LoginLog> getLoginsByUserId(String userId) {
         return loginLogRepository.findByUserId(userId);
     }
 
     // Method to retrieve login logs by user ID and date
-    public List<LoginLog> getLoginLogsByUserIdAndTime(String userId, String date) {
-        return loginLogRepository.findByUserIdAndTime(userId, date);
+    public List<LoginLog> getLoginsByUserIdAndDate(String userId, String date) {
+        return loginLogRepository.findByUserIdAndLoginDate(userId, date);
     }
 
     // Method to retrieve login logs by date
-    public List<LoginLog> getLoginLogsByDate(String date) {
-        return loginLogRepository.findByDate(date);
+    public List<LoginLog> getLoginDate(String date) {
+        return loginLogRepository.findByLoginDate(date);
+    }
+
+    public List<LoginLog> getAllLogins() {
+        return loginLogRepository.findAll();
+    }
+
+    public List<LoginLog> getAllLoginsByUsername(String username) {
+        return loginLogRepository.findByUsername(username);
     }
 }

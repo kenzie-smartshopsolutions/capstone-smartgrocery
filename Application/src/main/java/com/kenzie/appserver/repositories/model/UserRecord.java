@@ -115,13 +115,13 @@ public class UserRecord implements UserDetails {
                 Objects.equals(email, that.email) &&
                 Objects.equals(householdName, that.householdName) &&
                 Objects.equals(role, that.role);  // Include Role in equality check
-    };
+    }
 
     @Override
     public int hashCode() {
         return Objects.hash(userId, username, password, email, householdName, accountNonLocked,
                 failedLoginAttempts, role);  // Include Role in hashCode calculation
-    };
+    }
 
     /** Added to implement and adapt UserDetails interface from Spring Boot Security
      * Need to add logic (if applicable) or keep things straightforward and simple

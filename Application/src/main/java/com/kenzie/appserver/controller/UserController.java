@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.config.Role;
 import com.kenzie.appserver.config.auth.JwtTokenProvider;
 import com.kenzie.appserver.controller.model.user.UserRequest;
 import com.kenzie.appserver.controller.model.user.UserResponse;
@@ -11,11 +10,11 @@ import com.kenzie.appserver.service.model.User;
 import com.kenzie.appserver.service.LoginService;
 import com.kenzie.capstone.service.model.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ import static com.kenzie.appserver.config.Role.USER;
 public class UserController {
 
     private final LoginService loginService;
-    private UserService userService;
+    private final UserService userService;
     @Autowired
     private JwtTokenProvider tokenProvider;
   
@@ -47,6 +46,15 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/register")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserRecord> users = userService.getAllUsers();
+        List<UserResponse> userResponses = users.stream()
+                .map(userService::convertToUserResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(userResponses);
     }
 
     // Register a new user
@@ -116,14 +124,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        List<UserRecord> users = userService.getAllUsers();
-        List<UserResponse> userResponses = users.stream()
-                .map(userService::convertToUserResponse)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(userResponses);
-    }
 
     /**
      * API endpoints for User login date/time
@@ -132,21 +132,38 @@ public class UserController {
     // Get LoginLogs by userId
     @GetMapping("/login/logs/user/{userId}")
     public ResponseEntity<List<LoginLog>> getLoginLogsByUserId(@PathVariable String userId) {
-        List<LoginLog> logs = loginService.getLoginLogsByUserId(userId);
+        List<LoginLog> logs = loginService.getLoginsByUserId(userId);
         return ResponseEntity.ok(logs);
     }
 
     // Get LoginLogs by userId & Date
     @GetMapping("/login/logs/user/{userId}/date/{date}")
     public ResponseEntity<List<LoginLog>> getLoginLogsByUserIdAndTime(@PathVariable String userId, @PathVariable String date) {
-        List<LoginLog> logs = loginService.getLoginLogsByUserIdAndTime(userId, date);
+        List<LoginLog> logs = loginService.getLoginsByUserIdAndDate(userId, date);
         return ResponseEntity.ok(logs);
     }
 
     // Get LoginLogs by Date
     @GetMapping("/login/logs/date/{date}")
     public ResponseEntity<List<LoginLog>> getLoginLogsByDate(@PathVariable String date) {
-        List<LoginLog> logs = loginService.getLoginLogsByDate(date);
+        List<LoginLog> logs = loginService.getLoginDate(date);
         return ResponseEntity.ok(logs);
+    }
+
+    // Get LoginLogs by username
+    @GetMapping("/login/logs/user/{username}")
+    public ResponseEntity<List<LoginLog>> getAllLoginsByUsername(@PathVariable String username) {
+        List<LoginLog> logs = loginService.getAllLoginsByUsername(username);
+        return ResponseEntity.ok(logs);
+    }
+
+    // Get all user logins
+    @GetMapping("/login/logs/")
+    public ResponseEntity<List<LoginLog>> getLoginLogs() {
+        List<LoginLog> logs = loginService.getAllLogins();
+        List<LoginLog> sortedLogs = logs.stream()
+                .sorted(Comparator.comparing(LoginLog::getLoginDate))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(sortedLogs);
     }
 }
