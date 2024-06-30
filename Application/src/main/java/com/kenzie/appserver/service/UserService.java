@@ -131,6 +131,8 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+
+
     public List<UserRecord> getAllUsers() {
         return userRepository.findAll();
     }
@@ -166,7 +168,7 @@ public class UserService implements UserDetailsService {
         UserData userData = new UserData();
         userData.setUserId(userRecord.getUserId());
         userData.setUsername(userRecord.getUsername());
-        userData.setPassword(userRecord.getPassword()); // Note: Consider security implications
+        userData.setPassword(userRecord.getPassword());
         userData.setEmail(userRecord.getEmail());
         userData.setHouseholdName(userRecord.getHouseholdName());
         userData.setRole(userData.getRole());

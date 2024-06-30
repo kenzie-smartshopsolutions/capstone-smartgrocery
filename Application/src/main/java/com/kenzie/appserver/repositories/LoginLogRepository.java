@@ -16,10 +16,10 @@ public interface LoginLogRepository extends CrudRepository<LoginLog, String> {
     List<LoginLog> findByUserId(@NonNull String userId);
 
     @NonNull
-    List<LoginLog> findByUserIdAndLoginDate(@NonNull String userId, @NonNull String date);
+    List<LoginLog> findByUserIdAndDate(@NonNull String userId, @NonNull String date);
 
     @NonNull
-    List<LoginLog> findByLoginDate(@NonNull String date);
+    List<LoginLog> findByDate(@NonNull String date);
 
     @NonNull
     List<LoginLog> findByUsername(@NonNull String username);

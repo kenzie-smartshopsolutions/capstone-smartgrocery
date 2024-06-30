@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const loginForm = document.getElementById('login-form');
 
-    loginForm.addEventListener('submit', function (e) {
+    loginForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         const username = document.getElementById('username').value;
@@ -25,27 +25,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Placeholder for API endpoint
         const apiEndpoint = 'User/login';
 
-        fetch(apiEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({loginData}),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Login successful', data);
-                localStorage.setItem('jwt', data.token);
-                window.location.href = '/pantry.html';
-            })
-            .catch(error => {
-                console.error('Login failed', error);
-                alert('Login failed. Please try again.');
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Login successful', data);
+            localStorage.setItem('jwt', data.token);
+            window.location.href = '/index.html';
+        } catch (error) {
+            console.error('Login failed', error);
+            alert('Login failed. Please try again.');
+        }
     });
 });

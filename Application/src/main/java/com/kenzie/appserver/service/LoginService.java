@@ -89,12 +89,12 @@ public class LoginService {
 
     // Method to retrieve login logs by user ID and date
     public List<LoginLog> getLoginsByUserIdAndDate(String userId, String date) {
-        return loginLogRepository.findByUserIdAndLoginDate(userId, date);
+        return loginLogRepository.findByUserIdAndDate(userId, date);
     }
 
     // Method to retrieve login logs by date
     public List<LoginLog> getLoginDate(String date) {
-        return loginLogRepository.findByLoginDate(date);
+        return loginLogRepository.findByDate(date);
     }
 
     public List<LoginLog> getAllLogins() {
