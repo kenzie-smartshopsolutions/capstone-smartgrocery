@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
 
     loginForm.addEventListener('submit', async function (e) {
@@ -35,8 +35,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+                console.error(`HTTP error! status: ${response.status}`);
+                alert('Login failed. Please try again.');
+                return;            }
 
             const data = await response.json();
             console.log('Login successful', data);
