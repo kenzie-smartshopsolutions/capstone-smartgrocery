@@ -5,8 +5,8 @@
      / __  / /_/ / / / / / /  __/
     /_/ /_/\____/_/ /_/ /_/\___/
 
-    Owner:
-    Maintainers:
+    Owner: SmartShopSolutions
+    Maintainers: John Vu, Kyle Gortych, Chelsea Fisher, Meaza Berhe
     Date created:
     Date last mod:
 -->
@@ -29,6 +29,10 @@
 
     <script type="text/javascript" src="navbar.js"></script>
     <script type="text/javascript" src="login.js" defer></script>
+    <script type="text/javascript" src="loginStatusRendering.js" defer></script>
+    <script type="text/javascript" src="/pages/loginPopup.js" defer></script>
+
+
 </head>
 <body>
 <header class="hero-image">
@@ -52,51 +56,12 @@
         </label>
     </div>
 </header>
-<main>
+<main id="main-content">
     <section>
-        <div id="id01" class="modal">
 
-            <form class="modal-content animate" id="login-form" method="post">
-                <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="img/user.png" alt="Avatar" class="avatar">
-                </div>
-
-                <div class="container">
-                    <p class ="form-field">
-
-                    <label for="username"><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" id="username" name="username" required>
-
-                    <label for="password"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" id="password" name="password" required>
-
-<!--                        &lt;!&ndash; Hidden inputs for default values &ndash;&gt;-->
-<!--                        <input type="hidden" id="householdName" name="householdName" value="household">-->
-<!--                        <input type="hidden" id="accountNonLocked" name="accountNonLocked" value="true">-->
-<!--                        <input type="hidden" id="failedLoginAttempts" name="failedLoginAttempts" value="0">-->
-
-                    <button class="login-popup-button" type="submit">Login</button>
-                    <label>
-                        <input type="checkbox" checked="checked" name="remember"> Remember me
-                    </label>
-                    </p>
-                </div>
-
-                <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn login-popup-button">Cancel</button>
-                    <span class="psw">New user? <a href="registration.html">Register</a></span>
-                </div>
-            </form>
-
-        <script type="text/javascript" src="/pages/loginPopup.js"></script>
-        </div>
     </section>
-    <section>
-        <h2>Test</h2>
-    </section>
+
 </main>
-</body>
 <footer>
     <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p>
     <p>
@@ -108,4 +73,43 @@
     </p>
 
 </footer>
+
+<!-- Login Modal -->
+<div id="id01" class="modal">
+
+    <form class="modal-content animate" id="login-form" method="post">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="img/user.png" alt="Avatar" class="avatar">
+        </div>
+
+        <div class="container">
+            <p class ="form-field">
+
+                <label for="username"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" id="username" autocomplete="username" name="username" required>
+
+                <label for="password"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" id="password" autocomplete="username" name="password" required>
+
+                <!--                        &lt;!&ndash; Hidden inputs for default values &ndash;&gt;-->
+                <!--                        <input type="hidden" id="householdName" name="householdName" value="household">-->
+                <!--                        <input type="hidden" id="accountNonLocked" name="accountNonLocked" value="true">-->
+                <!--                        <input type="hidden" id="failedLoginAttempts" name="failedLoginAttempts" value="0">-->
+
+                <button class="login-popup-button" type="submit">Login</button>
+                <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+            </p>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn login-popup-button">Cancel</button>
+            <span class="psw">New user? <a href="registration.html">Register</a></span>
+        </div>
+    </form>
+</div>
+</body>
+<script src="navigation.js"></script>
 </html>

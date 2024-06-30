@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (event) => {
     const loginForm = document.getElementById('login-form');
 
     loginForm.addEventListener('submit', async function (e) {
@@ -39,10 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Login failed. Please try again.');
                 return;            }
 
-            const data = await response.json();
+            const data = await response.text();
             console.log('Login successful', data);
-            localStorage.setItem('jwt', data.token);
-            window.location.href = '/index.html';
+
+            // Extract the token from the response -> store & redirect
+            const tokenMatch = data.match(/Token:(.*)$/);
+            if (tokenMatch) {
+                const token = tokenMatch[1].trim();
+                localStorage.setItem('jwt', token);
+                window.location.href = '/index.html';
+            } else {
+                throw new Error('Token not found in response');
+            }
         } catch (error) {
             console.error('Login failed', error);
             alert('Login failed. Please try again.');

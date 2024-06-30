@@ -13,6 +13,7 @@ module.exports = {
     login: path.resolve(__dirname, 'src', 'pages', 'login.js'),
     loginPopup: path.resolve(__dirname, 'src', 'pages', 'loginPopup.js'),
     registration: path.resolve(__dirname, 'src', 'pages', 'registration.js'),
+    navigation: path.resolve(__dirname, 'src', 'pages', 'navigation.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -59,6 +60,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/recipe.html',
       filename: 'recipe.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/shared.html',
+      filename: 'shared.html',
       inject: false
     }),
     new HtmlWebpackPlugin({

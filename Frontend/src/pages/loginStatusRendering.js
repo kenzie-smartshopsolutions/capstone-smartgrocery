@@ -23,7 +23,7 @@ async function logout() {
 
         // update & redirects to homepage w/ message
         updateRendering();
-        window.location.href = '/';
+        window.location.href = 'index.html';
         alert('Logged out successfully.');
 
         return { success: true };
@@ -41,7 +41,11 @@ function updateRendering() {
     );
     if (!isLoggedIn) {
         logoutElements.forEach((element) => {
-            if (element) element.remove();
+            if (element) element.style.display = "none";
+        });
+    } else {
+        logoutElements.forEach((element) => {
+            if (element) element.style.display = "block";
         });
     }
 
@@ -65,3 +69,5 @@ function updateRendering() {
         `;
     }
 }
+
+document.addEventListener('DOMContentLoaded', updateRendering);
