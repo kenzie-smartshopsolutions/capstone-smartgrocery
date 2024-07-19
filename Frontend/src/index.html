@@ -7,8 +7,8 @@
 
     Owner: SmartShopSolutions
     Maintainers: John Vu, Kyle Gortych, Chelsea Fisher, Meaza Berhe
-    Date created:
-    Date last mod:
+    Date created: April 2024
+    Date last mod: 07/18/2024
 -->
 
 <!DOCTYPE html>
@@ -27,11 +27,11 @@
     <link rel="icon" href="img/shopping-cart.png" type="image">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <script type="text/javascript" src="navbar.js"></script>
-    <script type="text/javascript" src="login.js" defer></script>
-    <script type="text/javascript" src="loginStatusRendering.js" defer></script>
-    <script type="text/javascript" src="/pages/loginPopup.js" defer></script>
-
+    <script src="navbar.js" defer></script>
+    <script src="login.js" defer></script>
+    <script src="loginStatusRendering.js" defer></script>
+    <script src="loginPopup.js" defer></script>
+    <script src="navigation.js" defer></script>
 
 </head>
 <body>
@@ -42,12 +42,12 @@
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
         <nav>
             <ul>
-                <li><a aria-current="page" href="index.html">Home</a></li>
-                <li id="logged-out1"><a href="analytics.html">Analytics</a></li>
-                <li id="logged-out2"><a href="pantry.html">Pantry</a></li>
-                <li id="logged-out3"><a href="profile.html">Profile</a></li>
-                <li id="logged-out4"><a href="recipe.html">Recipe</a></li>
-                <li id="logged-out5"><a href="shared.html">Shared</a></li>
+                <li><a href="#" onclick="loadPage('home.html')">Home</a></li>
+                <li id="logged-out1"><a href="#" onclick="loadPage('analytics.html')">Analytics</a></li>
+                <li id="logged-out2"><a href="#" onclick="loadPage('pantry.html')">Pantry</a></li>
+                <li id="logged-out3"><a href="#" onclick="loadPage('profile.html')">Profile</a></li>
+                <li id="logged-out4"><a href="#" onclick="loadPage('recipe.html')">Recipe</a></li>
+                <li id="logged-out5"><a href="#" onclick="loadPage('shared.html')">Shared</a></li>
                 <li><button onclick="document.getElementById('id01').style.display='block'" class="login-button" style="width:auto;">Login</button></li>
             </ul>
         </nav>
@@ -91,12 +91,6 @@
 
                 <label for="password"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" id="password" autocomplete="username" name="password" required>
-
-                <!--                        &lt;!&ndash; Hidden inputs for default values &ndash;&gt;-->
-                <!--                        <input type="hidden" id="householdName" name="householdName" value="household">-->
-                <!--                        <input type="hidden" id="accountNonLocked" name="accountNonLocked" value="true">-->
-                <!--                        <input type="hidden" id="failedLoginAttempts" name="failedLoginAttempts" value="0">-->
-
                 <button class="login-popup-button" type="submit">Login</button>
                 <label>
                     <input type="checkbox" checked="checked" name="remember"> Remember me
@@ -111,5 +105,4 @@
     </form>
 </div>
 </body>
-<script src="navigation.js"></script>
 </html>

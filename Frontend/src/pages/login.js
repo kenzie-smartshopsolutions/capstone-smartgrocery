@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (tokenMatch) {
                 const token = tokenMatch[1].trim();
                 localStorage.setItem('jwt', token);
-                window.location.href = '/index.html';
+                loadPage('home.html');  // Redirect to home.html
+                updateNavForAuth();
             } else {
                 throw new Error('Token not found in response');
             }

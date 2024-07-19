@@ -1,39 +1,6 @@
 function isLoggedIn() {
     return Boolean(localStorage.getItem('jwt'));
 }
-function loggedIn() {
-    localStorage.setItem('jwt', token);
-    updateRendering();
-}
-
-async function logout() {
-    // Fetch API to send a POST request to the server
-    try {
-        const response = await fetch('/User/logout', {
-            method: 'POST',
-            // Include the JWT in the Authorization header
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-            }
-        });
-        if (!response.ok) throw new Error('Logout failed');
-
-        // Successful logged out -> removes token
-        localStorage.removeItem('jwt');
-
-        // update & redirects to homepage w/ message
-        updateRendering();
-        window.location.href = 'index.html';
-        alert('Logged out successfully.');
-
-        return { success: true };
-
-    } catch (error) {
-        console.error('Logout failed', error);
-        alert('Logout failed. Please try again.');
-        return { success: false };
-    }
-}
 
 function updateRendering() {
     const logoutElements = [1, 2, 3, 4, 5].map(

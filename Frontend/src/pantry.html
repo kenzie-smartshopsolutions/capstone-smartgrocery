@@ -1,77 +1,8 @@
-<!--
-    ____              __
-   / __ \____ _____  / /________  __
-  / /_/ / __ `/ __ \/ __/ ___/ / / /
- / ____/ /_/ / / / / /_/ /  / /_/ /
-/_/    \__,_/_/ /_/\__/_/   \__, /
-                           /____/
-    Owner:
-    Maintainers:
-    Date created:
-    Date last mod:
--->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>SmartCarter</title>
-    <!-- Content-Security-Policy may cause issues -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'"> -->
-    <meta charset="UTF-8">
-    <meta name="author" content="blank" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="blank"/>
-
-    <link rel="icon" href="img/shopping-cart.png" type="image">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <script type="text/javascript" src="navbar.js"></script>
-</head>
-<body>
-<header class="pantry">
-    <h1 class="hero-text">Pantry</h1>
-    <div class="nav-menu" id="nav">
-        <img src="img/shopping-cart.png" alt="logo">
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="analytics.html">Analytics</a></li>
-                <li><a aria-current="page" href="pantry.html">Pantry</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="recipe.html">Recipe</a></li>
-                <li><a href="shared.html">Shared</a></li>
-                <li><button onclick="document.getElementById('id01').style.display='block'" class="login-button" style="width:auto;">Login</button></li>
-            </ul>
-        </nav>
-        <label for="nav-toggle" class="nav-toggle-label">
-            <span>≣</span>
-        </label>
-    </div>
-</header>
-<main>
+<div>
+    <header class="pantry">
+        <h1 class="hero-text">Pantry</h1>
+    </header>
     <section>
-        <div id="id01" class="modal">
-
-            <form class="modal-content animate" id="login-form" method="post">
-                <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="img/user.png" alt="Avatar" class="avatar">
-                </div>
-
-                <div class="container">
-                    <button class="login-popup-button" type="submit">Logoff</button>
-                </div>
-
-                <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn login-popup-button">Cancel</button>
-                </div>
-            </form>
-        </div>
-        <script type="text/javascript" src="loginPopup.js"></script>
-
         <div class="card" id="result">
             <h2>Result:</h2>
             <p id="result-info"></p>
@@ -97,7 +28,6 @@
                 <form class="card-content" autocomplete="off" id="">
                     <p class="form-field">
                         <label>Delete</label>
-                        <!-- jedis cache for the js rendering -->
                         <select>
                             <option value="">thing1</option>
                             <option value="">thing2</option>
@@ -111,8 +41,6 @@
             </div>
         </details>
         <br>
-    </section>
-    <section>
         <details>
             <summary>Change Item</summary>
             <div class="card">
@@ -121,15 +49,10 @@
                         <label>Change an item</label>
                         <input type="text" maxlength="50" required placeholder="" id="">
                     </p>
-                    <input type="submit" value="Delete">
+                    <input type="submit" value="Update">
                 </form>
             </div>
         </details>
+        <br>
     </section>
-    <br>
-</main>
-</body>
-<footer>
-    <p>Maintainers: John Vu, Chelsea Fisher, Meaza Berhe, and Kyle Gortych<br>Last Modified: date</p><a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons" target="_blank" rel="noopener noreferrer">Supermarket icons created by juicy_fish - Flaticon</a>
-</footer>
-</html>
+</div>

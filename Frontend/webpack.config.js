@@ -14,6 +14,7 @@ module.exports = {
     loginPopup: path.resolve(__dirname, 'src', 'pages', 'loginPopup.js'),
     registration: path.resolve(__dirname, 'src', 'pages', 'registration.js'),
     navigation: path.resolve(__dirname, 'src', 'pages', 'navigation.js'),
+    loginStatusRendering: path.resolve(__dirname, 'src', 'pages', 'loginStatusRendering.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -41,7 +42,6 @@ module.exports = {
       filename: 'index.html',
       inject: false
     }),
-    // reminder on adding pages from Jacobus
     new HtmlWebpackPlugin({
       template: './src/analytics.html',
       filename: 'analytics.html',
@@ -68,8 +68,8 @@ module.exports = {
       inject: false
     }),
     new HtmlWebpackPlugin({
-      template: './src/shared.html',
-      filename: 'shared.html',
+      template: './src/home.html',
+      filename: 'home.html',
       inject: false
     }),
     new HtmlWebpackPlugin({
